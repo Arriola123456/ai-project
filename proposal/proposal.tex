@@ -1,59 +1,102 @@
-% Topic document -- 2 to 4 pages in THIS format (11pt, 1-inch margins).
-% It accompanies the 20-minute topic presentation.
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[margin=1in]{geometry}
-\usepackage{amsmath,amssymb}
-\usepackage{xcolor}
-\usepackage[round]{natbib}
-\usepackage[colorlinks=true,allcolors=blue!50!black]{hyperref}
-
-\newcommand{\replace}[1]{\par\smallskip\noindent
-  \fcolorbox{orange!80!black}{yellow!12}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{%
-  \small\textbf{Replace.} #1}}\par\smallskip}
-
-\title{Project Topic: Your Working Title}
-\author{Your Name \\ \small\url{https://github.com/your-user/ai-project}}
-\date{Topic presentation, October 2026}
+\usepackage[a4paper,margin=2.54cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{setspace}
+\setstretch{1.3}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\titleformat{\section}{\normalsize\bfseries}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{12pt}{5pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{7pt}
+\setlist{itemsep=3pt,topsep=3pt,leftmargin=1.4em}
+\setlist[itemize]{label=$\bullet$}
+\newtheorem*{conj}{Proposición esperada}
+\newtheorem*{remark}{Observación}
 
 \begin{document}
-\maketitle
 
-\section{The question and the track}
-\replace{One paragraph. The question in one sentence, and the track:
-\textbf{Track A} --- you relax an assumption of a course paper and re-derive the
-proposition it affects; or \textbf{Track B} --- you formulate the economic model
-behind your own thesis.}
+\begin{center}
+{\large\bfseries Voto obligatorio, envejecimiento y la brecha de participación a los 70 años:\\ un modelo para datos electorales por grupo etario}\\[4pt]
+Manuel Arriola Montenegro \\ {\small\url{https://github.com/Arriola123456/ai-project}} \\ Topic presentation, Track B (modelo de tesis) \quad $\cdot$ \quad 7 de octubre de 2026
+\end{center}
 
-\section{The baseline and the assumption you change}
-\replace{Track A: cite the paper, the exact proposition and page, and state the
-assumption you relax, in the paper's notation. Track B: state the model your
-thesis currently lacks or cites as a black box. Write the agent's problem
-formally --- what is maximised, over which variable, under which constraints.}
+\section{Pregunta y contexto}
+En el Perú el voto es obligatorio de 18 a 69 años y facultativo desde los 70. Los datos administrativos de la ONPE muestran una caída grande y recurrente de la participación entre los grupos de 60--69 y 70 a más (2001--2026), pero reportan la edad solo en intervalos y el grupo 70+ es abierto. La tesis pregunta cuán grande y estable es esta brecha y si varía con la multa legal por omisión $F_t$ (Ley 28859: 2\%, 1\% y 0.5\% de la UIT según la pobreza del distrito). El modelo debe decir \emph{qué mide la brecha observada}.
 
-\section{The result you expect}
-\replace{Write the first-order condition you expect to obtain, and say which
-result of the baseline you expect to change and in which direction. This is a
-conjecture: it is graded on being precise, not on being right.}
+\section{Modelo base y supuestos que relajo}
+El modelo base es el cálculo del voto bajo voto obligatorio (Riker y Ordeshook, 1968; Panagopoulos, 2008): el ciudadano vota cuando el beneficio neto de votar supera el costo de abstenerse, que incluye la sanción esperada. Relajo tres supuestos:
+\begin{enumerate}
+\item[(S1)] \textbf{Beneficio invariante a la edad} $\to$ el beneficio neto de votar depende de la edad, con un perfil de ciclo de vida que cae en edades avanzadas (Bhatti et al., 2012).
+\item[(S2)] \textbf{Se observa la participación individual} $\to$ solo se observan tasas por grupo etario, y el grupo superior es abierto. \emph{Este es el supuesto que genera el resultado.}
+\item[(S3)] \textbf{Sin persistencia} $\to$ votar acumula un hábito que eleva el beneficio futuro (J.\,H. Fowler, 2006), como mecanismo complementario.
+\end{enumerate}
 
-\begin{equation}\label{eq:foc}
-  \frac{\partial}{\partial e}\Bigl[\, a e - \tfrac{c}{2} e^{2} \Bigr]
-  \;=\; a - c e \;=\; 0 .
+\section{Modelo y condición de corte}
+Cada ciudadano decide si vota ($v=1$) o no ($v=0$). Votar le da un beneficio neto $B(a,h)$, que depende de su edad $a$ y de su hábito $h$, y le impone un costo individual $c$, heterogéneo en la población con distribución $G$ continua y estrictamente creciente, de densidad $g$. Con $O=\mathbf{1}[a<70]$ y sanción esperada $S=qF$, la utilidad de cada alternativa es
+\[
+U(v=1)=B(a,h)-c,\qquad U(v=0)=-\,O\,S ,
+\]
+y la probabilidad de votar con y sin obligación es $P_1(a)\equiv\Pr[B(a,h)-c>-S]$ y $P_0(a)\equiv\Pr[B(a,h)-c>0]$. El obligado vota si $c<B(a,h)+S$ y el no obligado si $c<B(a,h)$, de modo que $P_1(a)=G(B(a,h)+S)$ y $P_0(a)=G(B(a,h))$. La elección es discreta, por lo que no hay una CPO interior; su análogo es la \textbf{condición de corte del votante marginal}:
+\begin{equation}
+v=1 \iff c< c^*(a)\equiv B(a,h)+O\,S .
 \end{equation}
+Si $B$ es continuo en la edad, al pasar de $70^-$ a $70^+$ solo cambia la obligación, y el efecto causal es
+\begin{equation}
+\tau^{70}=\lim_{a\uparrow 70}P_1(a)-\lim_{a\downarrow 70}P_0(a)=G(c_1)-G(c_0)=\int_{c_0}^{c_1}g(c)\,dc>0,\qquad c_0\equiv B(70,h),\ c_1\equiv c_0+S,
+\end{equation}
+la masa de \emph{compliers}, que votan solo porque están obligados. Con el hábito igual entre ciudadanos ($h=\bar h$), lo que los datos por grupo etario identifican es la \textbf{brecha agregada}
+\begin{equation}
+\Delta=\mathbb E_{a\in[60,70)}\big[P_1(a)\big]-\mathbb E_{a\ge 70}\big[P_0(a)\big],
+\end{equation}
+donde las esperanzas son sobre la distribución de edades dentro de cada intervalo.
 
-\section{Why this is not already solved}
-\replace{Where you looked: the paper's appendices, its working-paper versions,
-and the papers that cite it. Say what you found and why it does not answer your
-question. ``The model did not find it'' is not evidence.}
+\section{Resultados esperados}
+\begin{conj}[sobre $\tau^{70}$]
+\begin{enumerate}
+\item[(a)] \textbf{Sanción:} $\partial\tau^{70}/\partial S=g(c_1)>0$.
+\item[(b)] \textbf{Curvatura:} $\partial^2\tau^{70}/\partial S^2=g'(c_1)<0$ si $c_1$ está por encima de la moda de los costos.
+\item[(c)] \textbf{Beneficio a los 70:} $\partial\tau^{70}/\partial B(70,h)=g(c_1)-g(c_0)$, de signo ambiguo; si la banda está por encima de la moda, un menor beneficio a los 70 amplía $\tau^{70}$.
+\item[(d)] \textbf{Heterogeneidad:} si $G$ pertenece a una familia de dispersión $s$ con densidad simétrica y $P_0(70)\le 50\%<P_1(70)$, entonces $\partial\tau^{70}/\partial s<0$.
+\end{enumerate}
+\end{conj}
+\begin{conj}[sobre $\Delta$]
+Supóngase que $B$ es no creciente en la edad desde los 60 años. Entonces:
+\begin{enumerate}
+\item[(i)] \textbf{Sesgo por envejecimiento:} $\Delta\ \ge\ \tau^{70}>0$. La brecha observada es una cota superior del efecto de la obligatoriedad.
+\item[(ii)] \textbf{Gradiente de la sanción:} $\dfrac{\partial\Delta}{\partial S}=\mathbb E_{a\in[60,70)}\big[g(c^*(a))\big]>0$.
+\item[(iii)] \textbf{Rendimientos decrecientes:} si los cortes de los obligados están por encima de la moda de los costos, donde $g$ es decreciente, entonces $\dfrac{\partial^2\Delta}{\partial S^2}<0$.
+\item[(iv)] \textbf{La heterogeneidad atenúa la brecha:} si $G$ pertenece a una familia de dispersión $s$ con densidad simétrica y, \emph{en el umbral}, $P_0(70)\le 50\%<P_1(70^-)$, entonces $\dfrac{\partial\Delta}{\partial s}<0$.
+\end{enumerate}
+\end{conj}
+\emph{Por qué espero que se cumplan.} (a)--(c) derivan directamente de $\tau^{70}=G(c_1)-G(c_0)$. (d) Con $G(x)=F((x-\mu)/s)$ y $z=(x-\mu)/s$, $\partial\tau^{70}/\partial s=-\tfrac1s\,[z_1f(z_1)-z_0f(z_0)]$, negativo si $z_0\le 0<z_1$. (i) Como $B$ no crece con la edad desde los 60, todo obligado de 60--69 tiene un corte al menos tan alto como el de alguien de 70 bajo obligatoriedad, y todo mayor de 70 uno a lo más tan alto como el de alguien de 70 sin ella; como $G$ es creciente, $\Delta$ incluye $\tau^{70}$ más la caída por edad dentro de cada intervalo. (ii) Solo el grupo obligado contiene $S$: subir la sanción suma la densidad de votantes marginales en su corte. (iii) La derivada de esa densidad es negativa por encima de la moda. (iv) Como $B$ no crece con la edad, $z_1(a)\ge z_1(70^-)>0$ para todo $a<70$ y $z_0(a)\le z_0(70)\le 0$ para todo $a\ge 70$; se aplica (d) edad por edad: una mayor dispersión aplana la distribución y la banda de \emph{compliers}, que bajo estas condiciones contiene el centro de la distribución, pierde masa. Si la banda estuviera en una cola, el signo se invertiría.
 
-\section{Plan and risks}
-\replace{What you will prove, what you will simulate, and what you will
-formalize in Lean. Name the step most likely to fail and what you will do if it
-does.}
+\emph{Corrección respecto del primer borrador.} El borrador pedía en (iv) que la participación \emph{promedio} de cada grupo estuviera de un lado del 50\% y que la densidad fuera unimodal. Lo primero no basta: con $F$ normal, la mitad de los obligados en $z_1=3$ y la otra mitad en $z_1=-1$ (participación media de 58\%), y los mayores de 70 en $z_0=-3$, $B$ es no creciente y sin embargo $s\,\partial\Delta/\partial s=+0.10>0$, porque $z f(z)$ es impar y las edades en la cola dominan. Lo segundo sobra: basta la simetría.
 
-\bibliographystyle{plainnat}
-\bibliography{../paper/references}
-\nocite{acemoglu2018race}
+\begin{remark}
+En este modelo estático, la heterogeneidad persistente entre ciudadanos y los shocks transitorios de cada elección se suman en $c$, por lo que (iv) no los distingue; el hábito sí lo haría, pues solo la primera persiste.
+\end{remark}
+
+\begin{remark}
+Si el hábito de los mayores de 70 se deprecia tras la exención, la desigualdad en (i) se refuerza: el canal dinámico infla aún más $\Delta$, pero no puede separarse del envejecimiento con cortes transversales repetidos.
+\end{remark}
+
+\section{Por qué no está resuelto}
+\begin{itemize}
+\item \textbf{Panagopoulos (2008)} modela la sanción en el cálculo del voto, pero sin perfil por edad ni agregación, así que no puede decir qué mide una brecha entre intervalos.
+\item \textbf{Gonzales, León-Ciliotta y Martínez (2022)} explotan la reforma de multas de 2006 y la exención de los 70 con edades simples: la participación cae unos 20 pp entre los 69 y los 72 años, frente a menos de 2 pp en Chile. Su estimando es el lado derecho de (i), no $\Delta$; no modelan la brecha por intervalos ni la curvatura en $F$. Encuentran además que eliminar toda la multa tiene menos de un quinto del efecto de la exención: la sanción relevante no es solo $qF$.
+\item \textbf{J.\,H. Fowler (2006)} incluye hábito pero no sanciones; \textbf{Jaitman (2013)} y \textbf{Cepaluni y Hidalgo (2016)} son diseños de regresión discontinua en umbrales de edad, en forma reducida.
+\end{itemize}
+Dónde busqué: la versión publicada de Gonzales et al.\ (\emph{AEJ: Applied}, 2022), su documento de trabajo (CEPR DP 13898) y sus diapositivas de la AEA 2020, y los trabajos anteriores. Ninguno caracteriza $\Delta$ ni su relación con $\tau^{70}$, que es lo que la tesis puede medir.
+
+\section{Plan y riesgos}
+\textbf{Probar:} (a)--(d) y (i)--(iv) completas, con las condiciones bajo las que (i) es estricta y una condición más general que la simetría para (iv). \textbf{Simular} en \texttt{code/verify.py}: SymPy para las derivadas de (a)--(d) y (ii)--(iii), y Monte Carlo sobre perfiles $B(a)$ no crecientes para (i) y (iv), con el contraejemplo de arriba como caso que debe fallar. \textbf{Lean:} con una distribución de edades discreta (sumas finitas en lugar de integrales), (a), (i) y (ii) son análisis real elemental; (d) y (iv) exigen derivar $F((x-\mu)/s)$ respecto de $s$.
+
+\textbf{El paso con más riesgo es (d)/(iv), y no por la prueba sino por los datos.} Como $B$ no crece con la edad, $P_0(70)\ge\mathbb E_{a\ge70}[P_0(a)]$, y en la ONPE el grupo 70+ supera el 50\% en 2006, 2011 y 2016: en esas elecciones la hipótesis de (d) falla y el signo de $\partial\tau^{70}/\partial s$ puede invertirse. Si es así, (iv) queda como resultado condicional y presento el signo según la posición de la banda. Otros riesgos: el modelo supone que $G$ es la misma a toda edad, pero el costo de votar sube con la edad (salud, movilidad), y si $G$ depende de $a$, (i) necesita una condición de dominancia estocástica; la supervivencia selectiva de los votantes muy mayores puede violar la monotonía de $B$ en el corte transversal; y el padrón incluye fallecidos no depurados, concentrados en 70+, lo que infla $\Delta$ por medición.
+
+\vspace{2pt}
+{\footnotesize\textit{Uso de IA:} estructura y esbozos de derivación elaborados con Claude (Opus 5.5); la corrección de (iv) y su contraejemplo se verificaron numéricamente; cada paso será verificado a mano antes de la entrega.}
 
 \end{document}
