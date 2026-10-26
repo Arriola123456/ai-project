@@ -1,12 +1,20 @@
-% Final presentation -- work in progress, presented for critique.
+% Final presentation -- work in progress, presented for critique (30 min + discussion).
 % No animations and no screenshots of papers: equations are typeset in LaTeX.
-\documentclass[aspectratio=169,11pt]{beamer}
+\documentclass[aspectratio=169,11pt,xcolor=table]{beamer}
+
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[english]{babel}
+\IfFileExists{spanish.ldf}{\usepackage[spanish,es-nodecimaldot,es-noshorthands,es-lcroman]{babel}}{}
+\IfFileExists{lmodern.sty}{\usepackage[T1]{fontenc}\usepackage{lmodern}}{}
 \usepackage{amsmath,amssymb}
+\usepackage{bbm}
 \usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,decorations.pathreplacing}
 \usepackage{newunicodechar}
 % Lean code is full of Unicode that typewriter fonts do not have. Each line
 % maps one symbol to math mode, so Lean can be pasted into a verbatim block
@@ -22,86 +30,318 @@
 \newunicodechar{⟨}{\ensuremath{\langle}}  \newunicodechar{⟩}{\ensuremath{\rangle}}
 \newunicodechar{λ}{\ensuremath{\lambda}}  \newunicodechar{α}{\ensuremath{\alpha}}
 \newunicodechar{β}{\ensuremath{\beta}}    \newunicodechar{ε}{\ensuremath{\varepsilon}}
-\usetheme{default}
-\usecolortheme{seahorse}
-\setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{footline}[frame number]
-\setbeamerfont{frametitle}{size=\large}
+\newunicodechar{ρ}{\ensuremath{\rho}}     \newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{τ}{\ensuremath{\tau}}     \newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{μ}{\ensuremath{\mu}}      \newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{₀}{\ensuremath{_0}}       \newunicodechar{₁}{\ensuremath{_1}}
+\newunicodechar{⁻}{\ensuremath{^{-}}}     \newunicodechar{¹}{\ensuremath{^{1}}}
 
-\title{Your Title}
-\subtitle{Final presentation}
-\author{Your Name}
-\date{October--November 2026}
+% ---------------- Estilo (el de la tesis) ----------------
+\definecolor{upblue}{HTML}{1E3A8A}
+\definecolor{upaccent}{HTML}{2E6FD8}
+\definecolor{upgray}{HTML}{5B6170}
+\definecolor{upred}{HTML}{C0392B}
+\definecolor{uplight}{HTML}{EEF2FA}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{frametitle}{fg=upblue}
+\setbeamerfont{frametitle}{series=\bfseries,size=\Large}
+\setbeamercolor{structure}{fg=upblue}
+\setbeamercolor{normal text}{fg=black!85}
+\setbeamercolor{alerted text}{fg=upred}
+\setbeamertemplate{itemize items}{\color{upaccent}$\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{\color{upgray}--}
+\newcommand{\itemgap}{0.9em}
+\makeatletter
+\let\OLDitemize\itemize
+\renewcommand\itemize{\OLDitemize\ifnum\@itemdepth=1\setlength{\itemsep}{\itemgap}\else\setlength{\itemsep}{0.4em}\setlength{\topsep}{0.5em}\fi}
+\makeatother
+\setbeamercolor{block title}{bg=upblue,fg=white}
+\setbeamercolor{block body}{bg=uplight}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{frametitle}{%
+  \vspace{0.35cm}\insertframetitle\par
+  \vspace{-0.1cm}{\color{upaccent}\rule{2.2cm}{1.5pt}}%
+}
+\setbeamertemplate{footline}{%
+  \hbox{\begin{beamercolorbox}[wd=\paperwidth,ht=3ex,dp=1.2ex]{}%
+    \hfill{\color{upgray}\tiny\insertframenumber/\inserttotalframenumber}\hspace{0.4cm}%
+  \end{beamercolorbox}}%
+}
+\newcommand{\hl}[1]{\textcolor{upaccent}{\textbf{#1}}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\1}{\mathbbm{1}}
+\newcommand{\pending}[1]{\textcolor{upred}{\textbf{[Pendiente: #1]}}}
+\IfFileExists{../code/output/numbers.tex}{\input{../code/output/numbers.tex}}{}
+
+\title{La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio}
+\subtitle{Ciclo de vida, hábito y una calibración con datos de la ONPE}
+\author{Manuel Alfredo Arriola Montenegro}
+\date{30 de octubre de 2026}
 
 \begin{document}
 
-% The title slide carries the repository link.
-\begin{frame}[plain]
-  \titlepage
-  \begin{center}\small
-    \texttt{github.com/your-user/ai-project}
+% ===== Portada =====
+{
+\setbeamertemplate{footline}{}
+\begin{frame}
+  \begin{center}
+    \includegraphics[height=1.3cm]{logo.png}\\[0.5cm]
+    {\color{upblue}\Large\bfseries La brecha de participación a los 70 años\\ sobrestima el efecto del voto obligatorio}\\[0.2cm]
+    {\color{upgray}\large \insertsubtitle}\\[0.5cm]
+    {\small\textbf{Manuel Alfredo Arriola Montenegro}}\\[0.2cm]
+    {\small Presentación final (trabajo en progreso) \;\textbar\; Track B: modelo de tesis}\\[0.15cm]
+    {\footnotesize\color{upgray} Inteligencia Artificial y Modelamiento Económico \;\textbar\; Lima, 30 de octubre de 2026}\\[0.25cm]
+    {\small\color{upaccent}\href{https://github.com/Arriola123456/ai-project}{\texttt{github.com/Arriola123456/ai-project}}}
   \end{center}
 \end{frame}
+}
 
-\begin{frame}{1 \textperiodcentered{} The question and the answer}
-  \textbf{Replace.} The question, and your result in one sentence --- with its
-  condition.
+% ===== 1. Pregunta y resultado =====
+\begin{frame}{1. La pregunta y el resultado en una frase}
+  \begin{block}{Pregunta}
+    En el Perú el voto es facultativo desde los 70 años. ¿Qué mide la brecha de participación entre
+    los grupos de 60--69 y 70+ que reporta la ONPE?
+  \end{block}
+  \vspace{0.2cm}
+  \begin{block}{Resultado}
+    La brecha $\Delta$ es una \textbf{cota superior} del efecto causal $\tau^{70}$ de la obligación,
+    \textbf{siempre que} el índice total de beneficio, \alert{incluido el hábito}, no crezca entre
+    los 60 y los 70 años.
+  \end{block}
+  \vspace{0.2cm}
+  \begin{itemize}
+    \item En los datos: la brecha entre grupos es de 25 a 46 pp; el salto en el umbral $\theta_{70}$, de 5 a 12 pp.
+    \item Que el beneficio decrezca con la edad \textbf{no basta}: si el hábito todavía se acumula, $\Delta<\tau^{70}$ es posible.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{2 \textperiodcentered{} The model}
-  \textbf{Replace.} Primitives, timing, and the agent's problem.
-  \[
-    \max_{e \ge 0}\; a e - \frac{c}{2}\, e^{2}, \qquad a > 0,\; c > 0
-  \]
+% ===== 2. Modelo =====
+\begin{frame}{2. El modelo: el cálculo del voto con edad y hábito}
+  \small Elecciones cada $d=5$ años. El ciudadano $i$, de edad $a$, elige $v\in\{0,1\}$ en la elección $t$:
+  \begin{block}{Problema del ciudadano}
+    \[
+      \max_{v\in\{0,1\}}\; v\bigl[b(a)+\lambda h_{it}-c_{it}\bigr]+(1-v)\bigl[-O_a S_t\bigr],
+      \qquad O_a=\1[a<70],\quad S_t=s_0+qF_t
+    \]
+  \end{block}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}\setlength{\itemsep}{0.4em}
+        \item \hl{Beneficio por edad}: $b(a)=A a^{\alpha}-\kappa a^{\beta}$, con $0<\alpha<1\le\beta$.
+        \item \hl{Costo}: $c_{it}=\mu_t+\eta_i+\varepsilon_{it}$ (persistente + transitorio).
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}\setlength{\itemsep}{0.4em}
+        \item \hl{Hábito}: $h_{i,t+1}=\rho(a_{it})\,h_{it}+v_{it}$, el shock es el voto anterior.
+        \item \hl{Miopía}: no internaliza el efecto del voto sobre su hábito.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \begin{block}{Condición de corte (análogo de la CPO)}
+    \centering $v_{it}=1\iff \varepsilon_{it}<b(a)+\lambda h_{it}+O_aS_t-\mu_t-\eta_i$
+  \end{block}
 \end{frame}
 
-\begin{frame}{3 \textperiodcentered{} The result, with all its conditions}
-  \textbf{Replace.} The proposition as it is stated in the paper.
-
-  \medskip
-  \textbf{Proposition 1.} If $a > 0$ and $c > 0$, the unique solution is
-  $e^{*} = a/c$, and $\partial e^{*}/\partial a = 1/c > 0$.
+\begin{frame}{2. Dos objetos distintos: $\tau^{70}$ y $\Delta$}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Efecto causal en el umbral}
+        \[ \tau^{70}=\E\bigl[G(\bar c+S)-G(\bar c)\bigr],\quad \bar c=b(70)+\lambda h_{70}-\mu-\eta \]
+        \footnotesize Los mismos ciudadanos a los 70, \textbf{con su hábito acumulado}, con y sin obligación.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Lo que reporta la ONPE}
+        \[ \Delta=\E_{a\in[60,70)}\bigl[P(a)\bigr]-\E_{a\ge 70}\bigl[P(a)\bigr] \]
+        \footnotesize Promedios sobre la distribución de electores por edad dentro de cada grupo.
+      \end{block}
+    \end{column}
+  \end{columns}
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item Datos de la tesis: perfiles $\theta_a=P(a)-P(69)$ por \textbf{edad exacta}, con efectos fijos de mesa, en 10 elecciones presidenciales.
+    \item $\theta_{70}$ es el salto más un año de envejecimiento; $\Delta$ es lo que mide la brecha por grupos.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{4 \textperiodcentered{} The proof: what is done and what is open}
-  \textbf{Replace.} The idea of the proof, the step that was hard, and what is
-  still open today. This is a progress report: say where you are.
+% ===== 3. Proposiciones =====
+\begin{frame}{3. Proposición 1: el ciclo de vida}
+  \begin{block}{Proposición 1 \quad (Supuesto 1: $A,\kappa>0$, $0<\alpha<1\le\beta$)}
+    $b$ es estrictamente cóncava y tiene un máximo único en
+    \[ a^*=\Bigl(\tfrac{A\alpha}{\kappa\beta}\Bigr)^{1/(\beta-\alpha)} . \]
+    Con $\beta=1$, $b'(a)\to-\kappa$ (caída lineal); con $\beta>1$, $b'(a)\to-\infty$ (caída que se acelera).
+  \end{block}
+  \begin{itemize}
+    \item Prueba: $b'(a)=a^{\alpha-1}\bigl[A\alpha-\kappa\beta a^{\beta-\alpha}\bigr]$ cambia de signo una sola vez.
+    \item ¿Conviene $\beta>1$? Es lo que decide la calibración: sin hábito, los datos empujan $\beta$ a su cota.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{5 \textperiodcentered{} Simulations}
-  \begin{columns}
-    \column{.56\linewidth}
-    \includegraphics[width=\linewidth]{../code/figures/effort_check.pdf}
-    \column{.40\linewidth}
-    \textbf{Replace.} What the script checks, on which parameter range, and
-    what a simulation cannot show.
+\begin{frame}{3. Proposiciones 2 y 3: el salto y la cota}
+  \begin{block}{Proposición 2: el salto no contiene hábito}
+    A los 70 el hábito se acumuló bajo obligación. Si $g$ es unimodal y $\bar c$ está sobre la moda,
+    $\tau^{70}$ es \textbf{no creciente en $\lambda$}: el hábito atenúa el salto.
+  \end{block}
+  \begin{block}{Proposición 3: la brecha es una cota superior}
+    Bajo \textbf{(H)}: la participación con obligación es no creciente en $[60,70]$, y la de los mayores
+    de 70 con historia obligada, no creciente en $[70,\infty)$. Entonces
+    \[ \Delta=\tau^{70}+\underbrace{\text{envejecimiento}}_{\ge 0}+\underbrace{\text{decaimiento del hábito}}_{\ge 0}\;\ge\;\tau^{70}. \]
+  \end{block}
+  {\small (H) es sobre el índice \textbf{total} $b(a)+\lambda h$. Con $a^*\le 60$ y nada más hay contraejemplos (punto 7).}
+\end{frame}
+
+\begin{frame}{3. Proposiciones 4 y 5: la huella del hábito}
+  \begin{block}{Proposición 4: escalones cada $d$ años (identidad exacta)}
+    Con $H(a)=\E[h]$ a la edad $a$ y $a+1-18$ no múltiplo de $d$:
+    \[ H(a+1)-H(a)=\sum_{k\ge0}\rho^{k}\bigl[P(a+1-(k+1)d)-P(a-(k+1)d)\bigr]. \]
+    \footnotesize Entre 74 y 75 el término $k=0$ es $P(70)-P(69)$: \textbf{el salto vuelve como un escalón}.
+    Entre 73 y 74 solo hay diferencias de un año.
+  \end{block}
+  \begin{block}{Proposición 5: persistencia creciente, $\rho'(a)>0$}
+    La identidad vale con productos de $\rho$. Mismo primer escalón; los siguientes decaen \textbf{más lento}.
+    Pero el hábito estacionario $P/(1-\rho(a))$ crece antes de los 70, lo que \alert{puede romper (H)}.
+  \end{block}
+\end{frame}
+
+% ===== 4. La prueba =====
+\begin{frame}{4. La prueba: qué está hecho y qué sigue abierto}
+  \begin{columns}[T]
+    \begin{column}{0.32\textwidth}
+      {\color{upblue}\bfseries Hecho}
+      \begin{itemize}\setlength{\itemsep}{0.4em}\small
+        \item P1: prueba completa.
+        \item P4: identidad exacta por linealidad de la esperanza del AR(1).
+        \item P2, P3: por acoplamiento (mismos shocks, trayectorias ordenadas).
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      {\color{upred}\bfseries Lo difícil}
+      \begin{itemize}\setlength{\itemsep}{0.4em}\small
+        \item Encontrar la hipótesis correcta de P3: con hábito, ``$b$ decreciente'' no alcanza.
+        \item Con elecciones cada 5 años y $\rho$ alto, el hábito no es estacionario a los 60.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      {\color{upgray}\bfseries Abierto}
+      \begin{itemize}\setlength{\itemsep}{0.4em}\small
+        \item Una condición sobre primitivas que implique (H).
+        \item P5 sin linealizar.
+        \item Versión con votante que mira hacia adelante.
+      \end{itemize}
+    \end{column}
   \end{columns}
 \end{frame}
 
-% Required: paper statement -> Lean statement -> what Lean verifies.
-\begin{frame}[fragile]{6 \textperiodcentered{} Lean: what is verified}
-  \textbf{In the paper.} $a > 0,\ c > 0 \;\Longrightarrow\; e^{*} = a/c$.
+% ===== 5. Simulaciones y calibración =====
+\begin{frame}{5. Calibración al estilo DSGE}
+  \begin{itemize}\setlength{\itemsep}{0.5em}
+    \item \textbf{Externos}: $d=5$; la multa $F_t$ en \% de la UIT, ponderada por electores (JNE): 4\% antes de la Ley 28859 y 1.8--1.9\% después.
+    \item \textbf{Comunes a las elecciones}: $a^*,\alpha,\kappa,\beta,\lambda,\rho_0,\rho_1,\omega,s_0,q$. \textbf{Por elección}: el nivel $\mu_t$.
+    \item \textbf{Momentos}: $\theta_a$ para las edades 45--80, ponderados por $1/\text{ee}^2$, y los niveles de las bandas 60--69 y 70+, en 6 elecciones (2001 2V y 1V 2006--2026).
+    \item \textbf{Modelos anidados}: M0 estático con $\beta=1$ $\subset$ M1 $\beta$ libre $\subset$ M2 hábito $\subset$ M3 $\rho(a)$ creciente.
+    \item Robustez: todas las edades 20--80 y todas las bandas.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{5. Resultados de la calibración}
+  \centering\small
+  \IfFileExists{../code/output/calib_models.tex}{\resizebox{\textwidth}{!}{\input{../code/output/calib_models.tex}}}{\pending{tabla de modelos}}
+  \vspace{0.3cm}
+  \raggedright
+  \begin{itemize}\setlength{\itemsep}{0.35em}
+    \item ¿Conviene $\beta>1$? Poco: de \objMzero{} a \objMone{} ($\beta=\betaStatic$). El hábito aporta más (\objBest{}).
+    \item $\rho_0=\rhoBest$, en su cota: el hábito que piden los datos es casi permanente. \textbf{$\rho'(a)>0$ no mejora nada} ($\rho_1\to0$): la persistencia ya está saturada.
+    \item $q\approx0$: la multa no explica el salto. En 2006, con multa de 4\% UIT, $\theta_{70}=-0.063$; en 2021, con 1.9\%, $-0.118$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[c]{5. Ajuste a los perfiles por edad}
+  \centering
+  \IfFileExists{../code/figures/fit_profiles.pdf}{\includegraphics[width=0.92\textwidth,height=0.78\textheight,keepaspectratio]{../code/figures/fit_profiles.pdf}}{\pending{figura de ajuste}}
+\end{frame}
+
+\begin{frame}{5. ¿Cuánto de la brecha es causal?}
+  \centering\small
+  \IfFileExists{../code/output/gap_table.tex}{\resizebox{\textwidth}{!}{\input{../code/output/gap_table.tex}}}{\pending{descomposición}}
+  \vspace{0.3cm}
+  \begin{block}{Lectura}
+    El efecto causal es $\tau^{70}\in[\tauMin,\tauMax]$: \textbf{solo el \tauShareMin--\tauShareMax\% de la brecha}.
+    El resto es envejecimiento dentro de la banda abierta 70+. El decaimiento del hábito aporta poco (a lo más \habitDecayMax).
+  \end{block}
+\end{frame}
+
+\begin{frame}{5. Qué verifican las simulaciones y qué no pueden mostrar}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      {\color{upblue}\bfseries \texttt{code/verify.py} verifica}
+      \begin{itemize}\setlength{\itemsep}{0.4em}\small
+        \item P1 y (a)--(d) con SymPy.
+        \item P2--P5 con el modelo: P4 al error de máquina ($10^{-15}$).
+        \item Contraejemplos: (iv) con promedios, turno 5 de claude.ai y P3 sin (H).
+        \item La calibración se reproduce desde \texttt{code/data/} y respeta el anidamiento.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      {\color{upred}\bfseries Lo que no puede mostrar}
+      \begin{itemize}\setlength{\itemsep}{0.4em}\small
+        \item Una simulación sobre una grilla de parámetros no es una prueba.
+        \item La calibración no identifica cohortes: el corte transversal mezcla edad y cohorte.
+        \item El padrón con fallecidos baja la participación medida de 70+.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ===== 6. Lean =====
+\begin{frame}[fragile]{6. Lean: qué está verificado}
+  \textbf{En el paper.} \pending{enunciado de la proposición formalizada}
 
   \medskip
-  \textbf{In Lean} (replace with your own statement and proof fragment):
-\begin{verbatim}
-theorem prop_effort (a c : ℝ) (ha : 0 < a) (hc : 0 < c) :
-    a / c ∈ Set.Ici (0 : ℝ) ∧
-    IsMaxOn (fun e => a * e - c / 2 * e ^ 2) (Set.Ici 0) (a / c)
-\end{verbatim}
-  \textbf{Replace.} How the objects and assumptions are represented, whether
-  Lean verifies the paper's claim exactly or under an added hypothesis, and the
-  result of the check.
+  \textbf{En Lean.} \pending{enunciado y fragmento de prueba de la corrida de AppliedModelingLib}
+
+  \medskip
+  \textbf{Qué verifica Lean.} \pending{el enunciado exacto o bajo una hipótesis agregada; resultado de \texttt{check --fast}}
 \end{frame}
 
-\begin{frame}{7 \textperiodcentered{} Where I did not believe the AI}
-  \textbf{Replace.} One claim of the model, your verdict with its reason, and
-  the hand derivation on screen.
+% ===== 7. Dónde no le creí a la IA =====
+\begin{frame}{7. Dónde no le creí a la IA}
+  \begin{block}{Lo que afirmó el modelo (Claude, al plantear P3)}
+    ``Si $a^*\le 60$ y el hábito es estacionario bajo obligación, entonces $\Delta\ge\tau^{70}$.''
+  \end{block}
+  \begin{itemize}\setlength{\itemsep}{0.5em}
+    \item \textbf{Veredicto: falso tal como estaba.} Con elecciones cada 5 años, el hábito no es estacionario a los 60 ($\rho^8$ no es despreciable).
+    \item El índice $b(a)+\lambda\E[h_a]$ puede crecer entre 60 y 70 aunque $b$ decrezca: hay 7 de 150 sorteos con $a^*\le 60$ y $\Delta<\tau^{70}$.
+    \item \textbf{Corrección}: la hipótesis (H) se pone sobre la participación, no sobre $b$.
+    \item Antes ya habían caído (iv) con promedios por grupo y el turno 5 de la sesión de claude.ai.
+  \end{itemize}
+  \pending{derivación a mano en pantalla (foto de \texttt{hand/})}
 \end{frame}
 
-\begin{frame}{8 \textperiodcentered{} What I want from you}
-  \textbf{Replace.} The two or three questions on which you want the class's
-  critique before writing the final version.
+% ===== 8. Preguntas =====
+\begin{frame}{8. Dónde quiero su crítica}
+  \begin{enumerate}\setlength{\itemsep}{0.9em}
+    \item ¿Es razonable el ciudadano \textbf{miope}? Con mirada hacia adelante, votar hoy tiene valor de opción por el hábito.
+    \item Las edades menores de 45 varían entre elecciones de forma que ningún ciclo de vida captura. ¿Es legítimo calibrar solo la ventana 45--80, o eso es elegir los momentos a conveniencia?
+    \item ¿Qué contraste empírico separa el hábito de un $\beta$ alto: los escalones de la Proposición 4, o algo más?
+  \end{enumerate}
+  \vspace{0.2cm}
+  \pending{revisar y ajustar estas preguntas}
 \end{frame}
+
+{
+\setbeamertemplate{footline}{}
+\begin{frame}[c]
+  \begin{center}
+    {\color{upblue}\Huge\bfseries Gracias}\\[0.3cm]
+    {\large Comentarios y crítica}\\[0.8cm]
+    Manuel Alfredo Arriola Montenegro\\[0.1cm]
+    {\small\color{upaccent}\texttt{github.com/Arriola123456/ai-project}}\\[0.3cm]
+    \includegraphics[height=1cm]{logo.png}
+  \end{center}
+\end{frame}
+}
 
 \end{document}
