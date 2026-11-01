@@ -27,7 +27,7 @@
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\1}{\mathbbm{1}}
 \IfFileExists{../code/output/numbers.tex}{\input{../code/output/numbers.tex}}{}
-\providecommand{\leanPaperCommit}{[pendiente]}
+\providecommand{\leanPaperCommit}{feb0cf24c0b8f825861a31c118896c20bb8ec7f2}
 
 \title{La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio:\\
 \large ciclo de vida, hábito y una calibración con datos de la ONPE}
@@ -51,7 +51,7 @@ cada cinco años por encima de los 70. Calibro el modelo a los perfiles por edad
 elecciones presidenciales (2001--2026): el efecto causal de la obligación es solo el
 \tauShareMin--\tauShareMax\% de la brecha. El resto es envejecimiento dentro de la banda abierta de
 70+ años. La multa monetaria no explica el salto entre elecciones, y el hábito que piden los datos
-es casi permanente. \emph{[Estado de la formalización en Lean: pendiente.]}
+es casi permanente. El lema de acoplamiento y las cinco proposiciones están probados en Lean.
 \end{abstract}
 
 \section{Introducción}\label{sec:intro}
@@ -490,8 +490,11 @@ del 21\% de la densidad normal. Todo eso lo comprueba \texttt{code/verify.py}.
 
 \paragraph{Resultado del chequeo.} \texttt{lake build Arriola26TurnoutGap} y
 \texttt{python3 scripts/paper\_contribution.py check Arriola26TurnoutGap --fast} terminan sin
-errores (salida en \texttt{lean/docs/CHECK\_FAST\_OUTPUT.txt}); ninguna prueba usa \texttt{sorry}.
-La corrida la hizo Claude Code con imports estrechos de Mathlib (ver
+errores (salida en \texttt{lean/docs/CHECK\_FAST\_OUTPUT.txt}); ninguna prueba usa \texttt{sorry}, y
+\texttt{\#print axioms} lista solo \texttt{propext}, \texttt{Classical.choice} y
+\texttt{Quot.sound}. El estado en \texttt{lean/status.json} es \emph{formalized with caveat}: la
+salvedad es la población finita y que no se corrieron las revisiones semánticas con jueces LLM del
+protocolo. La corrida la hizo Claude Code con imports estrechos de Mathlib (ver
 \texttt{lean/docs/RUN\_LOG.md}).
 
 \section{Registro de colaboración con IA}\label{app:ai}

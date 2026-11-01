@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "source_artifact_path": "paper.pdf",
+  "source_artifact_sha256": "ff56ddf24e5cd3ea9d1442e52678d51e2bf9c5ed0c428ed9015f5247ff119fb7",
+  "source_version": "Unpublished manuscript (draft for the final presentation), ai-project commit feb0cf24c0b8f825861a31c118896c20bb8ec7f2, paper/paper.pdf, 31 October 2026",
+  "targets": [
+    {
+      "source_item": "Lema 1 (Acoplamiento del hábito)",
+      "source_kind": "lemma",
+      "source_location": "Section 4 (Resultados), page 3: Lema 1 (Acoplamiento del hábito)",
+      "source_statement": "Lema 1 (Acoplamiento del hábito). Fije ηi y los shocks (εi1 , εi2 , . . . ) de un ciudadano, y sean (hj ) y (h′j ) sus trayectorias de hábito en dos entornos con 0 ≤ λ ≤ λ′ y θj ≤ θj′ en cada elección j . Entonces 0 ≤ hj ≤ h′j para cada j , y si el ciudadano vota en j en el primer entorno, también vota en el segundo.",
+      "lean_name": "lemma1_coupling",
+      "lean_type": "∀ (ρ θ θ' ε : ℕ → ℝ) (lam lam' : ℝ) (h h' : ℕ → ℝ),\n    (∀ j, 0 ≤ ρ j) → 0 ≤ lam → lam ≤ lam' → (∀ j, θ j ≤ θ' j) →\n    h 0 = 0 → (∀ j, h (j + 1) = ρ j * h j + (if ε j < θ j + lam * h j then 1 else 0)) →\n    h' 0 = 0 → (∀ j, h' (j + 1) = ρ j * h' j + (if ε j < θ' j + lam' * h' j then 1 else 0)) →\n    ∀ j, 0 ≤ h j ∧ h j ≤ h' j ∧\n      (if ε j < θ j + lam * h j then (1 : ℝ) else 0) ≤\n        (if ε j < θ' j + lam' * h' j then 1 else 0)",
+      "kind": "theorem"
+    },
+    {
+      "source_item": "Proposición 1 (Ciclo de vida)",
+      "source_kind": "proposition",
+      "source_location": "Section 4 (Resultados), page 3: Proposición 1 (Ciclo de vida)",
+      "source_statement": "Proposición 1 (Ciclo de vida). Bajo el Supuesto 1, b es estrictamente cóncava en a > 0 y alcanza su máximo único en (︂ )︂1/(β−α) a∗ = Aα κβ . Si β = 1, b′ (a) → −κ cuando a → ∞: la caída del bene cio se vuelve lineal. Si β > 1, b′ (a) → −∞: la caída se acelera.",
+      "lean_name": "prop1_lifecycle",
+      "lean_type": "∀ (A α κ β : ℝ), 0 < A → 0 < κ → 0 < α → α < 1 → 1 ≤ β →\n    let b : ℝ → ℝ := fun a => A * a ^ α - κ * a ^ β\n    let astar : ℝ := (A * α / (κ * β)) ^ (1 / (β - α))\n    StrictConcaveOn ℝ (Set.Ioi 0) b ∧ 0 < astar ∧ deriv b astar = 0 ∧\n    (∀ a, 0 < a → a ≠ astar → b a < b astar) ∧\n    (β = 1 → Filter.Tendsto (deriv b) Filter.atTop (nhds (-κ))) ∧\n    (1 < β → Filter.Tendsto (deriv b) Filter.atTop Filter.atBot)",
+      "kind": "theorem"
+    },
+    {
+      "source_item": "Proposición 2 (El salto no contiene hábito)",
+      "source_kind": "proposition",
+      "source_location": "Section 4 (Resultados), page 3: Proposición 2 (El salto no contiene hábito); the stationarity paragraph (or the definition of the thresholds) on page 3",
+      "source_statement": "Las Proposiciones 2 y 3 comparan trayectorias de hábito de un mismo ciudadano bajo dos entornos. Sea θj = b(aj ) + Oaj Sj − µj − ηi el umbral de la elección j , sin el hábito, para un ciudadano que en ella tiene edad aj . [...] Proposición 2 (El salto no contiene hábito). Bajo los Supuestos 1\u00154, el hábito de quien tiene 70 años se acumuló bajo obligación, y τ 70 en (3) es la masa de cumplidores condicional en ese hábito. Si gε es unimodal con moda m y c̄ ≥ m en cada punto del soporte de (η, h70 ), entonces τ 70 es no creciente en λ: el hábito atenúa el salto.",
+      "lean_name": "prop2_jump",
+      "lean_type": "(∀ d : ℕ, 1 ≤ d → ∀ j, j < (70 - 18) / d → 70 - ((70 - 18) / d - j) * d < 70) ∧\n  (∀ c S e : ℝ, 0 ≤ S →\n    (if e < c + S then (1 : ℝ) else 0) - (if e < c then 1 else 0) =\n      if c ≤ e ∧ e < c + S then 1 else 0) ∧\n  (∀ {Ω : Type} [Fintype Ω] (w : Ω → ℝ) (n : ℕ) (ρ : ℕ → ℝ) (θ ε : Ω → ℕ → ℝ)\n      (B : Ω → ℝ) (S m lam lam' : ℝ) (G g : ℝ → ℝ) (h : Ω → ℝ → ℕ → ℝ),\n    (∀ ω, 0 ≤ w ω) → (∀ j, 0 ≤ ρ j) → 0 ≤ S → 0 ≤ lam → lam ≤ lam' →\n    (∀ x, HasDerivAt G (g x) x) → MonotoneOn g (Set.Iic m) → AntitoneOn g (Set.Ici m) →\n    (∀ ω l, h ω l 0 = 0 ∧\n      ∀ j, h ω l (j + 1) = ρ j * h ω l j + (if ε ω j < θ ω j + l * h ω l j then 1 else 0)) →\n    (∀ ω, m ≤ B ω + lam * h ω lam n) →\n    let τ : ℝ → ℝ := fun l => ∑ ω, w ω * (G (B ω + l * h ω l n + S) - G (B ω + l * h ω l n))\n    τ lam' ≤ τ lam)",
+      "kind": "theorem"
+    },
+    {
+      "source_item": "Proposición 3 (La brecha es una cota superior)",
+      "source_kind": "proposition",
+      "source_location": "Section 4 (Resultados), page 3: Proposición 3 (La brecha es una cota superior)",
+      "source_statement": "Proposición 3 (La brecha es una cota superior). Bajo los Supuestos 1\u00154, sea P1 (a) la participación a la edad a si la elección actual fuera obligatoria para esa edad, de modo que P1 (a) = P (a) si a < 70. Para a ≥ 70, sea P f (a) la participación de esos mismos ciudadanos si hubieran estado obligados en todas las elecciones anteriores y libres en la actual. Suponga (H): P1 es no creciente en [60, 70] y P f es no creciente en [70, ∞). Entonces ∆ = τ 70 + E + D ≥ τ 70 , 3 f donde el envejecimiento E = [P̄60\u001569 − P1 (70)] + [P f (70) − P̄70+ ] ≥ 0 y el decaimiento del hábito f D = P̄70+ − P̄70+ ≥ 0, y las barras son promedios ponderados por electores dentro de cada grupo. La condición (H) no se sigue de a∗ ≤ 60: si el hábito todavía se acumula entre los 60 y los 70 años, b(a) + λE[ha ] puede crecer aunque b decrezca.",
+      "lean_name": "prop3_bound",
+      "lean_type": "∀ {Ω : Type} [Fintype Ω] (w : Ω → ℝ) (d amax : ℕ) (ρ : ℕ → ℝ) (base : Ω → ℕ → ℝ)\n    (ε : Ω → ℕ → ℕ → ℝ) (S lam : ℝ) (G : ℝ → ℝ) (wb wv : ℕ → ℝ)\n    (hobs hcomp : Ω → ℕ → ℕ → ℝ),\n    1 ≤ d → (∀ ω, 0 ≤ w ω) → (∀ x, 0 ≤ ρ x) → 0 ≤ S → 0 ≤ lam → Monotone G →\n    (∀ a, 0 ≤ wb a) → (∀ a, 0 ≤ wv a) →\n    ∑ a ∈ Finset.Icc 60 69, wb a = 1 → ∑ a ∈ Finset.Icc 70 amax, wv a = 1 →\n    let n : ℕ → ℕ := fun a => (a - 18) / d\n    let age : ℕ → ℕ → ℕ := fun a j => a - (n a - j) * d\n    let O : ℕ → ℝ := fun x => if x < 70 then 1 else 0\n    (∀ ω a, hobs ω a 0 = 0 ∧ ∀ j, hobs ω a (j + 1) = ρ (age a j) * hobs ω a j +\n      (if ε ω a j < base ω (age a j) + O (age a j) * S + lam * hobs ω a j then 1 else 0)) →\n    (∀ ω a, hcomp ω a 0 = 0 ∧ ∀ j, hcomp ω a (j + 1) = ρ (age a j) * hcomp ω a j +\n      (if ε ω a j < base ω (age a j) + S + lam * hcomp ω a j then 1 else 0)) →\n    let P : ℕ → ℝ := fun a => ∑ ω, w ω * G (base ω a + O a * S + lam * hobs ω a (n a))\n    let P1 : ℕ → ℝ := fun a => ∑ ω, w ω * G (base ω a + S + lam * hobs ω a (n a))\n    let Pf : ℕ → ℝ := fun a => ∑ ω, w ω * G (base ω a + lam * hcomp ω a (n a))\n    (∀ a a', 60 ≤ a → a ≤ a' → a' ≤ 70 → P1 a' ≤ P1 a) →\n    (∀ a a', 70 ≤ a → a ≤ a' → Pf a' ≤ Pf a) →\n    let Δ := ∑ a ∈ Finset.Icc 60 69, wb a * P a - ∑ a ∈ Finset.Icc 70 amax, wv a * P a\n    let τ := P1 70 - P 70\n    let E := (∑ a ∈ Finset.Icc 60 69, wb a * P1 a - P1 70) + (Pf 70 - ∑ a ∈ Finset.Icc 70 amax, wv a * Pf a)\n    let D := ∑ a ∈ Finset.Icc 70 amax, wv a * Pf a - ∑ a ∈ Finset.Icc 70 amax, wv a * P a\n    Δ = τ + E + D ∧ 0 ≤ E ∧ 0 ≤ D ∧ τ ≤ Δ",
+      "kind": "theorem"
+    },
+    {
+      "source_item": "Proposición 4 (La huella del hábito)",
+      "source_kind": "proposition",
+      "source_location": "Section 4 (Resultados), page 4: Proposición 4 (La huella del hábito); the stationarity paragraph (or the definition of the thresholds) on page 4",
+      "source_statement": "Las Proposiciones 4 y 5 necesitan un supuesto más, que la calibración ya usa: el entorno es estacionario, con µt = µ y St = S en la elección actual y en todas las anteriores. Así, la participación a la edad x en una elección pasada es la misma P (x) de hoy. Sea H(a) = E[h] entre los ciudadanos de edad a. Todos ellos votaron antes a las edades a − d, a − 2d, . . . que son al menos 18. [...] Proposición 4 (La huella del hábito). Bajo los Supuestos 1\u00154, con ρ constante y un entorno estacionario, ∑︂ H(a) = ρk P (a − (k + 1)d). k≥0, a−(k+1)d≥18 Si además a ≥ 18 y a + 1 − 18 no es múltiplo de d, ∑︂ ρk P (a + 1 − (k + 1)d) − P (a − (k + 1)d) . [︁ ]︁ H(a + 1) − H(a) = k≥0, a−(k+1)d≥18 En particular, entre 74 y 75 años el término k = 0 es P (70) − P (69), que contiene el salto en el umbral, y entre 73 y 74 todos los términos son diferencias de un año entre edades obligadas.",
+      "lean_name": "prop4_steps",
+      "lean_type": "∀ {Ω : Type} [Fintype Ω] (w : Ω → ℝ) (d : ℕ) (r : ℝ) (θ ε : Ω → ℕ → ℕ → ℝ) (lam : ℝ)\n    (P : ℕ → ℝ) (h : Ω → ℕ → ℕ → ℝ),\n    1 ≤ d → (∀ ω, 0 ≤ w ω) → ∑ ω, w ω = 1 →\n    let n : ℕ → ℕ := fun a => (a - 18) / d\n    let age : ℕ → ℕ → ℕ := fun a j => a - (n a - j) * d\n    (∀ ω a, h ω a 0 = 0 ∧ ∀ j, h ω a (j + 1) = r * h ω a j +\n      (if ε ω a j < θ ω a j + lam * h ω a j then 1 else 0)) →\n    (∀ a j, j < n a →\n      ∑ ω, w ω * (if ε ω a j < θ ω a j + lam * h ω a j then 1 else 0) = P (age a j)) →\n    let H : ℕ → ℝ := fun a => ∑ ω, w ω * h ω a (n a)\n    (∀ a k, k ∈ Finset.range (n a) ↔ 18 + (k + 1) * d ≤ a) ∧\n    (∀ a, H a = ∑ k ∈ Finset.range (n a), r ^ k * P (a - (k + 1) * d)) ∧\n    (∀ a, 18 ≤ a → ¬ d ∣ (a + 1 - 18) →\n      H (a + 1) - H a = ∑ k ∈ Finset.range (n a), r ^ k * (P (a + 1 - (k + 1) * d) - P (a - (k + 1) * d))) ∧\n    (d = 5 → (¬ d ∣ (74 + 1 - 18) ∧ 74 + 1 - (0 + 1) * d = 70 ∧ 74 - (0 + 1) * d = 69) ∧\n      (¬ d ∣ (73 + 1 - 18) ∧ ∀ k ∈ Finset.range (n 73), 73 + 1 - (k + 1) * d < 70 ∧ 73 - (k + 1) * d < 70))",
+      "kind": "theorem"
+    },
+    {
+      "source_item": "Proposición 5 (Persistencia creciente con la edad)",
+      "source_kind": "proposition",
+      "source_location": "Section 4 (Resultados), page 4: Proposición 5 (Persistencia creciente con la edad); the stationarity paragraph (or the definition of the thresholds) on page 4",
+      "source_statement": "Las Proposiciones 4 y 5 necesitan un supuesto más, que la calibración ya usa: el entorno es estacionario, con µt = µ y St = S en la elección actual y en todas las anteriores. Así, la participación a la edad x en una elección pasada es la misma P (x) de hoy. Sea H(a) = E[h] entre los ciudadanos de edad a. Todos ellos votaron antes a las edades a − d, a − 2d, . . . que son al menos 18. [...] Proposición 5 (Persistencia creciente con la edad) ∏︁ . Bajo los supuestos de la Proposición 4, pero k con ∑︁ ρ no decreciente en la edad, sea Πk (a) = j=1 ρ(a − jd), con Π0 (a) = 1. Entonces H(a) = k≥0, a−(k+1)d≥18 Πk (a)P (a − (k + 1)d) y, si a + 1 − 18 no es múltiplo de d, ∑︂ [︁ ]︁ H(a + 1) − H(a) = Πk (a + 1) P (a + 1 − (k + 1)d) − P (a − (k + 1)d) + R(a), k ∑︂[︁ ]︁ R(a) = Πk (a + 1) − Πk (a) P (a − (k + 1)d) ≥ 0, k 4 con las sumas sobre k ≥ 0 y a−(k+1)d ≥ 18. Con ρ constante, R = 0 y se recupera la Proposición 4. En el escalón entre 70 ∏︁ + (k + 1)d − 1 y 70 + (k + 1)d, la diferencia P (70) − P (69) entra con peso Πk (70 + (k + 1)d) = ki=1 ρ(70 + id) ≥ ρ(70)k : el salto se propaga al menos tanto como con ρ constante igual a ρ(70).",
+      "lean_name": "prop5_rising_persistence",
+      "lean_type": "∀ {Ω : Type} [Fintype Ω] (w : Ω → ℝ) (d : ℕ) (ρ : ℕ → ℝ) (θ ε : Ω → ℕ → ℕ → ℝ) (lam : ℝ)\n    (P : ℕ → ℝ) (h : Ω → ℕ → ℕ → ℝ),\n    1 ≤ d → (∀ ω, 0 ≤ w ω) → ∑ ω, w ω = 1 → Monotone ρ → (∀ x, 0 ≤ ρ x) →\n    let n : ℕ → ℕ := fun a => (a - 18) / d\n    let age : ℕ → ℕ → ℕ := fun a j => a - (n a - j) * d\n    (∀ ω a, h ω a 0 = 0 ∧ ∀ j, h ω a (j + 1) = ρ (age a j) * h ω a j +\n      (if ε ω a j < θ ω a j + lam * h ω a j then 1 else 0)) →\n    (∀ a j, j < n a →\n      ∑ ω, w ω * (if ε ω a j < θ ω a j + lam * h ω a j then 1 else 0) = P (age a j)) →\n    let H : ℕ → ℝ := fun a => ∑ ω, w ω * h ω a (n a)\n    let Pi : ℕ → ℕ → ℝ := fun k a => ∏ i ∈ Finset.range k, ρ (a - (i + 1) * d)\n    let R : ℕ → ℝ := fun a => ∑ k ∈ Finset.range (n a), (Pi k (a + 1) - Pi k a) * P (a - (k + 1) * d)\n    (∀ a, H a = ∑ k ∈ Finset.range (n a), Pi k a * P (a - (k + 1) * d)) ∧\n    (∀ a, 18 ≤ a → ¬ d ∣ (a + 1 - 18) →\n      H (a + 1) - H a =\n        ∑ k ∈ Finset.range (n a), Pi k (a + 1) * (P (a + 1 - (k + 1) * d) - P (a - (k + 1) * d)) + R a ∧\n      0 ≤ R a) ∧\n    (∀ k, ρ 70 ^ k ≤ Pi k (70 + (k + 1) * d))",
+      "kind": "theorem"
+    }
+  ]
+}

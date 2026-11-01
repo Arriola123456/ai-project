@@ -585,8 +585,17 @@ Ok, me cambiaron la presentación para el miercoles 4 de noviembre (hoy estamos 
   martes 3-nov. Lean y el paper van el 26-nov.
 - Antes de fijar el commit para Lean, escribió los seis resultados (Lema 1 y P1–P5) como
   enunciados de Lean sobre las primitivas del modelo y los probó en un archivo de prueba.
-- Hizo una recalibración corta de M2, que había parado por el tope de evaluaciones, y actualizó
-  el paper, el deck, el README y `verify.py`.
+- Recalibró M2, que había parado por el tope de evaluaciones. El objetivo bajó solo de 1,276.44 a
+  1,276.31, porque el optimizador se arrastra hacia las cotas ρ₀ = 0.95 y ω = 0.05. Se mantuvo la
+  calibración original.
+- Fijó el paper en el commit `feb0cf2` y corrió AppliedModelingLib (`init-spec`, `new`,
+  pruebas, `lake build`, `check --fast`) con Claude Code e imports estrechos de Mathlib. El Lema 1
+  y P1–P5 quedaron probados sin `sorry`. `check --fast` dio exit 0, y `#print axioms` lista solo
+  `propext`, `Classical.choice` y `Quot.sound`. La carpeta generada se copió a `lean/`.
+- Un primer intento sobre `e32c141` falló porque el filtro del scaffold toma la palabra "todo"
+  como `TODO`. Cambió "para todo j" por "para cada j" en el paper, sin cambio de contenido.
+- Actualizó el paper (apéndices de Lean y de IA, conclusión), el deck (nueva fecha, P3–P5, slides de
+  Lean, segundo caso de la slide 7), el README y `verify.py`.
 
 **Verificación (Lean y verify.py).** Al escribir P5 en Lean, la identidad con persistencia
 creciente no cerraba: **la versión del borrador era falsa.** Decía que bastaba cambiar ρᵏ por el

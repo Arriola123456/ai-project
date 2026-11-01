@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "paper": "Arriola26TurnoutGap",
+  "namespace": "Arriola26TurnoutGap",
+  "paper_interface_module": "",
+  "semantic_route_schema": 2,
+  "closeout_review_policy": {
+    "schema": 1,
+    "source_scope": "all_named_theory",
+    "repeat_final_scope": "main_primary",
+    "required_final_adversary_count": 1,
+    "scheduling": {
+      "initial_semantic_review": [],
+      "final_adversarial_review": []
+    }
+  },
+  "source_version": "Unpublished manuscript (draft for the final presentation), ai-project commit feb0cf24c0b8f825861a31c118896c20bb8ec7f2, paper/paper.pdf, 31 October 2026",
+  "include_specs": [
+    "lemma1_couplingSpec",
+    "prop1_lifecycleSpec",
+    "prop2_jumpSpec",
+    "prop3_boundSpec",
+    "prop4_stepsSpec",
+    "prop5_rising_persistenceSpec"
+  ],
+  "source_item_for_spec": {
+    "lemma1_couplingSpec": "lemma1_coupling",
+    "prop1_lifecycleSpec": "prop1_lifecycle",
+    "prop2_jumpSpec": "prop2_jump",
+    "prop3_boundSpec": "prop3_bound",
+    "prop4_stepsSpec": "prop4_steps",
+    "prop5_rising_persistenceSpec": "prop5_rising_persistence"
+  },
+  "evidence_declaration_for_spec": {
+    "lemma1_couplingSpec": "Arriola26TurnoutGap.lemma1_coupling",
+    "prop1_lifecycleSpec": "Arriola26TurnoutGap.prop1_lifecycle",
+    "prop2_jumpSpec": "Arriola26TurnoutGap.prop2_jump",
+    "prop3_boundSpec": "Arriola26TurnoutGap.prop3_bound",
+    "prop4_stepsSpec": "Arriola26TurnoutGap.prop4_steps",
+    "prop5_rising_persistenceSpec": "Arriola26TurnoutGap.prop5_rising_persistence"
+  },
+  "source_semantic_declarations": {},
+  "paper_semantic_prerequisite_sources": {},
+  "library_semantic_prerequisite_sources": {},
+  "semantic_context_requirements": {},
+  "model_convention_ids_by_source_item": {},
+  "source_named_result_inventory_review": {
+    "complete": false,
+    "validator": "",
+    "method": "",
+    "validated_at": "",
+    "prose_definition_presentations": [],
+    "candidate_presentations": [],
+    "source_region_partition": {
+      "complete": false,
+      "validator": "",
+      "method": "",
+      "validated_at": "",
+      "regions": [],
+      "source_item_regions": {},
+      "candidate_presentation_regions": {},
+      "prose_definition_presentation_regions": {},
+      "promoted_source_items": []
+    }
+  }
+}

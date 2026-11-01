@@ -1,0 +1,1066 @@
+La brecha de participación a los 70 años sobrestima el efecto del
+voto obligatorio:
+ciclo de vida, hábito y una calibración con datos de la ONPE
+Manuel Alfredo Arriola Montenegro*
+Borrador para la presentación nal, octubre de 2026
+
+Resumen
+
+En el Perú el voto deja de ser obligatorio a los 70 años, y la participación de los grupos de edad
+6069 y 70+ diere en más de 25 puntos. Formulo el cálculo del voto con obligatoriedad, con
+un benecio de votar cóncavo en la edad, Aa
+
+α
+
+− κaβ , y un hábito autorregresivo cuyo shock es
+
+el voto anterior. Muestro que el salto en el umbral no contiene hábito, y que la brecha entre
+grupos es una cota superior del efecto causal si el índice total de benecio, incluido el hábito,
+no crece entre los 60 y los 70 años. Que el benecio sea decreciente, sin más, no basta. El hábito
+deja una huella comprobable: escalones cada cinco años por encima de los 70. Calibro el modelo
+a los perles por edad exacta de seis elecciones presidenciales (20012026): el efecto causal de la
+obligación es solo el 1822 % de la brecha. El resto es envejecimiento dentro de la banda abierta
+de 70+ años. La multa monetaria no explica el salto entre elecciones, y el hábito que piden los
+datos es casi permanente. [Estado de la formalización en Lean: pendiente.]
+
+1.
+
+Introducción
+
+La Constitución peruana hace obligatorio el voto hasta los 70 años y facultativo después. Los
+datos administrativos de la ONPE muestran que la participación cae con fuerza entre los grupos de
+6069 y de 70 a más años en todas las elecciones generales desde 2001. Esa caída mezcla dos cosas:
+el n de la obligación y el envejecimiento. La ONPE reporta la edad en intervalos y el último está
+abierto, así que la brecha observada entre grupos no identica por sí sola el efecto de la obligación.
+Este trabajo formula el modelo económico detrás de esa brecha y lo lleva a los datos. Parto
+del cálculo del voto con sanción (Riker and Ordeshook, 1968; Panagopoulos, 2008) y le agrego
+dos elementos. El primero es un benecio de votar que depende de la edad de forma cóncava,
+b(a) = Aaα − κaβ , con 0 < α < 1 ≤ β , que genera la U invertida de la participación por edad
+(Bhatti et al., 2012). El segundo es un hábito que sigue un proceso autorregresivo cuyo shock es el
+voto anterior (Fowler, 2006).
+Los resultados son cuatro. Primero, el salto en el umbral no contiene hábito, porque a los 70
+años el hábito se acumuló bajo obligación (Proposición 2). Segundo, la brecha entre grupos es una
+cota superior del efecto causal (Proposición 3). La condición para eso es que el índice total, benecio
+más hábito, no crezca entre los 60 y los 70 años. La versión que solo pide un benecio decreciente es
+falsa cuando el hábito todavía se está acumulando: el contraejemplo está en la Sección 6. Tercero,
+el hábito deja una huella exacta: un escalón en el hábito medio cada cinco años por encima de los
+*
+
+Universidad del Pacíco. Repositorio: https://github.com/Arriola123456/ai-project. Track B: el modelo de
+la tesis sobre el voto facultativo a partir de los 70 años en el Perú.
+
+1
+
+70, igual al salto en el umbral más diferencias de un año de edad (Proposición 4). Con persistencia
+creciente en la edad, la identidad gana un término de resto no negativo y el salto se propaga con
+más fuerza a los escalones siguientes (Proposición 5). Cuarto, calibro el modelo a los perles por
+edad exacta que estima la tesis para seis elecciones presidenciales.
+2.
+
+Literatura relacionada
+
+El cálculo del voto empieza con Downs (1957) y Riker and Ordeshook (1968), que agregan el
+benecio del acto mismo de votar. Panagopoulos (2008) incorpora la sanción esperada de abstenerse
+en sistemas de voto obligatorio: la obligación encarece no votar, sin cambiar el benecio de votar.
+Ninguno de los dos tiene un perl por edad ni dice qué mide una brecha entre intervalos de edad.
+Gonzales et al. (2022) estudian el Perú. Usan la reforma de multas de 2006 (Ley 28859) y la
+exención de los 70 años: con edades simples, la participación cae unos 20 puntos entre los 69 y los
+72 años. Encuentran además que eliminar toda la multa tiene menos de un quinto del efecto de la
+exención, así que la sanción relevante no es solo monetaria. Su estimando corresponde al salto τ 70 ,
+no a la brecha entre grupos. Jaitman (2013) (Argentina) y Cepaluni and Hidalgo (2016) (Brasil)
+estiman efectos del voto obligatorio con discontinuidades por edad, en forma reducida. Fowler (2006)
+modela el hábito como aprendizaje por refuerzo, sin sanciones.
+3.
+
+Modelo
+
+Las elecciones ocurren cada d = 5 años. Un ciudadano empieza a votar entre los 18 y los 22
+años, y vota en cada elección posterior. En la elección t, el ciudadano i de edad a elige vit ∈ {0, 1}:
+[︁
+]︁
+[︁
+]︁
+máx v b(a) + λhit − cit + (1 − v) −Oa St ,
+Oa = 1[a < 70],
+(1)
+v∈{0,1}
+
+donde St = s0 + qFt ≥ 0 es la sanción esperada: una parte no monetaria s0 ≥ 0 y la multa Ft ≥ 0,
+en porcentaje de la UIT, ponderada por q ≥ 0.
+
+Supuesto 1 (Benecio por edad). b(a) = Aaα − κaβ , con A, κ > 0, 0 < α < 1 y β ≥ 1.
+Supuesto 2 (Costo). cit = µt + ηi + εit , donde ηi es persistente y εit transitorio, independientes,
+con distribución continua y estrictamente creciente Gε de densidad gε > 0, igual a toda edad.
+
+Supuesto 3 (Hábito). hi,t+1 = ρ(ait ) hit +vit , con h = 0 antes de la primera elección, ρ : R+ → [0, 1)
+y un peso del hábito en el benecio λ ≥ 0.
+
+Supuesto 4 (Miopía). Al decidir, el ciudadano no internaliza el efecto de su voto sobre su hábito
+futuro.
+
+El Supuesto 4 hace que la decisión sea estática dada h, como en el aprendizaje por refuerzo de
+Fowler (2006). La elección es discreta, así que no hay una condición de primer orden interior; su
+análogo es la condición de corte:
+
+vit = 1 ⇐⇒ εit < b(a) + λhit + Oa St − µt − ηi .
+
+(2)
+
+Sea P (a) la participación de los ciudadanos de edad a. El efecto causal en el umbral compara a
+los mismos ciudadanos a los 70 años, con su hábito acumulado, con y sin obligación:
+[︁
+]︁
+τ 70 = E Gε (c̄ + S) − Gε (c̄) ,
+c̄ ≡ b(70) + λh70 − µ − η,
+(3)
+2
+
+donde la esperanza es sobre (η, h70 ). La brecha entre grupos, que es lo que reporta la ONPE, es
+[︁
+]︁
+[︁
+]︁
+∆ = Ea∈[60,70) P (a) − Ea≥70 P (a) ,
+(4)
+con esperanzas sobre la distribución de electores por edad dentro de cada grupo.
+4.
+
+Resultados
+
+Proposición 1 (Ciclo de vida). Bajo el Supuesto 1, b es estrictamente cóncava en a > 0 y alcanza
+su máximo único en
+
+a∗ =
+
+(︂
+
+Aα
+κβ
+
+)︂1/(β−α)
+
+.
+
+Si β = 1, b′ (a) → −κ cuando a → ∞: la caída del benecio se vuelve lineal. Si β > 1, b′ (a) → −∞:
+la caída se acelera.
+[︁
+]︁
+Demostración. b′ (a) = aα−1 Aα − κβ aβ−α . Como aα−1 > 0 y aβ−α es estrictamente creciente
+(β > α), b′ cambia de signo una sola vez, de positivo a negativo, en aβ−α = Aα/(κβ). Además
+b′′ (a) = Aα(α − 1)aα−2 − κβ(β − 1)aβ−2 < 0: el primer término es negativo porque α < 1 y el
+segundo es no positivo porque β ≥ 1. Con β = 1, b′ (a) = Aαaα−1 − κ → −κ, porque α < 1. Con
+β > 1, el término −κβaβ−1 domina y b′ (a) → −∞.
+Las Proposiciones 2 y 3 comparan trayectorias de hábito de un mismo ciudadano bajo dos
+entornos. Sea θj = b(aj ) + Oaj Sj − µj − ηi el umbral de la elección j , sin el hábito, para un
+ciudadano que en ella tiene edad aj .
+
+Lema 1 (Acoplamiento del hábito). Fije ηi y los shocks (εi1 , εi2 , . . . ) de un ciudadano, y sean (hj )
+
+y (h′j ) sus trayectorias de hábito en dos entornos con 0 ≤ λ ≤ λ′ y θj ≤ θj′ en cada elección j .
+Entonces 0 ≤ hj ≤ h′j para cada j , y si el ciudadano vota en j en el primer entorno, también vota
+en el segundo.
+Demostración. Por inducción en j . Las dos trayectorias empiezan en 0. Si 0 ≤ hj ≤ h′j , entonces
+θj + λhj ≤ θj′ + λ′ h′j , porque λhj ≤ λ′ hj ≤ λ′ h′j . Por la regla de corte (2), vj ≤ vj′ . Como ρ(aj ) ≥ 0,
+0 ≤ hj+1 = ρ(aj )hj + vj ≤ ρ(aj )h′j + vj′ = h′j+1 .
+
+Proposición 2 (El salto no contiene hábito). Bajo los Supuestos 14, el hábito de quien tiene 70
+años se acumuló bajo obligación, y τ 70 en (3) es la masa de cumplidores condicional en ese hábito.
+Si gε es unimodal con moda m y c̄ ≥ m en cada punto del soporte de (η, h70 ), entonces τ 70 es no
+creciente en λ: el hábito atenúa el salto.
+
+Demostración. Las elecciones pasadas de quien tiene 70 años ocurrieron a los 70 − d, 70 − 2d, . . . ,
+todas con Oa = 1. Fije (η, ε) y sea λ ≤ λ′ . Por el Lema 1, con los mismos umbrales, h′70 ≥ h70 ≥ 0,
+así que c̄′ = b(70) + λ′ h′70 − µ − η ≥ c̄ ≥ m. Como gε es no creciente en [m, ∞), Gε es cóncava ahí,
+y x ↦→ Gε (x + S) − Gε (x) es no creciente en [m, ∞) porque S ≥ 0. Entonces el τ de ese ciudadano
+es menor con λ′ , y la esperanza conserva la desigualdad.
+
+Proposición 3 (La brecha es una cota superior). Bajo los Supuestos 14, sea P1 (a) la participación
+
+a la edad a si la elección actual fuera obligatoria para esa edad, de modo que P1 (a) = P (a) si a < 70.
+Para a ≥ 70, sea P f (a) la participación de esos mismos ciudadanos si hubieran estado obligados en
+todas las elecciones anteriores y libres en la actual. Suponga (H): P1 es no creciente en [60, 70] y
+P f es no creciente en [70, ∞). Entonces
+∆ = τ 70 + E + D ≥ τ 70 ,
+3
+
+f
+donde el envejecimiento E = [P̄6069 − P1 (70)] + [P f (70) − P̄70+
+] ≥ 0 y el decaimiento del hábito
+f
+D = P̄70+ − P̄70+ ≥ 0, y las barras son promedios ponderados por electores dentro de cada grupo.
+La condición (H) no se sigue de a∗ ≤ 60: si el hábito todavía se acumula entre los 60 y los 70 años,
+b(a) + λE[ha ] puede crecer aunque b decrezca.
+
+Demostración. A los 70 años todas las elecciones pasadas fueron obligatorias, así que P f (70) =
+P (70) y, por (3), τ 70 = P1 (70)−P (70) = P1 (70)−P f (70). Con eso, τ 70 +E +D = P̄6069 − P̄70+ = ∆.
+Por (H), P1 (a) ≥ P1 (70) para a ∈ [60, 70) y P f (a) ≤ P f (70) para a ≥ 70; como los pesos son no
+negativos y suman uno, los dos corchetes de E son no negativos. Para D, je un ciudadano de edad
+a ≥ 70 y sus shocks. Su historia obligada tiene umbrales θj + (1 − Oaj )Sj ≥ θj , porque Sj ≥ 0.
+Por el Lema 1, su hábito actual es mayor con la historia obligada, y como hoy no está obligado en
+ninguno de los dos casos y λ ≥ 0, si vota con la historia observada también vota con la obligada.
+Promediando, P f (a) ≥ P (a) para cada a ≥ 70, y D ≥ 0. Los contraejemplos a la versión con solo
+a∗ ≤ 60 se reportan en la Sección 6.
+Las Proposiciones 4 y 5 necesitan un supuesto más, que la calibración ya usa: el entorno
+es estacionario, con µt = µ y St = S en la elección actual y en todas las anteriores. Así, la
+
+participación a la edad x en una elección pasada es la misma P (x) de hoy. Sea H(a) = E[h] entre
+los ciudadanos de edad a. Todos ellos votaron antes a las edades a − d, a − 2d, . . . que son al menos
+18.
+
+Proposición 4 (La huella del hábito). Bajo los Supuestos 14, con ρ constante y un entorno
+estacionario,
+
+H(a) =
+
+∑︂
+
+ρk P (a − (k + 1)d).
+
+k≥0, a−(k+1)d≥18
+
+Si además a ≥ 18 y a + 1 − 18 no es múltiplo de d,
+∑︂
+[︁
+]︁
+H(a + 1) − H(a) =
+ρk P (a + 1 − (k + 1)d) − P (a − (k + 1)d) .
+k≥0, a−(k+1)d≥18
+
+En particular, entre 74 y 75 años el término k = 0 es P (70) − P (69), que contiene el salto en el
+umbral, y entre 73 y 74 todos los términos son diferencias de un año entre edades obligadas.
+∑︁
+Demostración. Iterando el Supuesto 3 desde h = 0, ha = k≥0, a−(k+1)d≥18 ρk va−(k+1)d . Como ρ no
+es aleatorio, la esperanza pasa a cada término, y por estacionariedad E[va−(k+1)d ] = P (a − (k + 1)d).
+Si a + 1 − 18 no es múltiplo de d, las edades a y a + 1 tienen el mismo número de elecciones pasadas,
+⌊(a − 18)/d⌋, y al restar los términos se emparejan uno a uno. Con d = 5 y a = 74, el término k = 0
+es P (70) − P (69); con a = 73, las edades de los términos son a lo más 69.
+Con λ > 0, el hábito medio, y con él la participación, cae en escalones en 70 + d, 70 + 2d, . . . :
+la diferencia P (70) − P (69) entra con peso 1 en el escalón de 70 + d, con peso ρ en el de 70 + 2d, y
+así sucesivamente. Con λ = 0 el perl sobre los 70 es continuo.
+
+Proposición 5 (Persistencia creciente con la edad)
+∏︁ . Bajo los supuestos de la Proposición 4, pero
+k
+con
+∑︁ ρ no decreciente en la edad, sea Πk (a) = j=1 ρ(a − jd), con Π0 (a) = 1. Entonces H(a) =
+k≥0, a−(k+1)d≥18 Πk (a)P (a − (k + 1)d) y, si a + 1 − 18 no es múltiplo de d,
+∑︂
+[︁
+]︁
+H(a + 1) − H(a) =
+Πk (a + 1) P (a + 1 − (k + 1)d) − P (a − (k + 1)d) + R(a),
+k
+
+R(a) =
+
+∑︂[︁
+
+]︁
+Πk (a + 1) − Πk (a) P (a − (k + 1)d) ≥ 0,
+
+k
+
+4
+
+con las sumas sobre k ≥ 0 y a−(k+1)d ≥ 18. Con ρ constante, R = 0 y se recupera la Proposición 4.
+En el escalón entre 70 ∏︁
++ (k + 1)d − 1 y 70 + (k + 1)d, la diferencia P (70) − P (69) entra con peso
+Πk (70 + (k + 1)d) = ki=1 ρ(70 + id) ≥ ρ(70)k : el salto se propaga al menos tanto como con ρ
+constante igual a ρ(70).
+Demostración. Iterando ha = ρ(a − d)ha−d + va−d , el voto a la edad a − (k + 1)d entra en ha
+multiplicado por las persistencias de las k elecciones siguientes, Πk (a); la esperanza da H(a). Para
+la diferencia se suma y resta Πk (a + 1)P (a − (k + 1)d) en cada término. Como ρ es no decreciente,
+cada factor cumple ρ(a + 1 − jd) ≥ ρ(a − jd) ≥ 0, así que Πk (a + 1) ≥ Πk (a), y R(a) ≥ 0 porque
+P ≥ 0. El peso del salto sale de a + 1 = 70 + (k + 1)d: las edades intermedias son 70 + d, . . . , 70 + kd,
+todas mayores que 70.
+Con ρ creciente el hábito también se acumula más rápido antes de los 70, lo que hace más fácil
+violar (H). Por eso la calibración comprueba (H) elección por elección.
+
+Identicación.
+
+Antes de los 70 la participación depende de b y del hábito acumulado bajo obligación; después, además, del decaimiento del hábito. Con Gε normal, la densidad cambia a lo más
+en un 21 % entre participaciones de 0.73 y de 0.30.5, así que la forma de G no explica una caída
+cuatro veces más rápida tras los 70. O viene de β > 1 o viene del hábito. El perl antes de los 70
+disciplina β ; los escalones de la Proposición 4 disciplinan λ y ρ.
+Los resultados de la propuesta sobre τ 70 (sanción, curvatura, benecio y heterogeneidad) se
+mantienen condicionales en (η, h70 ). El de heterogeneidad lleva la condición en el umbral, P0 (70) ≤
+50 % < P1 (70− ), no en los promedios de grupo.
+5.
+
+Datos y calibración
+
+Datos.
+
+La tesis estima, para cada elección presidencial,
+∑︁el perl de participación por edad exacta
+con los conteos por mesa de la ONPE: turnoutjg = αj + a̸=69 θa sajg + ejg , donde j es la mesa, g la
+banda de edad, sajg la fracción de electores de edad a y αj un efecto jo de mesa. Por construcción
+θa = P (a) − P (69) dentro de la mesa, que es exactamente el objeto que produce el modelo. El nivel,
+que el efecto jo absorbe, lo dan la participación agregada de las bandas de 6069 y de 70+ años.
+La multa Ft es el promedio, ponderado por electores, de la multa por distrito en porcentaje de la
+UIT. Vale 4 % antes de la Ley 28859 y entre 1.8 % y 1.9 % después. Uso las seis elecciones con un
+ciclo de cinco años: la segunda vuelta de 2001 y las primeras vueltas de 2006 a 2026.
+
+Estrategia.
+
+Sigo la lógica de la calibración de modelos DSGE. La periodicidad d = 5 y la multa
+Ft son externas. Los parámetros estructurales (a∗ , α, κ, β, λ, ρ0 , ρ1 , ω, s0 , q) son comunes a todas las
+elecciones y solo el nivel µt cambia por elección. Escojo los parámetros que minimizan la distancia
+ponderada entre los momentos del modelo y los de los datos: θa para las edades 4580, ponderados
+por el inverso de su varianza, y los niveles de las dos bandas, con un error estándar nominal de un
+punto. En total son 222 momentos. A b lo parametrizo por su edad de máximo a∗ (Proposición 1),
+para evitar que A y κ se compensen. Comparo cuatro modelos anidados: M0 estático con β = 1,
+M1 con β libre, M2 con hábito y ρ constante, y M3 con ρ(a) creciente.
+La ventana 4580 es una decisión que declaro. Con todas las edades y bandas (robustez en
+code/output/params_M*_full.json), el 60 % del desajuste viene de los menores de 45. Ahí los
+perles cambian de una elección a otra de un modo que ningún ciclo de vida común captura, y los
+θa dentro de la mesa no coinciden con los niveles agregados de las bandas jóvenes. Ese desajuste,
+además, distorsiona la curvatura que importa entre los 60 y los 80.
+5
+
+Cuadro 1: Calibración de los modelos anidados (ventana 4580).
+Modelo
+M0: estático, β = 1
+
+Objetivo
+
+a∗
+
+α
+
+β
+
+λ
+
+ρ0
+
+ρ1
+
+s0
+
+q
+
+1,451
+
+53.6
+
+0.98
+
+
+
+
+
+
+
+
+
+0.25
+
+0.00
+
+M1: estático, β libre
+
+1,430
+
+53.3
+
+0.98
+
+2.22
+
+
+
+
+
+
+
+0.24
+
+0.00
+
+M2: hábito, ρ constante
+
+1,276
+
+43.0
+
+0.64
+
+1.37
+
+0.37
+
+0.95
+
+
+
+0.29
+
+0.00
+
+M3: hábito, ρ(a) creciente
+
+1,276
+
+43.0
+
+0.56
+
+1.44
+
+0.37
+
+0.95
+
+0.00
+
+0.29
+
+0.00
+
+Objetivo: suma de residuos ponderados al cuadrado. ω y µt en code/output/params_M*.json. Fuente:
+code/calibrate.py.
+
+Resultados.
+
+La Tabla 1 resume la calibración. Liberar β mejora poco el ajuste estático (de 1,451
+a 1,430, con β = 2.22). Agregar hábito lo mejora más (hasta 1,276 en M2), con λ = 0.37 y una
+persistencia ρ0 = 0.95 en su cota superior: el hábito que piden los datos es casi permanente. En todos
+los modelos q es prácticamente cero. La multa no explica las diferencias en el salto entre elecciones:
+en 2006, con una multa de 4 % de la UIT, θ70 = −0.063; en 2021, con 1.9 %, θ70 = −0.118. Esto
+concuerda con Gonzales et al. (2022), para quienes la parte monetaria de la sanción pesa poco.
+2001 2V
+
+2006 1V
+
+2011 1V
+
+2016 1V
+
+2021 1V
+
+2026 1V
+
+a = P(a)
+
+P(69)
+
+0.2
+0.0
+0.2
+0.4
+M1 (sin hábito)
+M2
+ONPE, IC 95%
+
+0.6
+0.8
+
+a = P(a)
+
+P(69)
+
+0.2
+0.0
+0.2
+0.4
+0.6
+0.8
+
+20
+
+30
+
+40
+
+50 60
+edad
+
+70
+
+80
+
+20
+
+30
+
+40
+
+50 60
+edad
+
+70
+
+80
+
+20
+
+30
+
+40
+
+50 60
+edad
+
+70
+
+80
+
+Figura 1: Perles θa = P (a) − P (69): datos de la tesis (IC 95 %), modelo sin hábito (M1) y modelo
+con hábito. La zona sombreada es la ventana calibrada. Fuente: code/verify.py.
+La Figura 1 muestra el ajuste. Dentro de la ventana el modelo reproduce el perl previo a los
+70, el salto y la caída posterior. Fuera de ella, entre los 20 y los 45 años, el modelo proyecta una U
+invertida que los datos no tienen: la forma Aaα − κaβ no puede ser plana en la juventud y empinada
+en la vejez a la vez.
+
+¾Cuánto de la brecha es causal?
+
+La Tabla 2 contesta la pregunta de la tesis. En el modelo
+calibrado el efecto causal de la obligación es τ 70 ∈ [0.05, 0.09], mientras que la brecha entre grupos en
+6
+
+Cuadro 2: Datos frente al modelo, y descomposición de la brecha (Proposición 3).
+
+θ70
+
+∆
+
+Descomposición de ∆ (modelo)
+
+Elección
+
+datos
+
+modelo
+
+datos
+
+modelo
+
+τ 70
+
+envejec.
+
+hábito
+
+2001 2V
+
+-0.090
+
+-0.104
+
+0.323
+
+0.384
+
+0.083
+
+0.293
+
+0.008
+
+2006 1V
+
+-0.063
+
+-0.062
+
+0.250
+
+0.267
+
+0.052
+
+0.208
+
+0.007
+
+2011 1V
+
+-0.062
+
+-0.081
+
+0.313
+
+0.342
+
+0.067
+
+0.266
+
+0.009
+
+2016 1V
+
+-0.071
+
+-0.078
+
+0.365
+
+0.356
+
+0.064
+
+0.282
+
+0.009
+
+2021 1V
+
+-0.118
+
+-0.112
+
+0.459
+
+0.416
+
+0.089
+
+0.321
+
+0.007
+
+2026 1V
+
+-0.064
+
+-0.086
+
+0.393
+
+0.374
+
+0.071
+
+0.295
+
+0.009
+
+θ70 = P (70) − P (69). ∆ de los datos: participación de la banda 6069 menos la de 70+. La condición (H) se cumple
+en las seis elecciones calibradas. Fuente: code/verify.py.
+
+los datos va de 0.25 a 0.46, y el modelo la reproduce de cerca. Solo entre el 18 % y el 22 % de la
+brecha que genera el modelo calibrado es efecto de la obligación. El resto es envejecimiento
+dentro de una banda abierta que va de los 70 a más de 100 años. El decaimiento del hábito aporta
+poco (a lo más 0.009): con una persistencia tan alta, el hábito se pierde muy lentamente después de
+la exención.
+6.
+
+Simulaciones
+
+El script code/verify.py es el único punto de entrada y falla si algún resultado no se cumple.
+Comprueba con SymPy la Proposición 1 y la estática comparativa del umbral. Con el modelo de
+code/model.py verica las Proposiciones 2 a 5 sobre sorteos aleatorios de parámetros. La identidad
+de la Proposición 4 se cumple con un error de 10−15 , porque la grilla del hábito reparte la masa
+linealmente y conserva las esperanzas. Lo mismo vale para la de la Proposición 5 con ρ creciente,
+término de resto incluido. También recalcula cada objetivo de la calibración a partir de code/data/,
+comprueba el anidamiento de M0 a M3 y regenera las tablas, las guras y las cifras citadas en el
+texto.
+La comprobación de la Proposición 3 encontró un error en su primera formulación, que pedía solo
+a∗ ≤ 60 y un hábito estacionario. En 7 de 150 sorteos con a∗ ≤ 60, el hábito seguía acumulándose
+entre los 60 y los 70 años y resultaba ∆ < τ 70 . De ahí la hipótesis (H), sobre la participación y
+no sobre b. Una simulación sobre sorteos no prueba una proposición: la verica en una región de
+parámetros y puede encontrarle contraejemplos.
+La Proposición 5 también tuvo una primera formulación incorrecta: decía que la identidad de
+la Proposición 4 valía cambiando ρk por el producto de las persistencias, sin término de resto. Al
+escribir su enunciado para Lean, el coeciente de cada voto pasado resultó depender de la edad de
+quien hoy tiene a o a + 1 años, y la diferencia deja el resto R(a). El script mide el error de la versión
+sin resto, que es justamente R(a) (hasta 7.8 × 10−2 en el ejemplo con ρ1 = 0.4), y comprueba que
+la versión corregida se cumple exactamente.
+
+7
+
+7.
+
+Discusión y limitaciones
+
+Qué supuesto hace el trabajo. El resultado central, que la brecha sobrestima el efecto, viene de
+la Proposición 3 y de su hipótesis (H), que se cumple en la calibración. La magnitud viene de la
+pendiente del perl después de los 70, que la calibración atribuye sobre todo al ciclo de vida y no
+al hábito.
+Limitaciones. (1) El corte transversal mezcla edad y cohorte; los parámetros comunes con un
+nivel por elección lo mitigan, pero no lo resuelven. (2) El modelo es estacionario dentro de cada
+elección: la historia de cada cohorte se calcula con los parámetros de esa elección. (3) El padrón
+incluye fallecidos no depurados, concentrados en los mayores de 70, lo que baja la participación
+medida en ese grupo. (4) Hay otras elecciones obligatorias entre presidenciales (regionales, municipales, referéndums) que también forman hábito y suavizarían los escalones de la Proposición 4.
+(5) El ciudadano es miope. (6) La forma de b no ajusta a los jóvenes, y en el modelo con hábito la
+persistencia queda en su cota superior.
+8.
+
+Conclusión
+
+La brecha de participación entre los grupos de 6069 y de 70 a más años, que es la cifra que
+publica la ONPE, no mide el efecto del voto obligatorio. En el modelo, el efecto causal es el salto τ 70
+en el umbral, que no contiene hábito, y la brecha lo acota por arriba siempre que la participación,
+hábito incluido, no crezca entre los 60 y los 70 años. Que el benecio de votar decrezca no basta. En
+la calibración a seis elecciones presidenciales, el salto explica entre el 18 % y el 22 % de la brecha. El
+resto es envejecimiento dentro de la banda abierta de 70 a más. Para la tesis, el estimando relevante
+es el salto por edad exacta, no la diferencia entre bandas.
+Quedan tres tareas abiertas. Probar los escalones de la Proposición 4 en el perl por edad exacta,
+que es la predicción del hábito que la calibración todavía no usa. Agregar al calendario las elecciones
+regionales, municipales y los referéndums, que también forman hábito. Separar la edad de la cohorte
+con más elecciones.
+Referencias
+
+Yosef Bhatti, Kasper M. Hansen, and Hanna Wass. The relationship between age and turnout: A
+roller-coaster ride. Electoral Studies, 31(3):588593, 2012.
+Gabriel Cepaluni and F. Daniel Hidalgo. Compulsory voting can increase political inequality: Evidence from Brazil. Political Analysis, 24(2):273280, 2016.
+Anthony Downs. An Economic Theory of Democracy. Harper & Row, New York, 1957.
+James H. Fowler. Habitual voting and behavioral turnout. Journal of Politics, 68(2):335344, 2006.
+Mariella Gonzales, Gianmarco León-Ciliotta, and Luis R. Martínez. How eective are monetary
+incentives to vote? Evidence from a nationwide policy. American Economic Journal: Applied
+Economics, 14(1), 2022. Working-paper version: CEPR Discussion Paper 13898.
+Laura Jaitman. The causal eect of compulsory voting laws on turnout: Does skill matter? Journal
+of Economic Behavior & Organization, 92:7993, 2013.
+Costas Panagopoulos. The calculus of voting in compulsory voting systems. Political Behavior, 30
+(4):455467, 2008.
+8
+
+William H. Riker and Peter C. Ordeshook. A theory of the calculus of voting. American Political
+Science Review, 62(1):2542, 1968.
+
+A.
+
+Formalización en Lean
+
+La carpeta lean/ es la carpeta papers/Arriola26TurnoutGap/ que genera el ujo de AppliedModelingLib sobre este documento, jado en el commit [pendiente] de
+paper/paper.pdf. Cada resultado numerado tiene un enunciado transparente (...Spec : Prop)
+en lean/PaperInterface.lean y su prueba en lean/ProofInterface.lean; los lemas auxiliares
+están en lean/MainTheorems.lean.
+Resultado
+
+Declaración (archivo)
+
+Estado
+
+Hipótesis agregada
+
+Lema 1
+
+lemma1_coupling
+
+(ProofIn-
+
+probado
+
+ninguna
+
+(ProofIn-
+
+probado
+
+ninguna
+
+terface)
+
+Proposición 1
+
+prop1_lifecycle
+terface)
+
+Proposición 2
+Proposición 3
+Proposición 4
+Proposición 5
+
+prop2_jump (ProofInterface)
+prop3_bound (ProofInterface)
+prop4_steps (ProofInterface)
+prop5_rising_persistence
+
+probado
+
+la esperanza es un promedio sobre
+una población nita con pesos
+
+probado
+
+ídem
+
+probado
+
+ídem
+
+probado
+
+ídem
+
+(ProofInterface)
+
+Cómo se representa el modelo.
+
+La regla de corte (2) es el indicador 1[ε < umbral]. El hábito
+es cualquier sucesión que cumple h0 = 0 y hj+1 = ρj hj + vj , y la edad en la elección pasada
+j de quien hoy tiene a años es a − (⌊(a − 18)/d⌋ − j)d. Las participaciones P , P1 y P f de la
+Proposición 3 se denen desde esas primitivas, y (H) es una hipótesis sobre ellas, como en el texto.
+La estacionariedad de las Proposiciones 4 y 5 entra como en el texto: la participación media en la
+elección pasada j es P evaluada en la edad de entonces. La unimodalidad de gε se escribe como
+g creciente en (−∞, m] y decreciente en [m, ∞), con G′ = g . La única representación que no está
+en el texto es la de la esperanza: un promedio sobre una población nita de ciudadanos con pesos
+no negativos. Un electorado es nito, pero el texto usa distribuciones continuas para η y los shocks
+pasados. La versión con medidas generales necesita la monotonía de la integral y queda pendiente.
+
+Lo que Lean no verica.
+
+Las cifras de la calibración y de la Sección 6, el contraejemplo a la
+versión de la Proposición 3 con solo a∗ ≤ 60, y la cota del 21 % de la densidad normal. Todo eso lo
+comprueba code/verify.py.
+
+Resultado
+
+del
+
+chequeo. lake build Arriola26TurnoutGap
+
+y
+python3
+scripts/paper_contribution.py check Arriola26TurnoutGap fast terminan sin errores
+(salida en lean/docs/CHECK_FAST_OUTPUT.txt); ninguna prueba usa sorry. La corrida la hizo
+Claude Code con imports estrechos de Mathlib (ver lean/docs/RUN_LOG.md).
+B.
+
+Registro de colaboración con IA
+
+Usé dos modelos: Claude Opus 5.5 en claude.ai para el borrador del tema (Sesión 1 de
+prompts.md), y Claude Code (Claude Opus 5.5) para el repositorio, el código, la calibración y
+9
+
+la formalización en Lean (Sesiones 2 y 3). Los turnos están en prompts.md, al pie de la letra. La
+tabla recoge cada contribución que afectó un resultado.
+Contribución
+
+Qué armó
+
+claude.ai,
+
+Si
+
+S1
+
+t5
+
+z0 ≤ 0, ∂τ /∂s < 0
+
+siempre.
+
+Veredicto y razón
+
+Cómo lo veriqué
+
+= −3, z1 =
+−2, s ∂τ /∂s = +0.095. El
+
+verify.py, sección 1.
+
+Falso. Con z0
+
+enunciado
+
+nal
+
+ya
+
+pedía
+
+z1 > 0.
+Claude
+
+Code,
+
+S2 t1
+
+(iv) con condiciones sobre
+
+Acepto.
+
+los promedios de grupo es
+
+z1 ∈ {3, −1}, z0 = −3:
+s ∂∆/∂s = +0.101. La
+
+falso.
+
+Contraejemplo
+
+SymPy
+
+y
+
+verify.py.
+
+NumPy
+
+en
+
+condición pasa al umbral.
+Claude
+
+Code,
+
+S2 t1
+
+Gonzales et al.: 20 pp entre
+
+Acepto lo citado de sus dia-
+
+69 y 72 años; quitar la mul-
+
+positivas de 2020. El umbral
+
+ta tiene menos de un quin-
+
+de Jaitman no se conrmó
+
+to del efecto.
+
+y quedó como umbrales de
+
+Fuentes primarias.
+
+edad.
+Claude
+
+Code,
+
+S3 t4
+
+∗
+
+≤ 60 y hábito estacionario bastan para ∆ ≥
+τ 70 .
+P3: a
+
+Falso. El hábito sigue acu-
+
+mulándose a los 60. La hi-
+
+7 contraejemplos en 150
+sorteos (verify.py).
+
+pótesis pasa a (H), sobre la
+participación.
+
+Claude
+
+Code,
+
+S3 t4
+
+∗
+
+Parametrizar b por a
+
+y ca-
+
+librar en la ventana 4580.
+
+Acepto, como decisión de-
+
+clarada: sin eso
+
+A y κ se
+
+compensan, y el 60 % del
+
+Robustez
+das
+
+con
+las
+
+toedades
+
+(params_M*_full.json).
+
+desajuste viene de los menores de 45.
+Claude
+
+Code,
+
+S3 t4
+
+La multa no explica el salto
+
+Acepto. q queda en cero en
+
+Tabla 1; θ70 de 2006 fren-
+
+entre elecciones (q ≈ 0).
+
+todos los modelos y especi-
+
+te a 2021.
+
+caciones; coincide con Gonzales et al.
+Claude
+
+Code,
+
+S3 t5
+
+por el
+
+Falso: falta el resto R(a) ≥
+
+verify.py mide el error;
+
+producto de las persisten-
+
+0. Lo encontró la misma se-
+
+Lean
+
+cias.
+
+sión al escribir el enunciado
+
+corregida.
+
+k
+
+P5: basta cambiar ρ
+
+prueba
+
+la
+
+versión
+
+para Lean.
+Claude
+S3 t5
+
+Code,
+
+Las pruebas usan
+
+λ ≥ 0,
+
+S ≥ 0 y, en P4P5, un en-
+
+Acepto.
+
+Pasan
+
+a
+
+los
+
+su-
+
+puestos y a los enunciados.
+
+Revisión de cada paso de
+las pruebas.
+
+torno estacionario, sin declararlos.
+
+La formalización en Lean la hizo Claude Code en mi clon de AppliedModelingLib, no GPT-5.6
+Sol como pide el issue; lo declaro aquí, en prompts.md y en lean/docs/RUN_LOG.md.
+
+10
+
+
