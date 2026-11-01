@@ -654,3 +654,29 @@ coincide con lo que ya dice el paper en la Discusión.
 **Qué hice con ello:** corregí la slide del ajuste. Ahora dice que después de los 70 los dos modelos
 ajustan igual y que el hábito gana entre los 45 y los 59 años. La pregunta 3 para la clase (qué
 separa el hábito de un β alto) queda mejor justificada.
+
+### Turno 7 — 31-oct-2026
+
+**Prompt**
+
+```text
+Hay alguna proposición que calcule como cambia la particiapción ante cambios en la heterogeneidad?
+```
+
+**Respuesta (resumen):** sí, (d) y (iv) de la propuesta: ∂τ⁷⁰/∂s < 0 y ∂Δ/∂s < 0 con densidad
+simétrica y la condición en el umbral P₀(70) ≤ 50% < P₁(70). En el paper solo se mencionan como
+condicionales en (η, h₇₀), sin número; `verify.py` los comprueba y Lean no los tiene. Advirtió que en
+el modelo calibrado P₀(70) ≈ 0.78 en 2016, así que la condición falla y el signo puede invertirse.
+Propuso tres opciones: (1) declararlo como abierto, (2) una Proposición 6 con hábito para el paper o
+(3) simular la sensibilidad a ω.
+
+### Turno 8 — 31-oct-2026
+
+**Prompt**
+
+```text
+Vamos como 1
+```
+
+**Respuesta (resumen):** agregó una línea en la columna "Abierto" de la slide 29: la heterogeneidad,
+(d) y (iv), pide P₀(70) ≤ 50%, que falla en la calibración, así que el signo de ∂τ⁷⁰/∂s queda abierto.
