@@ -31,7 +31,7 @@ exacta) y P5 (persistencia creciente: la identidad gana un resto $R(a)\ge0$).
 | Componente | Estado |
 |---|---|
 | Tema (`proposal/`, `slides/topic.*`) | Presentado el 7-oct-2026 |
-| Slides finales (`slides/final.*`) | Listas para el miércoles 4-nov-2026 (08:20); falta la foto de la derivación a mano |
+| Slides finales (`slides/final.*`) | 42 slides (unos 36 min) para el miércoles 4-nov-2026 (08:20): el modelo se arma en seis pasos, con gráficos de `code/slide_figures.py`; falta la foto de la derivación a mano |
 | Paper (`paper/`) | Borrador completo (modelo, pruebas, calibración, apéndices); versión final el 26-nov |
 | Simulaciones (`python3 code/verify.py`) | Comprueba P1–P5, los contraejemplos y reproduce la calibración |
 | Calibración (`code/calibrate.py`) | Modelos M0–M3 en `code/output/`; datos agregados en `code/data/` |
@@ -46,7 +46,8 @@ y multa media) derivados de los resultados de la tesis; no hay microdatos en est
 
 ```bash
 python3 -m pip install -r code/requirements.txt
-python3 code/verify.py            # checks + tablas, figuras y cifras del texto (~1 min)
+python3 code/verify.py            # checks + tablas, figuras y cifras del texto (~3 min)
+python3 code/slide_figures.py     # solo las figuras de las slides (verify.py ya lo llama)
 python3 code/calibrate.py         # recalibra M0-M3 (lento); --full para la robustez
 cd paper  && latexmk -pdf paper.tex
 cd slides && latexmk -pdf final.tex

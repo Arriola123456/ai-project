@@ -609,3 +609,48 @@ Las pruebas también usaban, sin declararlos, λ ≥ 0, S ≥ 0 y, en P4–P5, u
 (Supuesto 3, la definición de S y el párrafo antes de P4). Agregué el Lema 1 (acoplamiento), que
 usan P2 y P3, y completé la prueba de P3. Lean lo corre Claude Code, no GPT-5.6 Sol, como en los
 repositorios 5 y 6.
+
+### Turno 6 — 31-oct-2026
+
+**Prompt** (antes hice una pregunta lateral con `/btw`, que se respondió en un hilo aparte:
+"Que es lo que exactamente se presenta este miercoles? Dame una lista")
+
+```text
+Ten en cuenta que la presentación dura como 45 minutos, por favor haz la presentación más intuitiva y que vaya paso a paso en la construcción del modelo, esto puede incrementar el número de slides, no hay problema con eso, maximiza el entendimiento por slide y construye gráficos de ser necesario así como lo hicimos para el topic presentation. Cuando termines la presentación, recuerdame todo lo necesario a ser presentado este miercoles y que falta. +ultrathink
+```
+
+**Respuesta (resumen):**
+
+- Releyó el issue #7. El bloque dura 45 minutos con la discusión incluida ("plan about 30 minutes of
+  talk"). Armó el deck para unos 36 minutos y marcó como [opcional] cuatro slides que se pueden saltar
+  (sin ellas, unos 34 minutos).
+- Rehízo `slides/final.tex`: 42 slides y 2 de respaldo, en el orden de los 8 puntos del issue. El
+  modelo se arma en seis pasos (corte, obligación, costo, ciclo de vida, hábito, calendario). Cada
+  slide muestra arriba la regla de decisión acumulada y al pie una idea en una línea. Una barra al
+  pie indica en qué parte de la presentación se está.
+- Agregó `code/slide_figures.py`, con 12 figuras:
+  - el perfil por edad exacta y el ciclo de vida;
+  - el perfil sin hábito y dos trayectorias de hábito;
+  - el Lema 1;
+  - los dos objetos y la descomposición de P3 en el modelo calibrado;
+  - los escalones de P4 y la persistencia creciente de P5;
+  - la descomposición por elección;
+  - el contraejemplo de P3;
+  - la multa contra θ₇₀.
+
+  Las figuras de mecánica usan parámetros ilustrativos y lo dicen; las de resultados usan el modelo
+  calibrado. `verify.py` llama al script al final, y las cifras que citan las slides salen de
+  `code/output/slide_numbers.tex`.
+- La foto de la derivación a mano entra sola en la slide si se guarda como
+  `hand/05-proposicion-5-resto.jpg`.
+
+**Verificación (residuos por tramo de edad).** Al redactar la slide del ajuste, el modelo escribió
+que, sin hábito, el modelo no logra la caída rápida después de los 70 y con hábito sí. Lo comprobó
+con los residuos al cuadrado por tramo de edad (`fit_M1.csv` contra `fit_M2.csv`): **es falso.**
+Entre los 70 y los 80 años los dos modelos ajustan casi igual (567 contra 571). La mejora del hábito
+está entre los 45 y los 59 años (563 → 446). Sin hábito, la caída tras los 70 la hace β = 2.22. Esto
+coincide con lo que ya dice el paper en la Discusión.
+
+**Qué hice con ello:** corregí la slide del ajuste. Ahora dice que después de los 70 los dos modelos
+ajustan igual y que el hábito gana entre los 45 y los 59 años. La pregunta 3 para la clase (qué
+separa el hábito de un β alto) queda mejor justificada.

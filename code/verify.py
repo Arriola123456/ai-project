@@ -8,7 +8,8 @@ Exits with an error (SystemExit) as soon as a claim does not hold.
   2. Numerical (model.py): Propositions 2-5 with the AR(1) habit.
   3. Calibration: reloads code/output/params_M*.json, recomputes each
      objective from code/data/, checks the nesting M0 >= M1 >= M2 >= M3 and
-     redraws the figures used in the paper and the slides.
+     redraws the figures used in the paper and the slides (the slide-only
+     figures come from code/slide_figures.py).
 """
 import json
 from pathlib import Path
@@ -332,5 +333,11 @@ if "main" in done:
     check(share.max() < 0.5, f"the causal jump is less than half of the model gap in every election "
           f"({100 * share.min():.0f}-{100 * share.max():.0f}%)")
     print(dec.drop(columns="tag").round(3).assign(tag=dec.tag).to_string(index=False))
+
+    # --- figures and numbers of the final presentation ------------------------
+    import slide_figures  # noqa: E402
+    nums = slide_figures.main()
+    check(float(nums["cxDelta"]) < float(nums["cxTau"]),
+          f"slides: P3 counterexample with a* = {nums['cxPeak']} has Delta = {nums['cxDelta']} < tau70 = {nums['cxTau']}")
 
 print("OK: every check passed")
