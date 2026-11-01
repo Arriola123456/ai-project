@@ -1,4 +1,5 @@
 % Final presentation -- work in progress, presented for critique (30 min + discussion).
+% Slot moved to Wednesday, November 4, 2026, 08:20.
 % No animations and no screenshots of papers: equations are typeset in LaTeX.
 \documentclass[aspectratio=169,11pt,xcolor=table]{beamer}
 
@@ -35,6 +36,9 @@
 \newunicodechar{μ}{\ensuremath{\mu}}      \newunicodechar{∑}{\ensuremath{\sum}}
 \newunicodechar{₀}{\ensuremath{_0}}       \newunicodechar{₁}{\ensuremath{_1}}
 \newunicodechar{⁻}{\ensuremath{^{-}}}     \newunicodechar{¹}{\ensuremath{^{1}}}
+\newunicodechar{Δ}{\ensuremath{\Delta}}   \newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{θ}{\ensuremath{\theta}}   \newunicodechar{∏}{\ensuremath{\prod}}
+\newunicodechar{·}{\ensuremath{\cdot}}
 
 % ---------------- Estilo (el de la tesis) ----------------
 \definecolor{upblue}{HTML}{1E3A8A}
@@ -78,7 +82,7 @@
 \title{La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio}
 \subtitle{Ciclo de vida, hábito y una calibración con datos de la ONPE}
 \author{Manuel Alfredo Arriola Montenegro}
-\date{30 de octubre de 2026}
+\date{4 de noviembre de 2026}
 
 \begin{document}
 
@@ -92,7 +96,7 @@
     {\color{upgray}\large \insertsubtitle}\\[0.5cm]
     {\small\textbf{Manuel Alfredo Arriola Montenegro}}\\[0.2cm]
     {\small Presentación final (trabajo en progreso) \;\textbar\; Track B: modelo de tesis}\\[0.15cm]
-    {\footnotesize\color{upgray} Inteligencia Artificial y Modelamiento Económico \;\textbar\; Lima, 30 de octubre de 2026}\\[0.25cm]
+    {\footnotesize\color{upgray} Inteligencia Artificial y Modelamiento Económico \;\textbar\; Lima, 4 de noviembre de 2026}\\[0.25cm]
     {\small\color{upaccent}\href{https://github.com/Arriola123456/ai-project}{\texttt{github.com/Arriola123456/ai-project}}}
   \end{center}
 \end{frame}
@@ -149,7 +153,8 @@
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
       \begin{block}{Efecto causal en el umbral}
-        \[ \tau^{70}=\E\bigl[G(\bar c+S)-G(\bar c)\bigr],\quad \bar c=b(70)+\lambda h_{70}-\mu-\eta \]
+        \[ \tau^{70}=\E\bigl[G(\bar c+S)-G(\bar c)\bigr],\]
+        \[ \bar c=b(70)+\lambda h_{70}-\mu-\eta \]
         \footnotesize Los mismos ciudadanos a los 70, \textbf{con su hábito acumulado}, con y sin obligación.
       \end{block}
     \end{column}
@@ -180,29 +185,44 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{3. Proposiciones 2 y 3: el salto y la cota}
+\begin{frame}{3. Lema 1 y Proposición 2: el salto}
+  \begin{block}{Lema 1: acoplamiento \quad ($\lambda\ge0$, $S\ge0$, $\rho\ge0$)}
+    Con los mismos shocks, si $0\le\lambda\le\lambda'$ y los umbrales $\theta_j\le\theta'_j$ en cada elección,
+    las trayectorias de hábito quedan ordenadas, $0\le h_j\le h'_j$, y quien vota en el primer entorno vota en el segundo.
+  \end{block}
   \begin{block}{Proposición 2: el salto no contiene hábito}
-    A los 70 el hábito se acumuló bajo obligación. Si $g$ es unimodal y $\bar c$ está sobre la moda,
+    A los 70 el hábito se acumuló bajo obligación. Si $g$ es unimodal con moda $m$ y $\bar c\ge m$ en todo el soporte,
     $\tau^{70}$ es \textbf{no creciente en $\lambda$}: el hábito atenúa el salto.
   \end{block}
-  \begin{block}{Proposición 3: la brecha es una cota superior}
-    Bajo \textbf{(H)}: la participación con obligación es no creciente en $[60,70]$, y la de los mayores
-    de 70 con historia obligada, no creciente en $[70,\infty)$. Entonces
-    \[ \Delta=\tau^{70}+\underbrace{\text{envejecimiento}}_{\ge 0}+\underbrace{\text{decaimiento del hábito}}_{\ge 0}\;\ge\;\tau^{70}. \]
+  {\small Prueba: el Lema 1 sube $\bar c$; $G$ es cóncava sobre la moda, así que $G(x+S)-G(x)$ baja.}
+\end{frame}
+
+\begin{frame}{3. Proposición 3: la brecha es una cota superior}
+  \begin{block}{Proposición 3 \quad (Supuestos 1--4, $\lambda\ge0$, $S\ge0$)}
+    $P_1(a)$: participación si hoy fuera obligatoria; $P^f(a)$, $a\ge70$: con todas las elecciones pasadas obligadas.
+    Bajo \textbf{(H)}: $P_1$ no creciente en $[60,70]$ y $P^f$ no creciente en $[70,\infty)$,
+    \begin{gather*}
+      \Delta=\tau^{70}+\mathcal{E}+\mathcal{D}\;\ge\;\tau^{70},\\
+      \mathcal{E}=[\bar P_{60\text{--}69}-P_1(70)]+[P^f(70)-\bar P^f_{70+}]\ge0,\qquad
+      \mathcal{D}=\bar P^f_{70+}-\bar P_{70+}\ge0 .
+    \end{gather*}
   \end{block}
-  {\small (H) es sobre el índice \textbf{total} $b(a)+\lambda h$. Con $a^*\le 60$ y nada más hay contraejemplos (punto 7).}
+  \begin{itemize}\setlength{\itemsep}{0.4em}
+    \item $\mathcal{E}$ es envejecimiento dentro de cada banda; $\mathcal{D}$, el decaimiento del hábito tras la exención (Lema 1).
+    \item (H) es sobre el índice \textbf{total} $b(a)+\lambda h$. Con $a^*\le 60$ y nada más hay contraejemplos (punto 7).
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{3. Proposiciones 4 y 5: la huella del hábito}
-  \begin{block}{Proposición 4: escalones cada $d$ años (identidad exacta)}
-    Con $H(a)=\E[h]$ a la edad $a$ y $a+1-18$ no múltiplo de $d$:
+  {\small Entorno estacionario ($\mu_t=\mu$, $S_t=S$): la participación a la edad $x$ en una elección pasada es la misma $P(x)$.}
+  \begin{block}{Proposición 4: escalones cada $d$ años ($\rho$ constante, identidad exacta)}
+    $H(a)=\E[h]=\sum_{k\ge0}\rho^{k}P(a-(k+1)d)$ y, si $a+1-18$ no es múltiplo de $d$,
     \[ H(a+1)-H(a)=\sum_{k\ge0}\rho^{k}\bigl[P(a+1-(k+1)d)-P(a-(k+1)d)\bigr]. \]
     \footnotesize Entre 74 y 75 el término $k=0$ es $P(70)-P(69)$: \textbf{el salto vuelve como un escalón}.
-    Entre 73 y 74 solo hay diferencias de un año.
   \end{block}
-  \begin{block}{Proposición 5: persistencia creciente, $\rho'(a)>0$}
-    La identidad vale con productos de $\rho$. Mismo primer escalón; los siguientes decaen \textbf{más lento}.
-    Pero el hábito estacionario $P/(1-\rho(a))$ crece antes de los 70, lo que \alert{puede romper (H)}.
+  \begin{block}{Proposición 5: persistencia creciente, $\rho'(a)\ge0$, $\Pi_k(a)=\prod_{j=1}^{k}\rho(a-jd)$}
+    \[ H(a+1)-H(a)=\sum_{k\ge0}\Pi_k(a+1)\bigl[P(a+1-(k+1)d)-P(a-(k+1)d)\bigr]+\alert{R(a)},\quad R(a)\ge0 . \]
+    \footnotesize El salto entra en el escalón de $70+(k+1)d$ con peso $\ge\rho(70)^k$: se propaga \textbf{más} que con $\rho$ constante.
   \end{block}
 \end{frame}
 
@@ -212,23 +232,24 @@
     \begin{column}{0.32\textwidth}
       {\color{upblue}\bfseries Hecho}
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
-        \item P1: prueba completa.
-        \item P4: identidad exacta por linealidad de la esperanza del AR(1).
+        \item Pruebas completas de P1--P5 y del Lema 1, \textbf{también en Lean}, sin \texttt{sorry}.
         \item P2, P3: por acoplamiento (mismos shocks, trayectorias ordenadas).
+        \item P4, P5: forma cerrada del AR(1) por linealidad de la esperanza.
       \end{itemize}
     \end{column}
     \begin{column}{0.32\textwidth}
       {\color{upred}\bfseries Lo difícil}
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
-        \item Encontrar la hipótesis correcta de P3: con hábito, ``$b$ decreciente'' no alcanza.
-        \item Con elecciones cada 5 años y $\rho$ alto, el hábito no es estacionario a los 60.
+        \item La hipótesis correcta de P3: con hábito, ``$b$ decreciente'' no alcanza.
+        \item Los supuestos que las pruebas usaban sin decirlo: $\lambda\ge0$, $S\ge0$ y la estacionariedad de P4--P5.
+        \item El resto $R(a)$ de P5, que apareció al escribirla en Lean.
       \end{itemize}
     \end{column}
     \begin{column}{0.32\textwidth}
       {\color{upgray}\bfseries Abierto}
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
         \item Una condición sobre primitivas que implique (H).
-        \item P5 sin linealizar.
+        \item P4--P5 con $\mu_t$ y $S_t$ que cambian entre elecciones.
         \item Versión con votante que mira hacia adelante.
       \end{itemize}
     \end{column}
@@ -279,8 +300,8 @@
       {\color{upblue}\bfseries \texttt{code/verify.py} verifica}
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
         \item P1 y (a)--(d) con SymPy.
-        \item P2--P5 con el modelo: P4 al error de máquina ($10^{-15}$).
-        \item Contraejemplos: (iv) con promedios, turno 5 de claude.ai y P3 sin (H).
+        \item P2--P5 con el modelo: las identidades de P4 y P5 al error de máquina.
+        \item Contraejemplos: (iv) con promedios, turno 5 de claude.ai, P3 sin (H) y P5 sin $R(a)$.
         \item La calibración se reproduce desde \texttt{code/data/} y respeta el anidamiento.
       \end{itemize}
     \end{column}
@@ -296,19 +317,55 @@
 \end{frame}
 
 % ===== 6. Lean =====
-\begin{frame}[fragile]{6. Lean: qué está verificado}
-  \textbf{En el paper.} \pending{enunciado de la proposición formalizada}
+\begin{frame}[fragile]{6. Lean: la Proposición 3, del paper a Lean}
+  \small\textbf{En el paper.} Bajo (H), $\Delta=\tau^{70}+\mathcal{E}+\mathcal{D}$ con $\mathcal{E}\ge0$ y $\mathcal{D}\ge0$, así que $\Delta\ge\tau^{70}$.
 
-  \medskip
-  \textbf{En Lean.} \pending{enunciado y fragmento de prueba de la corrida de AppliedModelingLib}
+  \textbf{En Lean} (\texttt{lean/PaperInterface.lean}). $P$, $P_1$ y $P^f$ se definen desde las primitivas: la regla de corte,
+  la recursión del hábito con las edades $a-(n-j)d$ y una población finita con pesos.
+{\footnotesize
+\begin{verbatim}
+  (∀ a a', 60 ≤ a → a ≤ a' → a' ≤ 70 → P1 a' ≤ P1 a) →   -- (H), parte 1
+  (∀ a a', 70 ≤ a → a ≤ a' → Pf a' ≤ Pf a) →              -- (H), parte 2
+  Δ = τ + E + D ∧ 0 ≤ E ∧ 0 ≤ D ∧ τ ≤ Δ
+\end{verbatim}}
+  \textbf{El paso clave} (\texttt{lean/ProofInterface.lean}): la historia obligada domina a la observada.
+{\footnotesize
+\begin{verbatim}
+  obtain ⟨-, hle, -⟩ := lemma1_coupling (fun j => ρ (age a j))
+    (fun j => base ω (age a j) + O (age a j) * S)   -- observada
+    (fun j => base ω (age a j) + S)                 -- obligada
+    (ε ω a) lam lam (hobs ω a) (hcomp ω a) ...
+\end{verbatim}}
+  \textbf{Qué verifica Lean.} El enunciado del paper, con sus mismas hipótesis: (H), $\lambda\ge0$, $S\ge0$, $\rho\ge0$, $G$ creciente.
+  Lo único que agrega es representar la esperanza como un promedio sobre una población finita.
+\end{frame}
 
-  \medskip
-  \textbf{Qué verifica Lean.} \pending{el enunciado exacto o bajo una hipótesis agregada; resultado de \texttt{check --fast}}
+\begin{frame}{6. Lean: el estado de cada resultado}
+  \centering\small
+  \begin{tabular}{llll}
+    \toprule
+    Resultado & Declaración en Lean & Estado & Qué se agrega \\
+    \midrule
+    Lema 1 & \texttt{lemma1\_coupling} & probado & -- \\
+    Proposición 1 & \texttt{prop1\_lifecycle} & probado & -- \\
+    Proposición 2 & \texttt{prop2\_jump} & probado & población finita \\
+    Proposición 3 & \texttt{prop3\_bound} & probado & población finita \\
+    Proposición 4 & \texttt{prop4\_steps} & probado & población finita \\
+    Proposición 5 & \texttt{prop5\_rising\_persistence} & probado & población finita \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.4cm}\raggedright
+  \begin{itemize}\setlength{\itemsep}{0.4em}
+    \item \IfFileExists{../lean/docs/CHECK_FAST_OUTPUT.txt}{\texttt{lake build} y \texttt{check --fast} sin errores; ningún \texttt{sorry}.}{\pending{resultado de \texttt{check --fast}}}
+    \item La estacionariedad de P4--P5 no es una hipótesis agregada: está en el paper como supuesto.
+    \item Corrida de AppliedModelingLib hecha por Claude Code, no por GPT-5.6 Sol (declarado en \texttt{prompts.md}).
+  \end{itemize}
 \end{frame}
 
 % ===== 7. Dónde no le creí a la IA =====
-\begin{frame}{7. Dónde no le creí a la IA}
-  \begin{block}{Lo que afirmó el modelo (Claude, al plantear P3)}
+\begin{frame}{7. Dónde no le creí a la IA (1): la hipótesis de P3}
+  \begin{block}{Lo que afirmó el modelo (Claude Code, al plantear P3)}
     ``Si $a^*\le 60$ y el hábito es estacionario bajo obligación, entonces $\Delta\ge\tau^{70}$.''
   \end{block}
   \begin{itemize}\setlength{\itemsep}{0.5em}
@@ -317,7 +374,24 @@
     \item \textbf{Corrección}: la hipótesis (H) se pone sobre la participación, no sobre $b$.
     \item Antes ya habían caído (iv) con promedios por grupo y el turno 5 de la sesión de claude.ai.
   \end{itemize}
-  \pending{derivación a mano en pantalla (foto de \texttt{hand/})}
+\end{frame}
+
+\begin{frame}{7. Dónde no le creí a la IA (2): el resto de P5}
+  \begin{block}{Lo que afirmó el modelo (primer borrador de P5)}
+    ``Con $\rho$ creciente, la identidad de P4 vale reemplazando $\rho^k$ por el producto de las persistencias.''
+  \end{block}
+  \small A mano, con $\Pi_k(a)=\prod_{j=1}^{k}\rho(a-jd)$ y $H(a)=\sum_k\Pi_k(a)P(a-(k+1)d)$:
+  {\footnotesize
+  \begin{align*}
+    H(a+1)-H(a)&=\textstyle\sum_k\bigl[\Pi_k(a+1)P(a+1-(k+1)d)-\Pi_k(a)P(a-(k+1)d)\bigr]\\
+    &=\textstyle\sum_k\Pi_k(a+1)\bigl[P(a+1-(k+1)d)-P(a-(k+1)d)\bigr]+R(a),\\
+    R(a)&=\textstyle\sum_k\bigl[\Pi_k(a+1)-\Pi_k(a)\bigr]P(a-(k+1)d)\;\ge\;0\quad\text{si }\rho'\ge0 .
+  \end{align*}}
+  \begin{itemize}\setlength{\itemsep}{0.2em}
+    \item \textbf{Veredicto: falso.} Los coeficientes dependen de la edad de hoy, $a$ o $a+1$. Sin $R(a)$, el error llega a $\PfiveNaiveErr$ (\texttt{verify.py}).
+    \item Salió al escribir el enunciado para Lean, que ahora prueba la versión con $R(a)$.
+  \end{itemize}
+  \pending{foto de la derivación a mano (\texttt{hand/})}
 \end{frame}
 
 % ===== 8. Preguntas =====
@@ -327,8 +401,6 @@
     \item Las edades menores de 45 varían entre elecciones de forma que ningún ciclo de vida captura. ¿Es legítimo calibrar solo la ventana 45--80, o eso es elegir los momentos a conveniencia?
     \item ¿Qué contraste empírico separa el hábito de un $\beta$ alto: los escalones de la Proposición 4, o algo más?
   \end{enumerate}
-  \vspace{0.2cm}
-  \pending{revisar y ajustar estas preguntas}
 \end{frame}
 
 {

@@ -27,6 +27,7 @@
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\1}{\mathbbm{1}}
 \IfFileExists{../code/output/numbers.tex}{\input{../code/output/numbers.tex}}{}
+\providecommand{\leanPaperCommit}{[pendiente]}
 
 \title{La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio:\\
 \large ciclo de vida, hábito y una calibración con datos de la ONPE}
@@ -77,7 +78,8 @@ años. La versión que solo pide un beneficio decreciente es falsa cuando el há
 acumulando: el contraejemplo está en la Sección~\ref{sec:sim}. \emph{Tercero}, el hábito deja una
 huella exacta: un escalón en el hábito medio cada cinco años por encima de los 70, igual al salto
 en el umbral más diferencias de un año de edad (Proposición~\ref{prop:steps}). Con persistencia
-creciente en la edad, ese escalón decae más lento (Proposición~\ref{prop:rho}). \emph{Cuarto},
+creciente en la edad, la identidad gana un término de resto no negativo y el salto se propaga con
+más fuerza a los escalones siguientes (Proposición~\ref{prop:rho}). \emph{Cuarto},
 calibro el modelo a los perfiles por edad exacta que estima la tesis para seis elecciones
 presidenciales.
 
@@ -106,8 +108,8 @@ $v_{it}\in\{0,1\}$:
   \max_{v\in\{0,1\}}\; v\bigl[b(a)+\lambda h_{it}-c_{it}\bigr]+(1-v)\bigl[-O_a S_t\bigr],
   \qquad O_a=\1[a<70],
 \end{equation}
-donde $S_t=s_0+qF_t$ es la sanción esperada: una parte no monetaria $s_0$ y la multa $F_t$, en
-porcentaje de la UIT, ponderada por $q$.
+donde $S_t=s_0+qF_t\ge0$ es la sanción esperada: una parte no monetaria $s_0\ge0$ y la multa
+$F_t\ge0$, en porcentaje de la UIT, ponderada por $q\ge0$.
 
 \begin{assumption}[Beneficio por edad]\label{as:benefit}
 $b(a)=A a^{\alpha}-\kappa a^{\beta}$, con $A,\kappa>0$, $0<\alpha<1$ y $\beta\ge 1$.
@@ -120,8 +122,8 @@ $G_\varepsilon$ de densidad $g_\varepsilon>0$, igual a toda edad.
 \end{assumption}
 
 \begin{assumption}[Hábito]\label{as:habit}
-$h_{i,t+1}=\rho(a_{it})\,h_{it}+v_{it}$, con $h=0$ antes de la primera elección y
-$\rho:\mathbb{R}_+\to[0,1)$.
+$h_{i,t+1}=\rho(a_{it})\,h_{it}+v_{it}$, con $h=0$ antes de la primera elección,
+$\rho:\mathbb{R}_+\to[0,1)$ y un peso del hábito en el beneficio $\lambda\ge0$.
 \end{assumption}
 
 \begin{assumption}[Miopía]\label{as:myopic}
@@ -169,80 +171,136 @@ $b'(a)=A\alpha a^{\alpha-1}-\kappa\to-\kappa$, porque $\alpha<1$. Con $\beta>1$,
 $-\kappa\beta a^{\beta-1}$ domina y $b'(a)\to-\infty$.
 \end{proof}
 
+Las Proposiciones~\ref{prop:jump} y~\ref{prop:bound} comparan trayectorias de hábito de un mismo
+ciudadano bajo dos entornos. Sea $\theta_j=b(a_j)+O_{a_j}S_j-\mu_j-\eta_i$ el umbral de la
+elección $j$, sin el hábito, para un ciudadano que en ella tiene edad $a_j$.
+
+\begin{lemma}[Acoplamiento del hábito]\label{lem:coupling}
+Fije $\eta_i$ y los shocks $(\varepsilon_{i1},\varepsilon_{i2},\dots)$ de un ciudadano, y sean
+$(h_j)$ y $(h'_j)$ sus trayectorias de hábito en dos entornos con $0\le\lambda\le\lambda'$ y
+$\theta_j\le\theta'_j$ en cada elección $j$. Entonces $0\le h_j\le h'_j$ para todo $j$, y si el
+ciudadano vota en $j$ en el primer entorno, también vota en el segundo.
+\end{lemma}
+
+\begin{proof}
+Por inducción en $j$. Las dos trayectorias empiezan en $0$. Si $0\le h_j\le h'_j$, entonces
+$\theta_j+\lambda h_j\le\theta'_j+\lambda'h'_j$, porque $\lambda h_j\le\lambda'h_j\le\lambda'h'_j$.
+Por la regla de corte \eqref{eq:cutoff}, $v_j\le v'_j$. Como $\rho(a_j)\ge0$,
+$0\le h_{j+1}=\rho(a_j)h_j+v_j\le\rho(a_j)h'_j+v'_j=h'_{j+1}$.
+\end{proof}
+
 \begin{proposition}[El salto no contiene hábito]\label{prop:jump}
 Bajo los Supuestos~\ref{as:benefit}--\ref{as:myopic}, el hábito de quien tiene 70 años se acumuló
 bajo obligación, y $\tau^{70}$ en \eqref{eq:tau} es la masa de cumplidores condicional en ese
-hábito. Si $g_\varepsilon$ es unimodal y $\bar c$ está por encima de su moda en todo el soporte de
+hábito. Si $g_\varepsilon$ es unimodal con moda $m$ y $\bar c\ge m$ en todo el soporte de
 $(\eta,h_{70})$, entonces $\tau^{70}$ es no creciente en $\lambda$: el hábito atenúa el salto.
 \end{proposition}
 
 \begin{proof}
-Dado $(\eta,h)$, $\tau(\bar c)=G_\varepsilon(\bar c+S)-G_\varepsilon(\bar c)$ tiene derivada
-$g_\varepsilon(\bar c+S)-g_\varepsilon(\bar c)\le0$ cuando $\bar c$ está por encima de la moda.
-Subir $\lambda$ sube $\bar c$ por dos vías. La directa es $\lambda h$ con $h\ge0$. La indirecta:
-en cada elección pasada, la probabilidad de votar dada $h$ crece en $\lambda$, y $h'=\rho h+v$ es
-creciente en $(h,v)$. Con los mismos shocks, la trayectoria de $h$ es punto a punto mayor, así
-que $h_{70}$ crece en el orden estocástico. Las dos vías bajan $\tau$.
+Las elecciones pasadas de quien tiene 70 años ocurrieron a los $70-d,70-2d,\dots$, todas con
+$O_a=1$. Fije $(\eta,\varepsilon)$ y sea $\lambda\le\lambda'$. Por el Lema~\ref{lem:coupling},
+con los mismos umbrales, $h'_{70}\ge h_{70}\ge0$, así que
+$\bar c'=b(70)+\lambda'h'_{70}-\mu-\eta\ge\bar c\ge m$. Como $g_\varepsilon$ es no creciente en
+$[m,\infty)$, $G_\varepsilon$ es cóncava ahí, y $x\mapsto G_\varepsilon(x+S)-G_\varepsilon(x)$ es no
+creciente en $[m,\infty)$ porque $S\ge0$. Entonces el $\tau$ de ese ciudadano es menor con
+$\lambda'$, y la esperanza conserva la desigualdad.
 \end{proof}
 
 \begin{proposition}[La brecha es una cota superior]\label{prop:bound}
-Bajo los Supuestos~\ref{as:benefit}--\ref{as:myopic}, suponga \textbf{(H)}: la participación bajo
-obligación es no creciente en $[60,70]$, y la participación de los mayores de 70 con historia
-obligada y sin obligación en la elección actual es no creciente en $[70,\infty)$. Entonces
+Bajo los Supuestos~\ref{as:benefit}--\ref{as:myopic}, sea $P_1(a)$ la participación a la edad $a$ si
+la elección actual fuera obligatoria para esa edad, de modo que $P_1(a)=P(a)$ si $a<70$. Para
+$a\ge70$, sea $P^f(a)$ la participación de esos mismos ciudadanos si hubieran estado obligados en
+todas las elecciones anteriores y libres en la actual. Suponga \textbf{(H)}: $P_1$ es no creciente
+en $[60,70]$ y $P^f$ es no creciente en $[70,\infty)$. Entonces
 \[
-  \Delta=\tau^{70}+\underbrace{\text{envejecimiento}}_{\ge0}+\underbrace{\text{decaimiento del hábito}}_{\ge0}
-  \;\ge\;\tau^{70}.
+  \Delta=\tau^{70}+\mathcal{E}+\mathcal{D}\;\ge\;\tau^{70},
 \]
-La condición (H) no se sigue de $a^*\le60$: si el hábito todavía se acumula entre los 60 y los 70
-años, $b(a)+\lambda\E[h_a]$ puede crecer aunque $b$ decrezca.
+donde el \emph{envejecimiento} $\mathcal{E}=[\bar P_{60\text{--}69}-P_1(70)]+[P^f(70)-\bar
+P^f_{70+}]\ge0$ y el \emph{decaimiento del hábito} $\mathcal{D}=\bar P^f_{70+}-\bar P_{70+}\ge0$,
+y las barras son promedios ponderados por electores dentro de cada grupo. La condición (H) no se
+sigue de $a^*\le60$: si el hábito todavía se acumula entre los 60 y los 70 años,
+$b(a)+\lambda\E[h_a]$ puede crecer aunque $b$ decrezca.
 \end{proposition}
 
-\begin{proof}[Esbozo]
-Sea $P^{f}(a)$ la participación de los mayores de 70 si hubieran estado obligados en todas las
-elecciones anteriores. Entonces
-$\Delta=[\bar P_{60\text{--}69}-\bar P^f_{70+}]+[\bar P^f_{70+}-\bar P_{70+}]$. Por (H),
-$\bar P_{60\text{--}69}\ge P_1(70)$ y $\bar P^f_{70+}\le P^f(70)=P_0(70)$, así que el primer
-corchete es al menos $P_1(70)-P_0(70)=\tau^{70}$. El segundo es no negativo por el mismo
-acoplamiento de la Proposición~\ref{prop:jump}: con obligación la probabilidad de votar es mayor
-dado $h$, así que el hábito acumulado con historia obligada domina al de la historia voluntaria.
-Los contraejemplos a la versión con solo $a^*\le60$ se reportan en la Sección~\ref{sec:sim}.
+\begin{proof}
+A los 70 años todas las elecciones pasadas fueron obligatorias, así que $P^f(70)=P(70)$ y, por
+\eqref{eq:tau}, $\tau^{70}=P_1(70)-P(70)=P_1(70)-P^f(70)$. Con eso,
+$\tau^{70}+\mathcal{E}+\mathcal{D}=\bar P_{60\text{--}69}-\bar P_{70+}=\Delta$. Por (H),
+$P_1(a)\ge P_1(70)$ para $a\in[60,70)$ y $P^f(a)\le P^f(70)$ para $a\ge70$; como los pesos son no
+negativos y suman uno, los dos corchetes de $\mathcal{E}$ son no negativos. Para $\mathcal{D}$,
+fije un ciudadano de edad $a\ge70$ y sus shocks. Su historia obligada tiene umbrales
+$\theta_j+(1-O_{a_j})S_j\ge\theta_j$, porque $S_j\ge0$. Por el Lema~\ref{lem:coupling}, su hábito
+actual es mayor con la historia obligada, y como hoy no está obligado en ninguno de los dos
+casos y $\lambda\ge0$, si vota con la historia observada también vota con la obligada. Promediando,
+$P^f(a)\ge P(a)$ para cada $a\ge70$, y $\mathcal{D}\ge0$. Los contraejemplos a la versión con solo
+$a^*\le60$ se reportan en la Sección~\ref{sec:sim}.
 \end{proof}
 
+Las Proposiciones~\ref{prop:steps} y~\ref{prop:rho} necesitan un supuesto más, que la calibración
+ya usa: el \textbf{entorno es estacionario}, con $\mu_t=\mu$ y $S_t=S$ en la elección actual y en
+todas las anteriores. Así, la participación a la edad $x$ en una elección pasada es la misma $P(x)$
+de hoy. Sea $H(a)=\E[h]$ entre los ciudadanos de edad $a$. Todos ellos votaron antes a las edades
+$a-d,a-2d,\dots$ que son al menos 18.
+
 \begin{proposition}[La huella del hábito]\label{prop:steps}
-Bajo los Supuestos~\ref{as:benefit}--\ref{as:myopic} con $\rho$ constante, sea $H(a)=\E[h]$ entre
-los ciudadanos de edad $a$. Entonces, para todo $a\ge 18$ tal que $a+1-18$ no es múltiplo de $d$,
+Bajo los Supuestos~\ref{as:benefit}--\ref{as:myopic}, con $\rho$ constante y un entorno
+estacionario,
+\[
+  H(a)=\sum_{k\ge0,\;a-(k+1)d\ge18}\rho^{k}P(a-(k+1)d).
+\]
+Si además $a\ge 18$ y $a+1-18$ no es múltiplo de $d$,
 \[
   H(a+1)-H(a)=\sum_{k\ge0,\;a-(k+1)d\ge 18}\rho^{k}\bigl[P(a+1-(k+1)d)-P(a-(k+1)d)\bigr].
 \]
 En particular, entre 74 y 75 años el término $k=0$ es $P(70)-P(69)$, que contiene el salto en el
-umbral. Entre 73 y 74 todos los términos son diferencias de un año bajo el mismo régimen. Con
-$\lambda>0$, el hábito medio, y con él la participación, cae en escalones en $70+d,\,70+2d,\dots$
+umbral, y entre 73 y 74 todos los términos son diferencias de un año entre edades obligadas.
 \end{proposition}
 
 \begin{proof}
 Iterando el Supuesto~\ref{as:habit} desde $h=0$,
-$h_a=\sum_{k\ge1}\rho^{k-1}v_{a-kd}$, donde la suma va sobre las elecciones pasadas. Tomando
-esperanzas, $H(a)=\sum_{k\ge1,\,a-kd\ge18}\rho^{k-1}P(a-kd)$, y se resta la misma expresión en
-$a+1$. Si $a+1-18$ no es múltiplo de $d$, las edades $a$ y $a+1$ tienen el mismo número de
-elecciones pasadas y los términos se emparejan uno a uno.
+$h_a=\sum_{k\ge0,\,a-(k+1)d\ge18}\rho^{k}v_{a-(k+1)d}$. Como $\rho$ no es aleatorio, la esperanza
+pasa a cada término, y por estacionariedad $\E[v_{a-(k+1)d}]=P(a-(k+1)d)$. Si $a+1-18$ no es
+múltiplo de $d$, las edades $a$ y $a+1$ tienen el mismo número de elecciones pasadas,
+$\lfloor(a-18)/d\rfloor$, y al restar los términos se emparejan uno a uno. Con $d=5$ y $a=74$, el
+término $k=0$ es $P(70)-P(69)$; con $a=73$, las edades de los términos son a lo más 69.
 \end{proof}
 
+Con $\lambda>0$, el hábito medio, y con él la participación, cae en escalones en
+$70+d,\,70+2d,\dots$: la diferencia $P(70)-P(69)$ entra con peso 1 en el escalón de $70+d$, con peso
+$\rho$ en el de $70+2d$, y así sucesivamente. Con $\lambda=0$ el perfil sobre los 70 es continuo.
+
 \begin{proposition}[Persistencia creciente con la edad]\label{prop:rho}
-Si $\rho$ es no decreciente en la edad, la identidad de la Proposición~\ref{prop:steps} vale
-reemplazando $\rho^k$ por el producto de las persistencias en las edades intermedias. El primer
-escalón sobre los 70 sigue siendo el salto más diferencias de un año, y los escalones siguientes
-decaen más lento que con $\rho$ constante igual a $\rho(60)$. Por otro lado, bajo obligación el
-hábito estacionario $P/(1-\rho(a))$ crece con la edad antes de los 70, lo que puede violar (H).
+Bajo los supuestos de la Proposición~\ref{prop:steps}, pero con $\rho$ no decreciente en la edad,
+sea $\Pi_k(a)=\prod_{j=1}^{k}\rho(a-jd)$, con $\Pi_0(a)=1$. Entonces
+$H(a)=\sum_{k\ge0,\,a-(k+1)d\ge18}\Pi_k(a)P(a-(k+1)d)$ y, si $a+1-18$ no es múltiplo de $d$,
+\begin{gather*}
+  H(a+1)-H(a)=\sum_{k}\Pi_k(a+1)\bigl[P(a+1-(k+1)d)-P(a-(k+1)d)\bigr]+R(a),\\
+  R(a)=\sum_{k}\bigl[\Pi_k(a+1)-\Pi_k(a)\bigr]P(a-(k+1)d)\;\ge\;0,
+\end{gather*}
+con las sumas sobre $k\ge0$ y $a-(k+1)d\ge18$. Con $\rho$ constante, $R=0$ y se recupera la
+Proposición~\ref{prop:steps}. En el escalón entre $70+(k+1)d-1$ y $70+(k+1)d$, la diferencia
+$P(70)-P(69)$ entra con peso $\Pi_k(70+(k+1)d)=\prod_{i=1}^{k}\rho(70+id)\ge\rho(70)^{k}$: el salto se
+propaga al menos tanto como con $\rho$ constante igual a $\rho(70)$.
 \end{proposition}
 
-\begin{remark}[Identificación]\label{rem:ident}
-Antes de los 70 la participación depende de $b$ y del hábito acumulado bajo obligación; después,
-además del decaimiento del hábito. Con $G_\varepsilon$ normal, la densidad cambia a lo más un 20\%
-entre participaciones de 0.73 y de 0.3--0.5, así que una caída cuatro veces más rápida tras los
-70 no la explica la forma de $G$. O viene de $\beta>1$ o viene del hábito. El perfil antes de los
-70 disciplina $\beta$; los escalones de la Proposición~\ref{prop:steps} disciplinan $\lambda$ y
-$\rho$.
-\end{remark}
+\begin{proof}
+Iterando $h_a=\rho(a-d)h_{a-d}+v_{a-d}$, el voto a la edad $a-(k+1)d$ entra en $h_a$ multiplicado
+por las persistencias de las $k$ elecciones siguientes, $\Pi_k(a)$; la esperanza da $H(a)$. Para la
+diferencia se suma y resta $\Pi_k(a+1)P(a-(k+1)d)$ en cada término. Como $\rho$ es no decreciente,
+cada factor cumple $\rho(a+1-jd)\ge\rho(a-jd)\ge0$, así que $\Pi_k(a+1)\ge\Pi_k(a)$, y $R(a)\ge0$
+porque $P\ge0$. El peso del salto sale de $a+1=70+(k+1)d$: las edades intermedias son
+$70+d,\dots,70+kd$, todas mayores que 70.
+\end{proof}
+
+Con $\rho$ creciente el hábito también se acumula más rápido antes de los 70, lo que hace más fácil
+violar (H). Por eso la calibración comprueba (H) elección por elección.
+
+\paragraph{Identificación.} Antes de los 70 la participación depende de $b$ y del hábito acumulado
+bajo obligación; después, además, del decaimiento del hábito. Con $G_\varepsilon$ normal, la
+densidad cambia a lo más en un 21\% entre participaciones de 0.73 y de 0.3--0.5, así que la forma de
+$G$ no explica una caída cuatro veces más rápida tras los 70. O viene de $\beta>1$ o viene del
+hábito. El perfil antes de los 70 disciplina $\beta$; los escalones de la
+Proposición~\ref{prop:steps} disciplinan $\lambda$ y $\rho$.
 
 Los resultados de la propuesta sobre $\tau^{70}$ (sanción, curvatura, beneficio y
 heterogeneidad) se mantienen condicionales en $(\eta,h_{70})$. El de heterogeneidad lleva la
@@ -331,7 +389,8 @@ cumple. Comprueba con SymPy la Proposición~\ref{prop:lifecycle} y la estática 
 umbral. Con el modelo de \texttt{code/model.py} verifica las Proposiciones~\ref{prop:jump} a
 \ref{prop:rho} sobre sorteos aleatorios de parámetros. La identidad de la
 Proposición~\ref{prop:steps} se cumple con un error de $10^{-15}$, porque la grilla del hábito
-reparte la masa linealmente y conserva las esperanzas. También recalcula cada objetivo de la
+reparte la masa linealmente y conserva las esperanzas. Lo mismo vale para la de la
+Proposición~\ref{prop:rho} con $\rho$ creciente, término de resto incluido. También recalcula cada objetivo de la
 calibración a partir de \texttt{code/data/}, comprueba el anidamiento de M0 a M3 y regenera las
 tablas, las figuras y las cifras citadas en el texto.
 
@@ -340,6 +399,14 @@ que pedía solo $a^*\le60$ y un hábito estacionario. En 7 de 150 sorteos con $a
 seguía acumulándose entre los 60 y los 70 años y resultaba $\Delta<\tau^{70}$. De ahí la hipótesis
 (H), sobre la participación y no sobre $b$. Una simulación sobre sorteos no prueba una proposición:
 la verifica en una región de parámetros y puede encontrarle contraejemplos.
+
+La Proposición~\ref{prop:rho} también tuvo una primera formulación incorrecta: decía que la
+identidad de la Proposición~\ref{prop:steps} valía cambiando $\rho^{k}$ por el producto de las
+persistencias, sin término de resto. Al escribir su enunciado para Lean, el coeficiente de cada
+voto pasado resultó depender de la edad de quien hoy tiene $a$ o $a+1$ años, y la diferencia
+deja el resto $R(a)$. El script mide el error de la versión sin resto, que es justamente $R(a)$
+(hasta \IfFileExists{../code/output/numbers.tex}{$\PfiveNaiveErr$}{?} en el ejemplo con
+$\rho_1=0.4$), y comprueba que la versión corregida se cumple exactamente.
 
 \section{Discusión y limitaciones}\label{sec:disc}
 
@@ -359,19 +426,115 @@ y en el modelo con hábito la persistencia queda en su cota superior.
 
 \section{Conclusión}\label{sec:concl}
 
-\emph{[En preparación.]}
+La brecha de participación entre los grupos de 60--69 y de 70 a más años, que es la cifra que
+publica la ONPE, no mide el efecto del voto obligatorio. En el modelo, el efecto causal es el salto
+$\tau^{70}$ en el umbral, que no contiene hábito, y la brecha lo acota por arriba siempre que la
+participación, hábito incluido, no crezca entre los 60 y los 70 años. Que el beneficio de votar
+decrezca no basta. En la calibración a seis elecciones presidenciales, el salto explica entre el
+\tauShareMin\% y el \tauShareMax\% de la brecha. El resto es envejecimiento dentro de la banda
+abierta de 70 a más. Para la tesis, el estimando relevante es el salto por edad exacta, no la
+diferencia entre bandas.
+
+Quedan tres tareas abiertas. Probar los escalones de la Proposición~\ref{prop:steps} en el perfil por
+edad exacta, que es la predicción del hábito que la calibración todavía no usa. Agregar al
+calendario las elecciones regionales, municipales y los referéndums, que también forman hábito.
+Separar la edad de la cohorte con más elecciones.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
 
 \appendix
+\sloppy
 
 \section{Formalización en Lean}\label{app:lean}
 
-\emph{[Pendiente: se corre sobre el commit de este borrador.]}
+La carpeta \texttt{lean/} es la carpeta \texttt{papers/Arriola26TurnoutGap/} que genera el flujo de
+AppliedModelingLib sobre este documento, fijado en el commit
+\texttt{\leanPaperCommit} de \texttt{paper/paper.pdf}. Cada resultado numerado tiene un enunciado
+transparente (\texttt{...Spec : Prop}) en \texttt{lean/PaperInterface.lean} y su prueba en
+\texttt{lean/ProofInterface.lean}; los lemas auxiliares están en \texttt{lean/MainTheorems.lean}.
+
+\begin{center}\small
+\begin{tabular}{p{2.6cm}p{4.6cm}p{1.9cm}p{5.6cm}}
+\toprule
+Resultado & Declaración (archivo) & Estado & Hipótesis agregada \\
+\midrule
+Lema~\ref{lem:coupling} & \texttt{lemma1\_coupling} (ProofInterface) & probado & ninguna \\
+Proposición~\ref{prop:lifecycle} & \texttt{prop1\_lifecycle} (ProofInterface) & probado & ninguna \\
+Proposición~\ref{prop:jump} & \texttt{prop2\_jump} (ProofInterface) & probado & la esperanza es un promedio sobre
+una población finita con pesos \\
+Proposición~\ref{prop:bound} & \texttt{prop3\_bound} (ProofInterface) & probado & ídem \\
+Proposición~\ref{prop:steps} & \texttt{prop4\_steps} (ProofInterface) & probado & ídem \\
+Proposición~\ref{prop:rho} & \texttt{prop5\_rising\_persistence} (ProofInterface) & probado & ídem \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Cómo se representa el modelo.} La regla de corte \eqref{eq:cutoff} es el indicador
+$\1[\varepsilon<\text{umbral}]$. El hábito es cualquier sucesión que cumple $h_0=0$ y
+$h_{j+1}=\rho_j h_j+v_j$, y la edad en la elección pasada $j$ de quien hoy tiene $a$ años es
+$a-(\lfloor(a-18)/d\rfloor-j)d$. Las participaciones $P$, $P_1$ y $P^f$ de la
+Proposición~\ref{prop:bound} se \emph{definen} desde esas primitivas, y (H) es una hipótesis sobre
+ellas, como en el texto. La estacionariedad de las Proposiciones~\ref{prop:steps}
+y~\ref{prop:rho} entra como en el texto: la participación media en la elección pasada $j$ es
+$P$ evaluada en la edad de entonces. La unimodalidad de $g_\varepsilon$ se escribe como $g$
+creciente en $(-\infty,m]$ y decreciente en $[m,\infty)$, con $G'=g$. La única representación que
+no está en el texto es la de la esperanza: un promedio sobre una población finita de ciudadanos
+con pesos no negativos. Un electorado es finito, pero el texto usa distribuciones continuas para
+$\eta$ y los shocks pasados. La versión con medidas generales necesita la monotonía de la
+integral y queda pendiente.
+
+\paragraph{Lo que Lean no verifica.} Las cifras de la calibración y de la Sección~\ref{sec:sim},
+el contraejemplo a la versión de la Proposición~\ref{prop:bound} con solo $a^*\le60$, y la cota
+del 21\% de la densidad normal. Todo eso lo comprueba \texttt{code/verify.py}.
+
+\paragraph{Resultado del chequeo.} \texttt{lake build Arriola26TurnoutGap} y
+\texttt{python3 scripts/paper\_contribution.py check Arriola26TurnoutGap --fast} terminan sin
+errores (salida en \texttt{lean/docs/CHECK\_FAST\_OUTPUT.txt}); ninguna prueba usa \texttt{sorry}.
+La corrida la hizo Claude Code con imports estrechos de Mathlib (ver
+\texttt{lean/docs/RUN\_LOG.md}).
 
 \section{Registro de colaboración con IA}\label{app:ai}
 
-\emph{[En preparación: ver \texttt{prompts.md}.]}
+Usé dos modelos: Claude Opus 5.5 en claude.ai para el borrador del tema (Sesión 1 de
+\texttt{prompts.md}), y Claude Code (Claude Opus 5.5) para el repositorio, el código, la
+calibración y la formalización en Lean (Sesiones 2 y 3). Los turnos están en \texttt{prompts.md},
+al pie de la letra. La tabla recoge cada contribución que afectó un resultado.
+
+\begin{center}\small
+\begin{tabular}{p{2.2cm}p{4.1cm}p{4.3cm}p{3.9cm}}
+\toprule
+Contribución & Qué afirmó & Veredicto y razón & Cómo lo verifiqué \\
+\midrule
+claude.ai, S1 t5 & ``Si $z_0\le0$, $\partial\tau/\partial s<0$ siempre.'' & \textbf{Falso.} Con
+$z_0=-3$, $z_1=-2$, $s\,\partial\tau/\partial s=+0.095$. El enunciado final ya pedía $z_1>0$. &
+\texttt{verify.py}, sección 1. \\
+Claude Code, S2 t1 & (iv) con condiciones sobre los promedios de grupo es falso. & \textbf{Acepto.}
+Contraejemplo $z_1\in\{3,-1\}$, $z_0=-3$: $s\,\partial\Delta/\partial s=+0.101$. La condición pasa
+al umbral. & SymPy y NumPy en \texttt{verify.py}. \\
+Claude Code, S2 t1 & Gonzales et al.: 20 pp entre 69 y 72 años; quitar la multa tiene menos de un
+quinto del efecto. & \textbf{Acepto} lo citado de sus diapositivas de 2020. El umbral de Jaitman
+no se confirmó y quedó como ``umbrales de edad''. & Fuentes primarias. \\
+Claude Code, S3 t4 & P3: $a^*\le60$ y hábito estacionario bastan para $\Delta\ge\tau^{70}$. &
+\textbf{Falso.} El hábito sigue acumulándose a los 60. La hipótesis pasa a (H), sobre la
+participación. & 7 contraejemplos en 150 sorteos (\texttt{verify.py}). \\
+Claude Code, S3 t4 & Parametrizar $b$ por $a^*$ y calibrar en la ventana 45--80. & \textbf{Acepto},
+como decisión declarada: sin eso $A$ y $\kappa$ se compensan, y el 60\% del desajuste viene de los
+menores de 45. & Robustez con todas las edades (\texttt{params\_M*\_full.json}). \\
+Claude Code, S3 t4 & La multa no explica el salto entre elecciones ($q\approx0$). & \textbf{Acepto.}
+$q$ queda en cero en todos los modelos y especificaciones; coincide con Gonzales et al. & Tabla
+\ref{tab:models}; $\theta_{70}$ de 2006 frente a 2021. \\
+Claude Code, S3 t5 & P5: basta cambiar $\rho^k$ por el producto de las persistencias. &
+\textbf{Falso}: falta el resto $R(a)\ge0$. Lo encontró la misma sesión al escribir el enunciado
+para Lean. & \texttt{verify.py} mide el error; Lean prueba la versión corregida. \\
+Claude Code, S3 t5 & Las pruebas usan $\lambda\ge0$, $S\ge0$ y, en P4--P5, un entorno
+estacionario, sin declararlos. & \textbf{Acepto.} Pasan a los supuestos y a los enunciados. &
+Revisión de cada paso de las pruebas. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+La formalización en Lean la hizo Claude Code en mi clon de AppliedModelingLib, no GPT-5.6 Sol
+como pide el issue; lo declaro aquí, en \texttt{prompts.md} y en \texttt{lean/docs/RUN\_LOG.md}.
 
 \end{document}

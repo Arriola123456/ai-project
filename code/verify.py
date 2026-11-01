@@ -172,6 +172,33 @@ check(P_at(Hr, 69) > P_at(Hr, 60) and abs(P_at(Hc, 69) - P_at(Hc, 60)) < 0.02,
       "P5: with rho'>0 the habit keeps rising between 60 and 69 (risk for a* <= 60)")
 gc, gr = gap(pc, -0.3, 0.9, W), gap(pr, -0.3, 0.9, W)
 check(gr["Delta"] >= gr["tau70"] and gc["Delta"] >= gc["tau70"], "P5: Delta >= tau70 also with rho'>0")
+# P5 exact identity with rho(a) rising: Pi_m(a) = prod_{j=1..m} rho(a - j d),
+#   H(a) = sum_k Pi_{k-1}(a) P(a - k d),
+#   H(a+1) - H(a) = sum_k Pi_{k-1}(a+1) [P(a+1-kd) - P(a-kd)] + R(a),  R(a) >= 0.
+# (the code's k >= 1 is the paper's k + 1)
+# The first draft had no R(a): its error is measured and reported.
+Pi = lambda p_, a_, m: float(np.prod([p_.rho(a_ - j * 5) for j in range(1, m + 1)]))
+past = lambda a_: [k_ for k_ in range(1, 20) if a_ - k_ * 5 >= FIRST_AGE]
+err_H = max(abs(P_at(Hr, a_) - sum(Pi(pr, a_, k_ - 1) * P_at(Pr, a_ - k_ * 5) for k_ in past(a_)))
+            for a_ in range(FIRST_AGE, 101))
+check(err_H < 1e-9, f"P5: H(a) = sum_k Pi_k(a) P(a-(k+1)d) at every age 18-100 (max error {err_H:.1e})")
+worst5, naive5, minR = 0.0, 0.0, np.inf
+for a_ in [a_ for a_ in range(25, 95) if (a_ + 1 - FIRST_AGE) % 5 != 0]:
+    lhs = P_at(Hr, a_ + 1) - P_at(Hr, a_)
+    main_ = sum(Pi(pr, a_ + 1, k_ - 1) * (P_at(Pr, a_ + 1 - k_ * 5) - P_at(Pr, a_ - k_ * 5)) for k_ in past(a_))
+    R = sum((Pi(pr, a_ + 1, k_ - 1) - Pi(pr, a_, k_ - 1)) * P_at(Pr, a_ - k_ * 5) for k_ in past(a_))
+    worst5, naive5, minR = max(worst5, abs(lhs - main_ - R)), max(naive5, abs(lhs - main_)), min(minR, R)
+check(worst5 < 1e-9 and minR >= 0,
+      f"P5: H(a+1) - H(a) = sum_k Pi_k(a+1) [one-year differences] + R(a), R(a) >= 0 "
+      f"(max error {worst5:.1e}, min R {minR:.1e})")
+check(naive5 > 1e-4, f"P5: the first draft's identity without R(a) is off by up to {naive5:.1e}")
+w_jump = [Pi(pr, 70 + k_ * 5, k_ - 1) for k_ in (1, 2, 3, 4)]
+check(all(w >= float(pr.rho(70)) ** (k_ - 1) for k_, w in zip((1, 2, 3, 4), w_jump)),
+      "P5: weight of P(70)-P(69) in the step at 70+(k+1)d is >= rho(70)^k")
+# Identification paragraph: the normal density moves by at most 21% between
+# turnout levels 0.73 and 0.3-0.5, so G alone cannot make the fall four times steeper
+dens = norm.pdf(norm.ppf(np.linspace(0.3, 0.5, 201))) / norm.pdf(norm.ppf(0.73))
+check(dens.max() < 1.21, f"identification: g(G^-1(u)) / g(G^-1(0.73)) <= {dens.max():.3f} for u in [0.3, 0.5]")
 
 # =============================================================================
 print("3. Calibration")
@@ -298,6 +325,7 @@ if "main" in done:
         "betaStatic": f"{p1.beta:.2f}", "betaBest": f"{pb.beta:.2f}", "lamBest": f"{pb.lam:.2f}",
         "rhoBest": f"{pb.rho0:.2f}", "peakBest": f"{pb.peak_age():.0f}",
         "nMoments": f"{sum(len(v['theta']) + len(v['bands']) for v in data.values())}",
+        "PfiveNaiveErr": f"{naive5:.1e}".replace("e-0", r"\times10^{-") + "}",
     }
     (HERE / "output" / "numbers.tex").write_text(
         "\n".join(f"\\newcommand{{\\{k}}}{{{v}}}" for k, v in nums.items()) + "\n", encoding="utf-8")

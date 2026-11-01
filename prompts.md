@@ -504,7 +504,7 @@ cuatro PDFs). Yo hice el PR #1, el merge y comenté el link en el issue #7.
 
 ---
 
-## Sesión 3 — Claude Code (Claude Opus 5.5), 25-oct-2026: el modelo de la presentación final
+## Sesión 3 — Claude Code (Claude Opus 5.5), 25 al 31-oct-2026: el modelo de la presentación final
 
 ### Turno 1
 
@@ -570,3 +570,33 @@ hábito *no* es estacionario a los 60 (ρ⁸ no es despreciable), y aparecieron 
 a* ≤ 60 y Δ < τ⁷⁰. **Qué hice con ello:** la hipótesis de P3 pasa a ponerse sobre el índice
 total b(a) + λh: la participación obligada debe ser no creciente en [60, 70] y la voluntaria
 con historia obligada no creciente sobre 70.
+
+### Turno 5 — 31-oct-2026
+
+**Prompt**
+
+```text
+Ok, me cambiaron la presentación para el miercoles 4 de noviembre (hoy estamos 31/10/2026). Continua con tu plan y avanza +ULTRATHINK
+```
+
+**Respuesta (resumen):**
+
+- Releyó el issue #7. Las slides deben estar mergeadas a las 22:00 de la noche anterior, o sea el
+  martes 3-nov. Lean y el paper van el 26-nov.
+- Antes de fijar el commit para Lean, escribió los seis resultados (Lema 1 y P1–P5) como
+  enunciados de Lean sobre las primitivas del modelo y los probó en un archivo de prueba.
+- Hizo una recalibración corta de M2, que había parado por el tope de evaluaciones, y actualizó
+  el paper, el deck, el README y `verify.py`.
+
+**Verificación (Lean y verify.py).** Al escribir P5 en Lean, la identidad con persistencia
+creciente no cerraba: **la versión del borrador era falsa.** Decía que bastaba cambiar ρᵏ por el
+producto de las persistencias. Los coeficientes de cada voto pasado dependen de la edad de hoy
+(a o a+1), así que la diferencia deja un resto R(a) = Σₖ [Πₖ(a+1) − Πₖ(a)] P(a−(k+1)d) ≥ 0.
+`verify.py` mide el error de la versión sin resto y comprueba la corregida al error de máquina.
+Las pruebas también usaban, sin declararlos, λ ≥ 0, S ≥ 0 y, en P4–P5, un entorno estacionario
+(la participación a la edad x en una elección pasada es la P(x) de hoy).
+
+**Qué hice con ello:** acepté la corrección de P5 con su resto. Los tres supuestos pasan al texto
+(Supuesto 3, la definición de S y el párrafo antes de P4). Agregué el Lema 1 (acoplamiento), que
+usan P2 y P3, y completé la prueba de P3. Lean lo corre Claude Code, no GPT-5.6 Sol, como en los
+repositorios 5 y 6.

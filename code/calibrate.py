@@ -3,6 +3,7 @@
     python code/calibrate.py            # all four nested models
     python code/calibrate.py M2         # one model
     python code/calibrate.py --full     # robustness: every age 20-80 and every band
+    python code/calibrate.py --refine M2  # restart a model from its saved optimum
 
 Targets, per election (first rounds 2006-2026 and the 2001 run-off):
   * theta_a = P(a) - P(69) for a = 20..80, a != 69, weighted by 1/se^2
@@ -179,13 +180,22 @@ def load_params(model) -> Params:
     return Params(**{k: d[k] for k in keys})
 
 
-def main(models):
+def main(models, refine=False):
     data = load_data()
     start = default_start(data)
     for m in ["M0", "M1", "M2", "M3"]:
         if m not in models:
             if (OUT / f"params_{m}{SUFFIX}.json").exists():
                 start = load_params(m)
+            continue
+        if refine:   # restart from the saved optimum: least_squares stops at max_nfev
+            p0 = load_params(m)
+            obj0 = float(np.sum(residuals(p0, data) ** 2))
+            p, obj, sol = calibrate(m, data, p0)
+            print(f"  {m} refine: {obj0:,.2f} -> {obj:,.2f} (status {sol.status}, nfev {sol.nfev})", flush=True)
+            if obj < obj0:
+                save(m, p, obj, data)
+            start = load_params(m)
             continue
         best = None
         starts = [start]
@@ -217,4 +227,7 @@ if __name__ == "__main__":
     if "--full" in args:
         set_spec("full")
         args.remove("--full")
-    main(args or ["M0", "M1", "M2", "M3"])
+    refine = "--refine" in args
+    if refine:
+        args.remove("--refine")
+    main(args or ["M0", "M1", "M2", "M3"], refine=refine)
