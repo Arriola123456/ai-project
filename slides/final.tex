@@ -43,7 +43,7 @@
 \newunicodechar{⁻}{\ensuremath{^{-}}}     \newunicodechar{¹}{\ensuremath{^{1}}}
 \newunicodechar{Δ}{\ensuremath{\Delta}}   \newunicodechar{ω}{\ensuremath{\omega}}
 \newunicodechar{θ}{\ensuremath{\theta}}   \newunicodechar{∏}{\ensuremath{\prod}}
-\newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{·}{\ensuremath{\cdot}}     \newunicodechar{∣}{\ensuremath{\mid}}
 
 % ---------------- Estilo (el de la tesis) ----------------
 \definecolor{upblue}{HTML}{1E3A8A}
@@ -109,8 +109,8 @@
   \fbox{\parbox[c][#1][c]{0.6\linewidth}{\centering\small\pending{foto de la derivación a mano}\\[0.2cm]
     {\footnotesize se incluye sola si se guarda como\\ \texttt{hand/05-proposicion-5-resto.jpg}}}}}}}}
 
-\title{La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio}
-\subtitle{Ciclo de vida, hábito y una calibración con datos de la ONPE}
+\title{Voto obligatorio a los 70: el salto, la edad y la costumbre}
+\subtitle{Ciclo de vida, costumbre de votar y una calibración con datos de la ONPE}
 \author{Manuel Alfredo Arriola Montenegro}
 \date{4 de noviembre de 2026}
 
@@ -122,7 +122,7 @@
 \begin{frame}
   \begin{center}
     \includegraphics[height=1.3cm]{logo.png}\\[0.5cm]
-    {\color{upblue}\Large\bfseries La brecha de participación a los 70 años\\ sobrestima el efecto del voto obligatorio}\\[0.2cm]
+    {\color{upblue}\Large\bfseries Voto obligatorio a los 70:\\ el salto, la edad y la costumbre}\\[0.2cm]
     {\color{upgray}\large \insertsubtitle}\\[0.5cm]
     {\small\textbf{Manuel Alfredo Arriola Montenegro}}\\[0.2cm]
     {\small Presentación final (trabajo en progreso, para crítica) \;\textbar\; Track B: modelo de tesis}\\[0.15cm]
@@ -195,24 +195,24 @@
     \draw[line width=2pt,upaccent] (4.3,3.45) -- (4.7,3.45) node[right,font=\small,black]{bajo obligación};
     \draw[line width=2pt,upred] (4.3,3.05) -- (4.7,3.05) node[right,font=\small,black]{voto facultativo};
   \end{tikzpicture}
-  \takeaway{La brecha entre promedios de grupo, $\Delta$, junta dos cosas: el salto a los 70, $\tau^{70}$ (lo que causa la obligación), y la caída por edad dentro de cada grupo. El grupo 70+ llega hasta los 100 años.}
+  \takeaway{La brecha entre promedios de grupo, $\Delta$, junta dos cosas: el salto a los 70, $\tau^{70}$ (lo que causa la obligación), y la caída por edad. Con datos por edad exacta no hace falta la brecha: el salto se mide directo.}
 \end{frame}
 
 % (1:15)
 \begin{frame}{La pregunta y el resultado en una frase}
   \begin{block}{Pregunta}
-    En el Perú el voto es facultativo desde los 70 años. ¿Qué mide la brecha de participación entre
-    los grupos de 60--69 y 70+ que reporta la ONPE?
+    En el Perú el voto es facultativo desde los 70 años. Justo a los 70 la participación salta; después
+    sigue cayendo. ¿Esa caída es solo la edad, o también la \textbf{costumbre de votar} que se pierde sin obligación?
   \end{block}
   \vspace{0.15cm}
   \begin{block}{Resultado (Proposición 3)}
-    La brecha \textbf{exagera} el efecto de la obligación (cuántos dejan de votar solo porque ya no es obligatorio),
-    \textbf{siempre que} la participación, \alert{contando la costumbre}, no suba con la edad desde los 60.
+    Si votar crea costumbre, quien deja de votar a los 70 pierde costumbre \textbf{de golpe cinco años después}:
+    la participación cae en \textbf{escalones} a los 75, 80 y 85. Sin costumbre, la caída es suave.
   \end{block}
   \vspace{0.1cm}
   \begin{itemize}\setlength{\itemsep}{0.35em}\small
-    \item \textbf{En números:} en seis elecciones, el efecto es \tauMin--\tauMax: solo el \hl{\tauShareMin--\tauShareMax\%} de la brecha. El resto es, sobre todo, que el grupo 70+ es más viejo.
-    \item \textbf{La condición importa:} que lo que se gana votando baje con la edad \textbf{no basta}, porque la costumbre puede seguir acumulándose (parte 7).
+    \item \textbf{En números:} con edad exacta, el salto a los 70 es de 5 a 12 puntos; la brecha de grupos que se suele citar (25 a 46) mezcla el salto con la edad.
+    \item \textbf{Para qué sirve:} los escalones se pueden buscar en los datos por edad exacta y separan la costumbre de una caída por edad que se acelera.
   \end{itemize}
 \end{frame}
 
@@ -389,7 +389,7 @@
 
   \vspace{0.3cm}
   \raggedright
-  \takeaway{Quien tiene 70--74 votó por última vez obligado. Quien tiene 75--79 ya tuvo una elección libre, en la que muchos no fueron, y su costumbre ya empezó a caer. Por eso la costumbre baja en \textbf{escalones} a los 75, 80, 85 (Proposición 4).}
+  \takeaway{Quien tiene 70--74 votó por última vez obligado. Quien tiene 75--79 ya tuvo una elección libre, en la que muchos no fueron, y su costumbre ya empezó a caer. Por eso la costumbre baja en \textbf{escalones} a los 75, 80, 85 (Proposición 3).}
 \end{frame}
 
 % (0:45)
@@ -413,33 +413,33 @@
 \end{frame}
 
 % (0:45)
-\begin{frame}{Lo que queremos saber y lo que se ve}
+\begin{frame}{El salto a los 70 y lo que viene después}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \begin{block}{Lo que queremos: el efecto de la obligación, $\tau^{70}$}
+      \begin{block}{El salto: el efecto de la obligación, $\tau^{70}$}
         \small Tome a las \textbf{mismas personas} de 70 años, con la costumbre que ya tienen. ¿Qué fracción deja de votar
         \textbf{solo} porque ya no es obligatorio? Esa fracción son los cumplidores: $\tau^{70}$.
         \vspace{0.1cm}
 
-        \footnotesize No se puede ver en los datos por grupo.
+        \footnotesize Con edad exacta se mide directo: el salto entre 69 y 70 es $\tau^{70}$ más un año de edad.
       \end{block}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \begin{block}{Lo que publica la ONPE: la brecha, $\Delta$}
-        \small Participación promedio del grupo de 60--69 menos la del grupo de 70+.
+      \begin{block}{Después: la caída tras los 70}
+        \small Después del salto, la participación sigue cayendo unos 3 a 4 puntos por año.
         \vspace{0.1cm}
 
-        \footnotesize Ojo: el grupo 70+ junta a personas de 70 a 100 años.
+        \footnotesize ¿Es la edad, o la costumbre que se pierde al dejar de votar? Eso es lo que separa el modelo.
       \end{block}
     \end{column}
   \end{columns}
-  \takeaway{$\tau^{70}$ es lo que importa para decidir la política; $\Delta$ es lo que se ve. La pregunta: ¿cuánto de la brecha $\Delta$ es el efecto $\tau^{70}$?}
+  \takeaway{El salto se ve en los datos por edad exacta. Lo que el modelo agrega es entender la caída que sigue: edad contra costumbre.}
 \end{frame}
 
 % (0:45)
-\begin{frame}{Los dos números en el modelo calibrado}
+\begin{frame}{El salto y la caída en el modelo calibrado}
   \fig[0.64]{../code/figures/s_two_objects.pdf}
-  \takeaway{En el modelo calibrado a \runTag: el efecto de la obligación es $\tau^{70}=\runTau$, pero la brecha es $\Delta=\runDelta$. Los rombos son los promedios de la ONPE.}
+  \takeaway{En el modelo calibrado a \runTag, el salto por la obligación es $\tau^{70}=\runTau$. La línea punteada muestra a las mismas personas si siguieran obligadas: la distancia que se abre después de los 70 es lo que la obligación sostenía.}
 \end{frame}
 
 % =====================================================================
@@ -447,7 +447,7 @@
 % =====================================================================
 
 % (0:45)
-\begin{frame}[c]{Un lema y cinco proposiciones: qué responde cada una}
+\begin{frame}[c]{Un lema y cuatro proposiciones: qué responde cada una}
   \centering
   \begin{tikzpicture}[
       res/.style={draw=upaccent,fill=uplight,rounded corners=3pt,text width=3.2cm,align=left,font=\scriptsize,
@@ -455,21 +455,19 @@
       head/.style={font=\small\bfseries,text=upblue},
       arr/.style={-{Stealth[length=2.2mm]},thick,upgray}]
     \node[head] at (0,2.6) {Lo que se gana};
-    \node[head] at (5.1,2.6) {El salto y la brecha};
+    \node[head] at (5.1,2.6) {El salto};
     \node[head] at (10.2,2.6) {La huella de la costumbre};
     \node[res] (p1) at (0,1.3) {\textbf{P1.} ¿Cómo cambia con la edad lo que se gana votando?\\ \hl{Sube y después baja.}};
     \node[res] (l1) at (5.1,1.3) {\textbf{Lema 1.} Si en el pasado hubo más razones para votar\dots\\ \hl{hoy hay más costumbre.}};
-    \node[res] (p2) at (3.3,-0.95) {\textbf{P2.} ¿El salto a los 70 incluye costumbre?\\ \hl{No, y la costumbre lo achica.}};
-    \node[res] (p3) at (6.9,-0.95) {\textbf{P3.} ¿La brecha exagera el efecto?\\ \hl{Sí: brecha = salto + edad + costumbre perdida.}};
-    \node[res] (p4) at (10.2,1.3) {\textbf{P4.} ¿Deja huella la costumbre?\\ \hl{Sí: escalones a los 75, 80, 85.}};
-    \node[res] (p5) at (10.2,-0.95) {\textbf{P5.} ¿Y si la costumbre dura más en la vejez?\\ \hl{Lo mismo, con un término extra.}};
+    \node[res] (p2) at (5.1,-0.95) {\textbf{P2.} ¿El salto a los 70 incluye costumbre?\\ \hl{No, y la costumbre lo achica.}};
+    \node[res,draw=upred,line width=1pt] (p3) at (10.2,1.3) {\textbf{P3 (central).} ¿Deja huella la costumbre?\\ \hl{Sí: escalones a los 75, 80, 85.}};
+    \node[res] (p4) at (10.2,-0.95) {\textbf{P4.} ¿Y si la costumbre dura más en la vejez?\\ \hl{Lo mismo, con un término extra.}};
     \draw[arr] (l1.south) -- (p2.north);
-    \draw[arr] (l1.south) -- (p3.north);
-    \draw[arr] (p4.south) -- (p5.north);
+    \draw[arr] (p3.south) -- (p4.north);
   \end{tikzpicture}
 
   \vspace{0.3cm}
-  {\small\color{upgray} Las seis están probadas a mano en el paper y verificadas en Lean (parte 6).}
+  {\small\color{upgray} Todos están probados a mano y verificados en Lean (parte 6).}
 \end{frame}
 
 % (0:30) [opcional: ya se vio en el paso 4]
@@ -492,7 +490,7 @@
     para votar, en el mundo 2 vota al menos las mismas veces y tiene al menos tanta costumbre, \textbf{siempre}.
   \end{block}
   \fig[0.44]{../code/figures/s_coupling.pdf}
-  \takeaway{¿Por qué? Más razones hoy $\Rightarrow$ vota $\Rightarrow$ más costumbre mañana $\Rightarrow$ más razones mañana. Aquí, mundo 2 = obligado siempre: tendría más costumbre (P2, P3).}
+  \takeaway{¿Por qué? Más razones hoy $\Rightarrow$ vota $\Rightarrow$ más costumbre mañana $\Rightarrow$ más razones mañana. Aquí, mundo 2 = obligado siempre: tendría más costumbre (se usa en P2).}
 \end{frame}
 
 % (1:00)
@@ -527,28 +525,7 @@
 \end{frame}
 
 % (1:15)
-\begin{frame}{Proposición 3: la brecha exagera el efecto}
-  \begin{block}{En palabras: la brecha es la suma de tres piezas, y ninguna es negativa}
-    \small\vspace{-0.15cm}
-    \[ \underbrace{\Delta}_{\text{brecha}} \;=\; \underbrace{\tau^{70}}_{\text{salto por la obligación}} \;+\; \underbrace{\mathcal{E}}_{\text{diferencia de edad}} \;+\; \underbrace{\mathcal{D}}_{\text{costumbre perdida}} \;\ge\;\tau^{70} \]
-  \end{block}
-  \begin{itemize}\setlength{\itemsep}{0.3em}\small
-    \item \textbf{Diferencia de edad} ($\mathcal{E}$): el grupo 70+ es mucho más viejo que el de 60--69, y a más edad se vota menos aunque no hubiera exención.
-    \item \textbf{Costumbre perdida} ($\mathcal{D}$): tras los 70, quien deja de votar pierde costumbre y vota aún menos. Obligado, la conservaría (Lema 1).
-    \item \textbf{Condición:} la participación no sube con la edad desde los 60. \alert{Que lo que se gana baje no alcanza}: la costumbre puede seguir subiendo (parte 7).
-  \end{itemize}
-  \formal{(H): $P_1$ (si siguiera obligado) no crece en $[60,70]$ y $P^f$ (libre hoy, obligado antes) no crece desde 70. La prueba, en la parte 4.}
-\end{frame}
-
-% (1:00)
-\begin{frame}{Proposición 3 en el modelo calibrado}
-  \fig[0.62]{../code/figures/s_p3_decomp.pdf}
-  {\centering\tiny Modelo calibrado con costumbre (M2), elección \runTag. La columna de la derecha baja del promedio 60--69 al promedio 70+ por tramos.\par}
-  \takeaway{De una brecha de \runDelta, el efecto de la obligación es solo \runTau. La pieza más grande (\runEtwo) es que el grupo 70+ es mucho más viejo.}
-\end{frame}
-
-% (1:15)
-\begin{frame}{Proposición 4: la costumbre deja escalones cada 5 años}
+\begin{frame}{Proposición 3 (central): escalones cada 5 años}
   \begin{block}{En palabras}
     \small La costumbre de hoy suma los votos pasados: el último pesa 1, el anterior $\rho$, el de antes $\rho^2$\dots
     Por eso el salto de los 70 \textbf{vuelve} como un escalón a los 75, más chico a los 80, y así.
@@ -574,31 +551,31 @@
 \end{frame}
 
 % (0:45)
-\begin{frame}{Proposición 4: cómo se ve}
+\begin{frame}{Proposición 3: cómo se ve}
   \fig[0.58]{../code/figures/s_p4_steps.pdf}
   {\centering\tiny Parámetros ilustrativos. Izquierda: el escalón de la costumbre a los 75 es casi igual al salto de los 70. Derecha: esos escalones pasan a la participación.\par}
   \takeaway{Con costumbre, la participación cae en escalones a los 75, 80 y 85; sin costumbre, no. Es algo que se puede buscar en los datos por edad exacta.}
 \end{frame}
 
 % (1:00)
-\begin{frame}{Proposición 5: si la costumbre se borra más lento en la vejez}
+\begin{frame}{Proposición 4: si la costumbre se borra más lento en la vejez}
   \begin{block}{En palabras}
     \small Ahora $\rho$, la fracción de costumbre que sobrevive de una elección a otra, \textbf{sube con la edad}: a los mayores les cuesta más perder la costumbre.
-    Los escalones de P4 siguen ahí, y se borran \textbf{más lento}.
+    Los escalones de P3 siguen ahí, y se borran \textbf{más lento}.
   \end{block}
   \begin{itemize}\setlength{\itemsep}{0.35em}\small
     \item Al pasar de una edad a la siguiente cambian \textbf{dos} cosas: los votos pasados que cuentan y \textbf{cuánto pesa cada uno}.
     \item El segundo cambio es un término extra, \alert{$R(a)\ge0$}. Mi primer borrador, hecho con la IA, lo olvidaba (parte 7).
-    \item El costo: la costumbre también crece más rápido antes de los 70, y es más fácil que falle la condición de P3.
+    \item La costumbre también crece más rápido antes de los 70: parte de la participación de los 60 es costumbre, no solo edad.
   \end{itemize}
   \formal{los pesos son productos de persistencias, $\Pi_k(a)=\prod_{j=1}^{k}\rho(a-jd)$, y $R(a)=\sum_k[\Pi_k(a+1)-\Pi_k(a)]P(a-(k+1)d)\ge0$ (fórmula completa en la parte 7).}
 \end{frame}
 
 % (0:45) [opcional]
-\begin{frame}{Proposición 5: cómo se ve}
+\begin{frame}{Proposición 4: cómo se ve}
   \fig[0.58]{../code/figures/s_p5_rho.pdf}
   {\centering\tiny Parámetros ilustrativos: $\rho$ fija en 0.5 contra $\rho$ que sube de 0.5 a los 18 años a 0.9 a los 100.\par}
-  \takeaway{Los escalones se borran más lento (derecha), pero la costumbre sigue creciendo entre los 60 y los 69 (izquierda). Por eso la calibración comprueba la condición de P3 elección por elección.}
+  \takeaway{Los escalones se borran más lento (derecha), y la costumbre sigue creciendo entre los 60 y los 69 (izquierda). En los datos, eso hace más visibles los escalones de los 80 y 85.}
 \end{frame}
 
 % (1:15) Extension of result (d): derivation, Step 6.8 bis; numbers from code/heterogeneity.py
@@ -658,12 +635,15 @@
 
 % (1:15)
 \begin{frame}{La prueba de la Proposición 3 en tres pasos}
-  \small Notación: $P_1$ = participación si siguiera obligado; $P^f$ = libre hoy, pero con la costumbre de haber estado obligado siempre.
-  \begin{enumerate}\setlength{\itemsep}{0.6em}
-    \item \textbf{Sumar y restar.} A los 70 todos tienen historia obligada, así que el salto es $\tau^{70}=P_1(70)-P^f(70)$. Sumando y restando esos dos términos, la brecha se parte en cuatro pedazos:
-    {\small\[ \Delta=\underbrace{[\bar P_{60\text{--}69}-P_1(70)]}_{\text{edad, en 60--69}}+\underbrace{[P_1(70)-P^f(70)]}_{\text{salto}}+\underbrace{[P^f(70)-\bar P^f_{70+}]}_{\text{edad, en 70+}}+\underbrace{[\bar P^f_{70+}-\bar P_{70+}]}_{\text{costumbre perdida}} .\]}
-    \item \textbf{Los pedazos de edad no son negativos.} Si la participación no sube con la edad, el promedio de 60--69 queda por encima del valor a los 70, y el valor a los 70 por encima del promedio de 70+.
-    \item \textbf{El pedazo de costumbre no es negativo.} Con historia obligada hubo más razones para votar en cada elección pasada. Por el Lema 1, tiene más costumbre y vota al menos tanto.
+  \small Supuesto: elecciones iguales entre sí (mismo costo medio y sanción) y $\rho$ constante.
+  \begin{enumerate}\setlength{\itemsep}{0.35em}
+    \item \textbf{La costumbre es una suma de votos pasados.} Desde $h=0$, aplicando $h'=\rho h+v$:
+    \;$h_a=v_{a-5}+\rho\,v_{a-10}+\rho^2\,v_{a-15}+\dots$
+    \item \textbf{Promediar.} El promedio de una suma es la suma de los promedios, y el de $v$ a la edad $x$ es $P(x)$:
+    \;$H(a)=P(a-5)+\rho\,P(a-10)+\dots$
+    \item \textbf{Restar 74 de 75.} Tienen el mismo número de elecciones pasadas: los términos se restan uno a uno.
+    {\small\[ H(75)-H(74)=\underbrace{[P(70)-P(69)]}_{\text{el salto de los 70}}+\rho\underbrace{[P(65)-P(64)]}_{\text{un año, obligado}}+\dots \]}
+    Entre 73 y 74, todas las edades de la resta son de 69 o menos: no hay escalón.
   \end{enumerate}
 \end{frame}
 
@@ -673,25 +653,25 @@
     \begin{column}{0.32\textwidth}
       {\color{upblue}\bfseries Hecho}
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
-        \item Pruebas completas del Lema 1 y de P1--P5, a mano y \textbf{en Lean}, sin huecos.
-        \item P2 y P3: comparar a la misma persona en dos mundos (Lema 1).
-        \item P4 y P5: escribir la costumbre como suma de votos pasados.
+        \item Pruebas completas del Lema 1 y de P1--P4, a mano y \textbf{en Lean}, sin huecos.
+        \item P2: comparar a la misma persona en dos mundos (Lema 1).
+        \item P3 y P4: escribir la costumbre como suma de votos pasados.
       \end{itemize}
     \end{column}
     \begin{column}{0.32\textwidth}
       {\color{upred}\bfseries Lo difícil}
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
-        \item Encontrar la condición correcta de P3: que lo que se gana baje con la edad no alcanza.
-        \item Supuestos usados sin decirlo: costumbre y sanción no negativas; elecciones iguales entre sí (P4--P5).
-        \item El término extra $R(a)$ de P5, que apareció al escribirla en Lean.
+        \item Separar la costumbre de una caída por edad que se acelera ($\beta>1$).
+        \item Supuestos usados sin decirlo: costumbre y sanción no negativas; elecciones iguales entre sí (P3--P4).
+        \item El término extra $R(a)$ de P4, que apareció al escribirla en Lean.
       \end{itemize}
     \end{column}
     \begin{column}{0.32\textwidth}
       {\color{upgray}\bfseries Abierto}
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
-        \item Una condición sobre los parámetros que garantice la condición de P3.
-        \item P4--P5 cuando las elecciones difieren entre sí.
-        \item Heterogeneidad: el signo ya es una predicción condicional (slides de la extensión), pero en el modelo calibrado el efecto es casi cero.
+        \item Contrastar los escalones con los datos por edad exacta.
+        \item P3--P4 cuando las elecciones difieren entre sí.
+        \item Heterogeneidad: signo condicional (extensión); en la calibración, casi cero.
         \item Votante que mira al futuro.
       \end{itemize}
     \end{column}
@@ -761,12 +741,6 @@
   \end{columns}
 \end{frame}
 
-% (1:00)
-\begin{frame}{¿Cuánto de la brecha es causal?}
-  \fig[0.6]{../code/figures/s_decomp_bars.pdf}
-  \takeaway{El efecto de la obligación es $\tau^{70}\in[\tauMin,\tauMax]$: \textbf{solo el \tauShareMin--\tauShareMax\% de la brecha}. El resto es, sobre todo, que el grupo 70+ es más viejo; la costumbre perdida aporta a lo más \habitDecayMax.}
-\end{frame}
-
 % (0:45)
 \begin{frame}{Qué verifican las simulaciones y qué no pueden mostrar}
   \begin{columns}[T]
@@ -774,8 +748,8 @@
       {\color{upblue}\bfseries \texttt{code/verify.py} verifica}
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
         \item P1 y la estática comparativa, con álgebra simbólica (SymPy).
-        \item P2--P5 en el modelo: las igualdades de P4 y P5 se cumplen hasta el error de redondeo.
-        \item Los contraejemplos: (iv) con promedios (turno 5 de claude.ai), P3 sin su condición y P5 sin $R(a)$.
+        \item P2--P4 en el modelo: las igualdades de P3 y P4 se cumplen hasta el error de redondeo.
+        \item Los contraejemplos: (iv) con promedios (turno 5 de claude.ai) y P4 sin $R(a)$.
         \item La calibración se reproduce desde \texttt{code/data/} y respeta el anidamiento.
       \end{itemize}
     \end{column}
@@ -796,29 +770,25 @@
 % =====================================================================
 
 % (1:15)
-\begin{frame}[fragile]{Lean: la Proposición 3, del paper a Lean}
-  \small Lean es un verificador de pruebas: revisa cada paso y no acepta nada que no se siga de los supuestos.
-
-  \textbf{En el paper.} Bajo (H), $\Delta=\tau^{70}+\mathcal{E}+\mathcal{D}$ con $\mathcal{E}\ge0$ y $\mathcal{D}\ge0$, así que $\Delta\ge\tau^{70}$.
-
-  \textbf{En Lean} (\texttt{lean/PaperInterface.lean}). $P$, $P_1$ y $P^f$ se definen desde las primitivas: la regla de corte,
-  la recursión del hábito con las edades $a-(n-j)d$ y una población finita con pesos.
+\begin{frame}[fragile]{Lean: la Proposición 3 (escalones), del paper a Lean}
+  \small Lean revisa cada paso de la prueba y no acepta nada que no se siga de los supuestos.
+  \textbf{En el paper:} $H(a)=\sum_k\rho^kP(a-(k+1)d)$, y entre 74 y 75 el primer término de la resta es $P(70)-P(69)$.
+  \textbf{En Lean} (\texttt{PaperInterface.lean}), con $h'=r\,h+\text{voto}$ y una población finita:
 {\footnotesize
 \begin{verbatim}
-  (∀ a a', 60 ≤ a → a ≤ a' → a' ≤ 70 → P1 a' ≤ P1 a) →   -- (H), parte 1
-  (∀ a a', 70 ≤ a → a ≤ a' → Pf a' ≤ Pf a) →              -- (H), parte 2
-  Δ = τ + E + D ∧ 0 ≤ E ∧ 0 ≤ D ∧ τ ≤ Δ
+  (∀ a, H a = ∑ k ∈ Finset.range (n a), r ^ k * P (a - (k + 1) * d)) ∧
+  (∀ a, 18 ≤ a → ¬ d ∣ (a + 1 - 18) →
+    H (a + 1) - H a = ∑ k ∈ Finset.range (n a),
+      r ^ k * (P (a + 1 - (k + 1) * d) - P (a - (k + 1) * d))) ∧
+  (d = 5 → ... 74 + 1 - (0 + 1) * d = 70 ∧ 74 - (0 + 1) * d = 69 ...)
 \end{verbatim}}
-  \textbf{El paso clave} (\texttt{lean/ProofInterface.lean}): la historia obligada domina a la observada.
+  \textbf{El paso clave} (\texttt{ProofInterface.lean}): $a$ y $a+1$ tienen las mismas elecciones pasadas; las sumas se restan término a término.
 {\footnotesize
 \begin{verbatim}
-  obtain ⟨-, hle, -⟩ := lemma1_coupling (fun j => ρ (age a j))
-    (fun j => base ω (age a j) + O (age a j) * S)   -- observada
-    (fun j => base ω (age a j) + S)                 -- obligada
-    (ε ω a) lam lam (hobs ω a) (hcomp ω a) ...
+  have hn : n (a + 1) = n a := n_succ d a ha hnd
+  rw [hcf (a + 1), hcf a, hn, ← Finset.sum_sub_distrib]
 \end{verbatim}}
-  \textbf{Qué verifica Lean.} El enunciado del paper, con sus mismas hipótesis: (H), $\lambda\ge0$, $S\ge0$, $\rho\ge0$, $G$ creciente.
-  Lo único que agrega es representar la esperanza como un promedio sobre una población finita.
+  \textbf{Qué verifica:} el enunciado del paper con sus hipótesis; agrega solo la población finita. Nombre en Lean: \texttt{prop4\_steps}.
 \end{frame}
 
 % (0:30)
@@ -831,16 +801,15 @@
     Lema 1 & \texttt{lemma1\_coupling} & probado & -- \\
     Proposición 1 & \texttt{prop1\_lifecycle} & probado & -- \\
     Proposición 2 & \texttt{prop2\_jump} & probado & población finita \\
-    Proposición 3 & \texttt{prop3\_bound} & probado & población finita \\
-    Proposición 4 & \texttt{prop4\_steps} & probado & población finita \\
-    Proposición 5 & \texttt{prop5\_rising\_persistence} & probado & población finita \\
+    Proposición 3 & \texttt{prop4\_steps} & probado & población finita \\
+    Proposición 4 & \texttt{prop5\_rising\_persistence} & probado & población finita \\
     \bottomrule
   \end{tabular}
 
   \vspace{0.4cm}\raggedright
   \begin{itemize}\setlength{\itemsep}{0.4em}
     \item \IfFileExists{../lean/docs/CHECK_FAST_OUTPUT.txt}{\texttt{lake build} y \texttt{check --fast} sin errores; ningún \texttt{sorry}; solo los tres axiomas estándar.}{\pending{resultado de \texttt{check --fast}}}
-    \item La estacionariedad de P4--P5 no es una hipótesis agregada: está en el paper como supuesto.
+    \item Los nombres en Lean siguen la numeración anterior; se actualizan con el paper. La estacionariedad de P3--P4 está en el paper como supuesto.
     \item Corrida de AppliedModelingLib hecha por Claude Code, no por GPT-5.6 Sol (declarado en \texttt{prompts.md}).
   \end{itemize}
 \end{frame}
@@ -850,19 +819,9 @@
 % =====================================================================
 
 % (1:15)
-\begin{frame}{Dónde no le creí a la IA (1): la hipótesis de P3}
-  \begin{block}{Lo que afirmó el modelo (Claude Code, al plantear P3)}
-    ``Si $a^*\le 60$ y el hábito es estacionario bajo obligación, entonces $\Delta\ge\tau^{70}$.''
-  \end{block}
-  \fig[0.42]{../code/figures/s_counter_p3.pdf}
-  {\small \textbf{Veredicto: falso.} A los 60 la costumbre todavía crece. Aquí lo que se gana llega a su máximo a los \cxPeak{}, pero con la costumbre las razones para votar suben hasta los 70: la brecha (\cxDelta) queda bajo el salto (\cxTau).
-  \textbf{Corrección:} la condición va sobre la participación, no sobre lo que se gana.\par}
-\end{frame}
-
-% (1:00)
-\begin{frame}{Dónde no le creí a la IA (2): el resto de P5}
-  \begin{block}{Lo que afirmó el modelo (primer borrador de P5)}
-    ``Con $\rho$ creciente, la identidad de P4 vale reemplazando $\rho^k$ por el producto de las persistencias.''
+\begin{frame}{Dónde no le creí a la IA: el término extra de P4}
+  \begin{block}{Lo que afirmó el modelo (primer borrador de P4)}
+    ``Con $\rho$ creciente, la identidad de P3 vale reemplazando $\rho^k$ por el producto de las persistencias.''
   \end{block}
   \small\textbf{En palabras:} al pasar de la edad $a$ a la $a+1$ cambian dos cosas, los votos pasados y cuánto pesa cada uno. El borrador solo contaba la primera.\par\vspace{0.1cm}
   \small Con $\Pi_k(a)=\prod_{j=1}^{k}\rho(a-jd)$ y $H(a)=\sum_k\Pi_k(a)P(a-(k+1)d)$:
@@ -878,7 +837,7 @@
 \end{frame}
 
 % (0:45)
-\begin{frame}{Dónde no le creí a la IA (2): la derivación a mano}
+\begin{frame}{Dónde no le creí a la IA: la derivación a mano}
   \begin{columns}[c]
     \begin{column}{0.6\textwidth}
       \centering\handphoto{0.72\textheight}
@@ -903,7 +862,7 @@
   \begin{enumerate}\setlength{\itemsep}{0.9em}
     \item ¿Es razonable el ciudadano \textbf{miope}? Con mirada hacia adelante, votar hoy tiene valor de opción por el hábito.
     \item Las edades menores de 45 varían entre elecciones de forma que ningún ciclo de vida captura. ¿Es legítimo calibrar solo la ventana 45--80, o eso es elegir los momentos a conveniencia?
-    \item ¿Qué contraste empírico separa el hábito de un $\beta$ alto: los escalones de la Proposición 4, o algo más?
+    \item ¿Qué contraste empírico separa el hábito de un $\beta$ alto: los escalones de la Proposición 3, o algo más?
   \end{enumerate}
 \end{frame}
 
@@ -930,8 +889,8 @@
   \vspace{0.3cm}
   \raggedright
   \begin{itemize}\setlength{\itemsep}{0.35em}\small
-    \item (H) se cumple en el óptimo en las seis elecciones (\texttt{verify.py} lo comprueba antes de reportar la descomposición).
-    \item En 2001 y 2011 el modelo sobrestima $\Delta$; en 2021, el año de la pandemia, la subestima.
+    \item El salto a los 70 ($\theta_{70}$) del modelo sigue al de los datos; en 2001 y 2011 lo exagera.
+    \item Las columnas de la derecha reparten la brecha del modelo entre salto, edad y costumbre perdida, solo como referencia.
   \end{itemize}
 \end{frame}
 
@@ -940,7 +899,7 @@
     \item Antes de los 70 la participación depende de $b$ y del hábito acumulado bajo obligación; después, además, del decaimiento del hábito.
     \item Con $G_\varepsilon$ normal, la densidad cambia a lo más en un 21\% entre participaciones de 0.73 y de 0.3--0.5.
     \item La caída es unas cuatro veces más rápida después de los 70: no puede venir de la curvatura de $G$. O viene de $\beta>1$ o viene del hábito.
-    \item El perfil antes de los 70 disciplina $\beta$; los escalones de la Proposición 4 disciplinan $\lambda$ y $\rho$.
+    \item El perfil antes de los 70 disciplina $\beta$; los escalones de la Proposición 3 disciplinan $\lambda$ y $\rho$.
   \end{itemize}
 \end{frame}
 

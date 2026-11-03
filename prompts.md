@@ -878,3 +878,55 @@ Formato: no uses em dashes en ningún texto que escribas.
   columna "Abierto".
 
 Los dos .tex compilan sin errores.
+
+### Turno 15 (3-nov-2026)
+
+**Prompt**
+
+```text
+Saca la proposición 3 del proyecto, ya tenemos data a nivel individual así que no vale la pena, sacala por favor
+```
+
+**Respuesta (resumen):** intentó preguntar el alcance (deck, paper, Lean); el usuario interrumpió para
+preguntar antes.
+
+### Turno 16 (3-nov-2026)
+
+**Prompt**
+
+```text
+De verdad es el resultado central? pero no es obvio? se me hace redundante si ya tenemos data a nivel de individuo
+```
+
+**Respuesta (resumen):** sí era el resultado central del deck, pero es casi obvia y, con datos por edad
+exacta, redundante:
+- la igualdad brecha = salto + edad + costumbre perdida es solo sumar y restar;
+- el salto se mide directo; por el Paso 5.9 es el efecto causal más un año de edad.
+
+Propuso hacer de la P4 (escalones) el resultado central y dejar la brecha como motivación. También
+propuso quitar "Dónde no le creí a la IA (1)", cambiar el título, y limpiar el paper, Lean y la
+derivación antes del 26-nov.
+
+### Turno 17 (3-nov-2026)
+
+**Prompt**
+
+```text
+Sí, sigue con eso
+```
+
+**Respuesta (resumen):** sacó la P3 del deck y renumeró las proposiciones: los escalones pasan a ser la
+P3, ahora la central, y la persistencia creciente pasa a ser la P4.
+
+- **Título nuevo:** "Voto obligatorio a los 70: el salto, la edad y la costumbre".
+- **Slides reescritas:**
+  - la pregunta y el resultado;
+  - la del salto (con edad exacta se mide directo);
+  - la prueba, que ahora es la de los escalones en tres pasos;
+  - la de Lean, que ahora muestra `prop4_steps`.
+- **Slides quitadas:**
+  - las dos de la P3;
+  - la descomposición de la brecha en la calibración;
+  - "Dónde no le creí a la IA (1)".
+- **Pendiente para el 26-nov:** el paper, Lean (nombres) y el documento de derivación todavía tienen la
+  numeración anterior.
