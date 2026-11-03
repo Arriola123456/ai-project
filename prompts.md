@@ -707,3 +707,54 @@ numerados, la regla de cada línea y `\cancel{}` en cada cancelación. Contiene:
 
 Los números se comprobaron con Python antes de escribirlos. El documento compila sin errores ni líneas
 desbordadas.
+
+### Turno 10 — 1-nov-2026
+
+**Prompt**
+
+```text
+Que falta para el miercoles exactamente? es necesaria la derivación a mano?
+```
+
+**Respuesta (resumen):** sí: el punto 7 del issue pide la derivación a mano en pantalla. Basta una página
+(el resto R(a) de la Proposición 5) en `hand/05-proposicion-5-resto.jpg`. Además faltan revisar las slides
+de la IA y de las preguntas, el push con OK, el PR y el merge antes del martes 3-nov a las 22:00, y ensayar.
+
+### Turno 11 — 1-nov-2026
+
+**Prompt**
+
+```text
+segun el modelo que explica el salto si la sanción no tiene peso al calibrarse?
+```
+
+**Respuesta (resumen):** el que se va a cero es q, el peso del monto de la multa; la parte no monetaria
+s₀ ≈ 0.29 es la que produce el salto. La multa solo toma dos valores y se mueve al revés que el salto, así
+que q no está bien identificado. El salto cambia entre elecciones por el costo medio μₜ, que pone a más o
+menos gente cerca del margen (2021 tiene el μₜ más alto y el salto más grande).
+
+### Turno 12 — 3-nov-2026
+
+**Prompt**
+
+```text
+No entiendo tus proposiciones, explicamelas una a una
+```
+
+**Respuesta (resumen):** explicó en palabras la regla de corte, el Lema 1 y las Proposiciones 1–5: qué
+dice cada una, por qué es cierta y para qué se usa, con una tabla de resumen.
+
+### Turno 13 — 3-nov-2026
+
+**Prompt**
+
+```text
+Mejora tus slides, usas lenguaje muy tecnico, definitivamente no lo entiendo, recien ahora que me lo estas explicando logro comprender algo. por favor corrige tus slides para que sean más intuitivos, el gráfico del Lema 1 no se de donde sale ni que significa, por favor, hazlo mas entendible, igual con el resto de slides
+```
+
+**Respuesta (resumen):** reescribió el deck en lenguaje simple. El modelo y las proposiciones ahora
+empiezan por un recuadro "En palabras", y el enunciado formal queda abajo, en letra chica. Se usa
+"costumbre" en vez de "hábito", "lo que se gana" en vez de b(a) y "salto" y "brecha" en vez de τ⁷⁰ y Δ.
+Rehízo el gráfico del Lema 1: la misma persona en dos mundos (vida real y obligada siempre), con sus votos
+arriba y su costumbre abajo. También cambió las etiquetas de los demás gráficos (sin P₁, Pᶠ, θ ni índices)
+y acortó títulos y textos para que nada se desborde. `verify.py` pasa.

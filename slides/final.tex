@@ -94,6 +94,8 @@
 % One-line message at the bottom of a slide
 \newcommand{\takeaway}[1]{\par\vspace{0.12cm}{\setlength{\fboxsep}{4pt}\colorbox{uplight}{%
   \parbox{\dimexpr\linewidth-8pt}{\small{\color{upblue}\textbf{Idea.}} #1}}}}
+% The formal statement, small and gray, under the plain-language version
+\newcommand{\formal}[1]{\par\vspace{0.12cm}{\footnotesize\color{upgray}\textbf{Formalmente.} #1\par}}
 \newcommand{\fig}[2][0.62]{{\centering\includegraphics[width=\linewidth,height=#1\textheight,keepaspectratio]{#2}\par}}
 \IfFileExists{../code/output/numbers.tex}{\input{../code/output/numbers.tex}}{}
 \IfFileExists{../code/output/slide_numbers.tex}{\input{../code/output/slide_numbers.tex}}{}
@@ -168,8 +170,8 @@
 % (1:15)
 \begin{frame}[c]{Con la edad exacta: un salto chico y una caída larga}
   \fig[0.62]{../code/figures/s_theta_exact.pdf}
-  {\centering\tiny $\theta_a=P(a)-P(69)$ con efectos fijos de mesa, por edad exacta (tesis). Datos agregados en \texttt{code/data/}.\par}
-  \takeaway{El salto en el umbral es de 5 a 12 pp según la elección ($\runJump$ pp en \runTag). La brecha entre grupos es entre cuatro y seis veces más grande: ¿qué es el resto?}
+  {\centering\tiny Participación a cada edad menos la participación a los 69, comparando a electores de la misma mesa (tesis, $\theta_a=P(a)-P(69)$). Datos agregados en \texttt{code/data/}.\par}
+  \takeaway{Justo a los 70 la participación cae de 5 a 12 puntos según la elección ($\runJump$ en \runTag). La brecha entre grupos es entre cuatro y seis veces más grande: ¿de dónde sale el resto?}
 \end{frame}
 
 % (0:45)
@@ -192,7 +194,7 @@
     \draw[line width=2pt,upaccent] (4.3,3.45) -- (4.7,3.45) node[right,font=\small,black]{bajo obligación};
     \draw[line width=2pt,upred] (4.3,3.05) -- (4.7,3.05) node[right,font=\small,black]{voto facultativo};
   \end{tikzpicture}
-  \takeaway{La brecha entre medias de grupo $\Delta$ suma el salto en el umbral $\tau^{70}$ (lo que causa la obligación) y la caída por edad dentro de cada grupo. El grupo 70+ es abierto: llega hasta los 100 años.}
+  \takeaway{La brecha entre promedios de grupo, $\Delta$, junta dos cosas: el salto a los 70, $\tau^{70}$ (lo que causa la obligación), y la caída por edad dentro de cada grupo. El grupo 70+ llega hasta los 100 años.}
 \end{frame}
 
 % (1:15)
@@ -203,14 +205,13 @@
   \end{block}
   \vspace{0.15cm}
   \begin{block}{Resultado (Proposición 3)}
-    La brecha $\Delta$ es una \textbf{cota superior} del efecto causal $\tau^{70}$ de la obligación,
-    \textbf{siempre que} la participación, \alert{incluido el hábito}, no crezca entre los 60 y los 70
-    años ni después de los 70.
+    La brecha \textbf{exagera} el efecto de la obligación (cuántos dejan de votar solo porque ya no es obligatorio),
+    \textbf{siempre que} la participación, \alert{contando la costumbre}, no suba con la edad desde los 60.
   \end{block}
-  \vspace{0.15cm}
-  \begin{itemize}\setlength{\itemsep}{0.45em}
-    \item \textbf{En números:} con el modelo calibrado a seis elecciones, $\tau^{70}$ es \tauMin--\tauMax: solo el \hl{\tauShareMin--\tauShareMax\%} de la brecha.
-    \item \textbf{La condición importa:} que el beneficio de votar caiga con la edad \textbf{no basta}. Si el hábito todavía se acumula, $\Delta<\tau^{70}$ es posible (parte 7).
+  \vspace{0.1cm}
+  \begin{itemize}\setlength{\itemsep}{0.35em}\small
+    \item \textbf{En números:} en seis elecciones, el efecto es \tauMin--\tauMax: solo el \hl{\tauShareMin--\tauShareMax\%} de la brecha. El resto es, sobre todo, que el grupo 70+ es más viejo.
+    \item \textbf{La condición importa:} que lo que se gana votando baje con la edad \textbf{no basta}, porque la costumbre puede seguir acumulándose (parte 7).
   \end{itemize}
 \end{frame}
 
@@ -220,56 +221,56 @@
 
 % (0:45)
 \begin{frame}{El modelo en seis pasos}
-  \small Parto del cálculo del voto y agrego una pieza por paso. \nt{En azul}, lo nuevo de cada paso.
+  \small Parto de la idea más simple y agrego una pieza por paso. \nt{En azul}, lo nuevo de cada paso.
   \vspace{0.15cm}
 
-  \renewcommand{\arraystretch}{1.3}
-  \begin{tabularx}{\textwidth}{@{}L{1.0cm}L{6.4cm}Y@{}}
+  \renewcommand{\arraystretch}{1.25}
+  {\small
+  \begin{tabularx}{\textwidth}{@{}L{0.9cm}Y L{3.6cm}@{}}
     \toprule
-    \textbf{Paso} & \textbf{Regla de decisión hasta aquí} & \textbf{Qué agrega} \\
+    \textbf{Paso} & \textbf{La idea en palabras} & \textbf{En símbolos} \\
     \midrule
-    1 & vota $\iff c<B$ & beneficio contra costo (Riker y Ordeshook) \\
-    2 & vota $\iff c<B+\nt{O_aS}$ & la obligación hasta los 70 (Panagopoulos) \\
-    3 & $c=\nt{\mu_t+\eta_i+\varepsilon_{it}}$ & de dónde viene el costo \\
-    4 & $B=\nt{b(a)=Aa^{\alpha}-\kappa a^{\beta}}$ & el ciclo de vida \\
-    5 & $B=b(a)+\nt{\lambda h_{it}}$,\; $h_{i,t+1}=\nt{\rho(a)h_{it}+v_{it}}$ & el hábito (Fowler) \\
-    6 & elecciones cada \nt{$d=5$ años} & el calendario \\
+    1 & Vota si lo que gana votando supera lo que le cuesta ir. & vota si $c<B$ \\
+    2 & Antes de los 70, no votar trae una sanción. & vota si $c<B+\nt{S}$ \\
+    3 & El costo: la elección, la persona y ese día. & $c=\nt{\mu_t+\eta_i+\varepsilon_{it}}$ \\
+    4 & Lo que se gana sube con la edad y después baja. & $B=\nt{b(a)}$ \\
+    5 & Votar crea costumbre, que se va borrando. & $B=b(a)+\nt{\lambda h}$ \\
+    6 & Hay elecciones cada 5 años. & \nt{$d=5$} \\
     \bottomrule
-  \end{tabularx}
-  \takeaway{Al final: $v_{it}=1\iff\varepsilon_{it}<b(a)+\lambda h_{it}+O_aS_t-\mu_t-\eta_i$. Cada pieza sirve para un resultado.}
+  \end{tabularx}}
+  \takeaway{Al final: una persona vota si su costo de ese día es menor que lo que gana a su edad, más su costumbre, más la sanción si tiene menos de 70.}
 \end{frame}
 
 % (1:00)
-\begin{frame}{Paso 1: votar es comparar un beneficio con un costo}
-  \rulebar{vota $\iff c<B$}
+\begin{frame}{Paso 1: votar es comparar lo que se gana con lo que cuesta}
+  \rulebar{vota si $c<B$ \quad (costo $<$ lo que gana)}
   \begin{columns}[c]
     \begin{column}{0.5\textwidth}
       \centering
       \begin{tikzpicture}[xscale=0.95,yscale=5.2]
         \fill[upaccent!25,domain=-3:0.6,smooth,samples=60,variable=\x] (-3,0) -- plot (\x,{exp(-(\x)^2/2)/2.5066}) -- (0.6,0) -- cycle;
         \draw[line width=1.5pt,upblue,domain=-3.2:3.2,smooth,samples=80] plot (\x,{exp(-(\x)^2/2)/2.5066});
-        \draw[->,upgray] (-3.3,0) -- (3.6,0) node[below left,font=\scriptsize,text=black]{costo de votar $c$};
+        \draw[->,upgray] (-3.3,0) -- (3.6,0) node[below left,font=\scriptsize,text=black]{costo de ir a votar $c$};
         \draw[thick,upred] (0.6,0) -- (0.6,0.47) node[above,font=\small,text=black]{$B$};
         \node[font=\small,text=upblue] at (-0.9,0.07) {\textbf{votan}};
         \node[font=\small,text=upgray] at (2.5,0.12) {no votan};
-        \node[font=\scriptsize,text=upgray] at (-2.2,0.36) {densidad $g$};
+        \node[font=\scriptsize,text=upgray,align=center] at (-2.3,0.33) {cuántas personas\\tienen cada costo};
       \end{tikzpicture}
     \end{column}
     \begin{column}{0.48\textwidth}
       \begin{itemize}\setlength{\itemsep}{0.5em}\small
-        \item $B$: beneficio neto de votar (el $pB+D$ de Riker y Ordeshook, 1968).
-        \item $c$: costo de votar, distinto entre ciudadanos, con distribución $G$.
-        \item Vota quien tiene un costo \textbf{bajo el corte}: la participación es $G(B)$, el área azul.
-        \item La decisión es discreta: no hay CPO interior. Su análogo es la \hl{condición de corte}.
+        \item $c$: lo que le cuesta a cada persona ir a votar (tiempo, distancia, colas). Es distinto para cada uno.
+        \item $B$: lo que gana votando (influir, sentirse parte, cumplir con un deber).
+        \item Vota quien tiene un costo menor que $B$. La participación es el \textbf{área azul}.
       \end{itemize}
     \end{column}
   \end{columns}
-  \takeaway{Todo lo que suba el corte $B$ sube la participación. El resto del modelo dice qué mueve el corte.}
+  \takeaway{Todo lo que suba $B$ corre la raya roja a la derecha: vota más gente. El resto del modelo explica qué mueve esa raya.}
 \end{frame}
 
 % (1:15)
-\begin{frame}{Paso 2: la obligación mueve el corte}
-  \rulebar{vota $\iff c<B+\nt{O_aS}$, \quad $O_a=\1[a<70]$, \quad $S=s_0+qF\ge0$}
+\begin{frame}{Paso 2: la obligación corre la raya}
+  \rulebar{antes de los 70: vota si $c<B+\nt{S}$ \qquad desde los 70: vota si $c<B$}
   \begin{columns}[c]
     \begin{column}{0.5\textwidth}
       \centering
@@ -280,84 +281,84 @@
         \draw[->,upgray] (-3.3,0) -- (3.6,0) node[below left,font=\scriptsize,text=black]{costo $c$};
         \draw[thick,upgray] (0,0) -- (0,0.47) node[above,font=\small,text=black]{$B$};
         \draw[thick,upred] (1.0,0) -- (1.0,0.47) node[above,font=\small,text=black]{$B+S$};
-        \node[font=\scriptsize,text=upblue,align=center] at (-0.8,0.1) {siempre\\votan};
-        \node[font=\scriptsize,align=center] at (2.45,0.27) {cumplidores:\\votan solo\\si los obligan};
+        \node[font=\scriptsize,text=upblue,align=center] at (-0.8,0.1) {votan\\siempre};
+        \node[font=\scriptsize,align=center] at (2.45,0.27) {cumplidores:\\votan solo porque\\es obligatorio};
         \draw[->,thin] (1.75,0.22) -- (0.65,0.13);
         \node[font=\scriptsize,text=upgray] at (3.0,0.09) {nunca votan};
       \end{tikzpicture}
     \end{column}
     \begin{column}{0.48\textwidth}
       \begin{itemize}\setlength{\itemsep}{0.5em}\small
-        \item Si no vota, el obligado paga la sanción esperada $S$: la multa $F$ (en \% de la UIT) con peso $q$, más un costo no monetario $s_0$.
-        \item La obligación no cambia el beneficio: \textbf{encarece abstenerse} (Panagopoulos, 2008).
-        \item El efecto de la obligación es la masa de \hl{cumplidores}:
-        \[ \tau=G(B+S)-G(B). \]
+        \item Antes de los 70, quien no vota recibe una \textbf{sanción} $S$: la multa y las molestias (trámites, sentirse en falta).
+        \item La sanción no hace más atractivo votar: hace \textbf{más caro no votar}. La raya pasa de $B$ a $B+S$.
+        \item Aparecen los \hl{cumplidores} (zona oscura): votan solo porque es obligatorio. El efecto de la obligación es cuántos son.
       \end{itemize}
     \end{column}
   \end{columns}
-  \takeaway{A los 70 se pierde $S$: el corte baja y los cumplidores dejan de votar. Ese es el salto $\tau^{70}$.}
+  \takeaway{A los 70 desaparece la sanción: la raya vuelve a $B$ y los cumplidores se quedan en casa. Ese es el \textbf{salto a los 70}, al que llamo $\tau^{70}$.}
 \end{frame}
 
 % (0:45) [opcional]
 \begin{frame}{Paso 3: de dónde viene el costo}
-  \rulebar{$c_{it}=\nt{\mu_t+\eta_i+\varepsilon_{it}}$}
+  \rulebar{$c_{it}=\nt{\mu_t+\eta_i+\varepsilon_{it}}$ \quad (la elección + la persona + ese día)}
   \begin{columns}[T]
     \begin{column}{0.31\textwidth}
       \begin{block}{$\mu_t$: la elección}
-        \small Común a todos en la elección $t$: el clima político, la logística, la pandemia en 2021.
-        \textbf{Se calibra una por elección.}
+        \small Igual para todos en esa elección: el clima político, la logística, la pandemia en 2021.
+        \textbf{Uno por elección.}
       \end{block}
     \end{column}
     \begin{column}{0.31\textwidth}
-      \begin{block}{$\eta_i$: el ciudadano}
-        \small Persistente: la distancia al local, la salud, el interés. El mismo ciudadano lo lleva a
+      \begin{block}{$\eta_i$: la persona}
+        \small Lo acompaña siempre: la distancia al local, la salud, el interés. La misma persona lo lleva a
         \textbf{todas} las elecciones.
       \end{block}
     \end{column}
     \begin{column}{0.31\textwidth}
       \begin{block}{$\varepsilon_{it}$: ese día}
-        \small Transitorio: un viaje, un trámite, la lluvia. Independiente entre elecciones.
+        \small Pasajero: un viaje, un trámite, la lluvia. Cambia de una elección a otra.
       \end{block}
     \end{column}
   \end{columns}
   \vspace{0.3cm}
   \begin{itemize}\setlength{\itemsep}{0.4em}\small
-    \item Supuesto 2: $\eta$ y $\varepsilon$ independientes, con distribución igual a toda edad. En la calibración son normales, con $\mathrm{Var}(c)=1$ y una fracción $\omega$ persistente.
+    \item Ninguna de las tres partes depende de la edad. En la calibración son normales.
   \end{itemize}
-  \takeaway{$\eta_i$ hace que unos ciudadanos voten sistemáticamente menos que otros. Eso vuelve heterogéneo al hábito del paso 5.}
+  \takeaway{Como $\eta_i$ acompaña a la persona, unos votan casi siempre y otros casi nunca. Por eso la costumbre de votar (paso 5) será distinta entre personas.}
 \end{frame}
 
 % (1:00)
-\begin{frame}{Paso 4: el beneficio de votar sigue un ciclo de vida}
-  \rulebar{$B=\nt{b(a)=A\,a^{\alpha}-\kappa\,a^{\beta}}$, \quad $A,\kappa>0$, \quad $0<\alpha<1\le\beta$}
-  \fig[0.45]{../code/figures/s_lifecycle.pdf}
+\begin{frame}{Paso 4: lo que se gana votando depende de la edad}
+  \rulebar{lo que se gana a la edad $a$: \; $B=\nt{b(a)=A\,a^{\alpha}-\kappa\,a^{\beta}}$}
+  \fig[0.42]{../code/figures/s_lifecycle.pdf}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \footnotesize $A a^{\alpha}$: lo que da la edad (información, arraigo, interés en lo que se decide), con rendimientos decrecientes.
+      \footnotesize \textbf{Lo que suma la edad} ($A a^{\alpha}$): información, arraigo, interés en lo que se decide. Sube rápido de joven y luego se estanca.
     \end{column}
     \begin{column}{0.48\textwidth}
-      \footnotesize $\kappa a^{\beta}$: lo que quita (salud, movilidad), cada vez más rápido si $\beta>1$.
+      \footnotesize \textbf{Lo que resta la edad} ($\kappa a^{\beta}$): salud, movilidad. Pesa cada vez más.
     \end{column}
   \end{columns}
-  \takeaway{Una U invertida con un solo máximo $a^*$ (Proposición 1). Calibrado: $a^*=\peakBest$ años.}
+  \takeaway{Primero gana lo que suma y después lo que resta: hay una sola edad de máximo, $a^*$ (Proposición 1). Con los datos, $a^*=\peakBest$ años.}
 \end{frame}
 
 % (1:00)
-\begin{frame}{Paso 4, consecuencia: el perfil sin hábito}
-  \rulebar{sin hábito, $P(a)=\E_\eta\,G_\varepsilon\bigl(b(a)+O_aS-\mu-\eta\bigr)$: el índice $b(a)+O_aS$ pasado por $G$}
+\begin{frame}{Paso 4, consecuencia: la participación sin costumbre}
+  \rulebar{participación a la edad $a$ = fracción de personas con costo menor que lo que gana $+$ la sanción}
   \fig[0.5]{../code/figures/s_static_index.pdf}
-  {\centering\tiny Modelo estático calibrado (M1, sin hábito), elección \runTag. La línea punteada: los mismos ciudadanos si siguieran obligados.\par}
-  \takeaway{A los 70 el índice baja exactamente $S$ y la participación salta $\tau^{70}$. Después, la caída la pone solo $b(a)$.}
+  {\centering\tiny Modelo calibrado sin costumbre (M1), elección \runTag. Línea punteada: las mismas personas si siguieran obligadas.\par}
+  \takeaway{A los 70 las razones para votar bajan de golpe en $S$ y la participación salta $\tau^{70}$. Después, la caída la produce solo la edad.}
 \end{frame}
 
 % (1:15)
-\begin{frame}{Paso 5: votar crea hábito}
-  \rulebar{$B=b(a)+\nt{\lambda h_{it}}$, \quad $h_{i,t+1}=\nt{\rho(a_{it})\,h_{it}+v_{it}}$, \quad $h=0$ a los 18, \quad $\lambda\ge0$}
-  \fig[0.5]{../code/figures/s_habit_paths.pdf}
-  \begin{itemize}\setlength{\itemsep}{0.3em}\small
-    \item El shock del hábito es el \textbf{voto anterior} (Fowler, 2006, como stock); $\rho$ es la persistencia. El ciudadano es miope: no vota para formar hábito (Supuesto 4).
+\begin{frame}{Paso 5: votar crea costumbre}
+  \rulebar{lo que se gana: $b(a)+\nt{\lambda h}$, \qquad costumbre en la siguiente elección: $\nt{h'=\rho\,h+v}$}
+  \fig[0.42]{../code/figures/s_habit_paths.pdf}
+  \begin{itemize}\setlength{\itemsep}{0.2em}\footnotesize
+    \item $h$ es la \textbf{costumbre}: cada vez que vota ($v=1$) suma 1, y de una elección a la siguiente solo queda una fracción $\rho$. Cada unidad suma $\lambda$ a lo que gana votando.
+    \item La persona no vota \emph{para} formar costumbre: solo mira la elección de hoy (Fowler, 2006).
   \end{itemize}
-  \takeaway{Mismos shocks, distinto costo persistente: A acumula hábito y sigue votando tras los 70; B deja de votar y su hábito se deprecia. (Parámetros ilustrativos.)}
+  \takeaway{Mismos días buenos y malos; B tiene un costo propio más alto. A junta costumbre y sigue votando tras los 70; B deja de votar y su costumbre se borra. (Ilustrativo.)}
 \end{frame}
 
 % (0:45)
@@ -387,122 +388,117 @@
 
   \vspace{0.3cm}
   \raggedright
-  \takeaway{Quien tiene 70--74 votó por última vez obligado; quien tiene 75--79 ya tuvo una elección libre, y su hábito ya empezó a caer. Por eso el hábito baja en \textbf{escalones} a los 75, 80, 85 (Proposición 4).}
+  \takeaway{Quien tiene 70--74 votó por última vez obligado. Quien tiene 75--79 ya tuvo una elección libre, en la que muchos no fueron, y su costumbre ya empezó a caer. Por eso la costumbre baja en \textbf{escalones} a los 75, 80, 85 (Proposición 4).}
 \end{frame}
 
-% (1:00)
-\begin{frame}{El modelo completo}
-  \small Ciudadano $i$, edad $a$, elección $t$; elecciones cada $d=5$ años.
-  \begin{block}{Problema del ciudadano}
+% (0:45)
+\begin{frame}{El modelo completo, en una línea}
+  \begin{block}{La persona $i$, de edad $a$, vota en la elección $t$ si y solo si}
     \[
-      \max_{v\in\{0,1\}}\; v\bigl[b(a)+\lambda h_{it}-c_{it}\bigr]+(1-v)\bigl[-O_a S_t\bigr],
-      \qquad O_a=\1[a<70],\quad S_t=s_0+qF_t\ge0
+      \underbrace{\mu_t+\eta_i+\varepsilon_{it}}_{\text{su costo de ir}}
+      \;<\;
+      \underbrace{b(a)}_{\substack{\text{lo que gana}\\\text{a su edad}}}
+      +\underbrace{\lambda h_{it}}_{\text{su costumbre}}
+      +\underbrace{O_a S_t}_{\substack{\text{la sanción}\\\text{(solo antes de 70)}}}
     \]
   \end{block}
-  \begin{columns}[T]
-    \begin{column}{0.5\textwidth}
-      \begin{itemize}\setlength{\itemsep}{0.35em}\small
-        \item \hl{S1, beneficio:} $b(a)=Aa^{\alpha}-\kappa a^{\beta}$, $0<\alpha<1\le\beta$.
-        \item \hl{S2, costo:} $c_{it}=\mu_t+\eta_i+\varepsilon_{it}$, independientes; $G_\varepsilon$ continua con densidad $g_\varepsilon>0$, igual a toda edad.
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \begin{itemize}\setlength{\itemsep}{0.35em}\small
-        \item \hl{S3, hábito:} $h'=\rho(a)h+v$, $h=0$ al inicio, $\rho\in[0,1)$, $\lambda\ge0$.
-        \item \hl{S4, miopía:} no internaliza el efecto de su voto en su hábito.
-      \end{itemize}
-    \end{column}
-  \end{columns}
-  \begin{block}{Condición de corte (análogo de la CPO)}
-    \centering $v_{it}=1\iff \varepsilon_{it}<b(a)+\lambda h_{it}+O_aS_t-\mu_t-\eta_i$
-  \end{block}
+  \vspace{0.1cm}
+  \begin{itemize}\setlength{\itemsep}{0.4em}\small
+    \item \hl{Lo que gana:} $b(a)=Aa^{\alpha}-\kappa a^{\beta}$, sube y luego baja \quad ($0<\alpha<1\le\beta$).
+    \item \hl{La costumbre:} $h'=\rho h+v$; empieza en 0; cada voto suma 1 y una fracción $1-\rho$ se olvida en cada elección.
+    \item \hl{La sanción:} $S_t=s_0+qF_t$: una parte que no es dinero ($s_0$) y la multa $F_t$ con peso $q$. \;$O_a=1$ si $a<70$ y $0$ si no.
+    \item \hl{Miopía:} la persona no vota para formar costumbre; solo compara costo y beneficio de hoy.
+  \end{itemize}
 \end{frame}
 
 % (0:45)
-\begin{frame}{Los dos objetos: $\tau^{70}$ y $\Delta$}
+\begin{frame}{Lo que queremos saber y lo que se ve}
   \begin{columns}[T]
     \begin{column}{0.48\textwidth}
-      \begin{block}{Efecto causal en el umbral}
-        \[ \tau^{70}=\E\bigl[G_\varepsilon(\bar c+S)-G_\varepsilon(\bar c)\bigr]\]
-        \[ \bar c=b(70)+\lambda h_{70}-\mu-\eta \]
-        \footnotesize Los mismos ciudadanos a los 70, \textbf{con su hábito acumulado}, con y sin obligación. No se observa con datos por grupo.
+      \begin{block}{Lo que queremos: el efecto de la obligación, $\tau^{70}$}
+        \small Tome a las \textbf{mismas personas} de 70 años, con la costumbre que ya tienen. ¿Qué fracción deja de votar
+        \textbf{solo} porque ya no es obligatorio? Esa fracción son los cumplidores: $\tau^{70}$.
+        \vspace{0.1cm}
+
+        \footnotesize No se puede ver en los datos por grupo.
       \end{block}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \begin{block}{Lo que reporta la ONPE}
-        \[ \Delta=\E_{a\in[60,70)}\bigl[P(a)\bigr]-\E_{a\ge 70}\bigl[P(a)\bigr] \]
-        \footnotesize Promedios sobre la distribución de electores por edad dentro de cada grupo. El grupo 70+ es abierto.
+      \begin{block}{Lo que publica la ONPE: la brecha, $\Delta$}
+        \small Participación promedio del grupo de 60--69 menos la del grupo de 70+.
+        \vspace{0.1cm}
+
+        \footnotesize Ojo: el grupo 70+ junta a personas de 70 a 100 años.
       \end{block}
     \end{column}
   \end{columns}
-  \takeaway{$\tau^{70}$ es lo que interesa para la política; $\Delta$ es lo que se ve. La pregunta formal: ¿cuándo es $\Delta\ge\tau^{70}$, y cuánto más grande?}
+  \takeaway{$\tau^{70}$ es lo que importa para decidir la política; $\Delta$ es lo que se ve. La pregunta: ¿cuánto de la brecha $\Delta$ es el efecto $\tau^{70}$?}
 \end{frame}
 
 % (0:45)
-\begin{frame}{Los dos objetos en el modelo calibrado}
+\begin{frame}{Los dos números en el modelo calibrado}
   \fig[0.64]{../code/figures/s_two_objects.pdf}
-  \takeaway{En el modelo calibrado a \runTag: $\tau^{70}=\runTau$ y $\Delta=\runDelta$. Los rombos son las medias de grupo de la ONPE.}
+  \takeaway{En el modelo calibrado a \runTag: el efecto de la obligación es $\tau^{70}=\runTau$, pero la brecha es $\Delta=\runDelta$. Los rombos son los promedios de la ONPE.}
 \end{frame}
 
 % =====================================================================
 \section[3 Resultados]{Las proposiciones}
 % =====================================================================
 
-% (0:30)
-\begin{frame}[c]{Un lema y cinco proposiciones}
+% (0:45)
+\begin{frame}[c]{Un lema y cinco proposiciones: qué responde cada una}
   \centering
   \begin{tikzpicture}[
-      res/.style={draw=upaccent,fill=uplight,rounded corners=3pt,text width=2.95cm,align=left,font=\scriptsize,
-                  inner sep=4pt,minimum height=1.45cm},
+      res/.style={draw=upaccent,fill=uplight,rounded corners=3pt,text width=3.2cm,align=left,font=\scriptsize,
+                  inner sep=4pt,minimum height=1.55cm},
       head/.style={font=\small\bfseries,text=upblue},
       arr/.style={-{Stealth[length=2.2mm]},thick,upgray}]
-    \node[head] at (0,2.5) {El beneficio};
-    \node[head] at (5.1,2.5) {El salto y la brecha};
-    \node[head] at (10.2,2.5) {La huella del hábito};
-    \node[res] (p1) at (0,1.3) {\textbf{P1, ciclo de vida.}\\ ¿Qué forma tiene $b(a)$? U invertida con máximo único $a^*$.};
-    \node[res] (l1) at (5.1,1.3) {\textbf{Lema 1, acoplamiento.}\\ Más incentivo en cada elección $\Rightarrow$ más hábito siempre.};
-    \node[res] (p2) at (3.4,-0.85) {\textbf{P2, el salto.}\\ ¿Y con hábito?\\ Se achica.};
-    \node[res] (p3) at (6.8,-0.85) {\textbf{P3, la cota.}\\ ¿$\Delta\ge\tau^{70}$? Sí, bajo (H): $\Delta=\tau^{70}+\mathcal{E}+\mathcal{D}$.};
-    \node[res] (p4) at (10.2,1.3) {\textbf{P4, escalones.}\\ El salto vuelve como escalón a los 75, 80, \dots};
-    \node[res] (p5) at (10.2,-0.85) {\textbf{P5, $\rho'(a)\ge0$.}\\ Igual que P4, más un resto $R(a)\ge0$.};
+    \node[head] at (0,2.6) {Lo que se gana};
+    \node[head] at (5.1,2.6) {El salto y la brecha};
+    \node[head] at (10.2,2.6) {La huella de la costumbre};
+    \node[res] (p1) at (0,1.3) {\textbf{P1.} ¿Cómo cambia con la edad lo que se gana votando?\\ \hl{Sube y después baja.}};
+    \node[res] (l1) at (5.1,1.3) {\textbf{Lema 1.} Si en el pasado hubo más razones para votar\dots\\ \hl{hoy hay más costumbre.}};
+    \node[res] (p2) at (3.3,-0.95) {\textbf{P2.} ¿El salto a los 70 incluye costumbre?\\ \hl{No, y la costumbre lo achica.}};
+    \node[res] (p3) at (6.9,-0.95) {\textbf{P3.} ¿La brecha exagera el efecto?\\ \hl{Sí: brecha = salto + edad + costumbre perdida.}};
+    \node[res] (p4) at (10.2,1.3) {\textbf{P4.} ¿Deja huella la costumbre?\\ \hl{Sí: escalones a los 75, 80, 85.}};
+    \node[res] (p5) at (10.2,-0.95) {\textbf{P5.} ¿Y si la costumbre dura más en la vejez?\\ \hl{Lo mismo, con un término extra.}};
     \draw[arr] (l1.south) -- (p2.north);
     \draw[arr] (l1.south) -- (p3.north);
     \draw[arr] (p4.south) -- (p5.north);
   \end{tikzpicture}
 
   \vspace{0.3cm}
-  {\small\color{upgray} Todos están probados a mano en el paper y en Lean (parte 6).}
+  {\small\color{upgray} Las seis están probadas a mano en el paper y verificadas en Lean (parte 6).}
 \end{frame}
 
 % (0:30) [opcional: ya se vio en el paso 4]
-\begin{frame}{Proposición 1: el ciclo de vida}
-  \begin{block}{Proposición 1 \quad (Supuesto 1: $A,\kappa>0$, $0<\alpha<1\le\beta$)}
-    $b$ es estrictamente cóncava y tiene un máximo único en
-    \[ a^*=\Bigl(\tfrac{A\alpha}{\kappa\beta}\Bigr)^{1/(\beta-\alpha)} . \]
-    Con $\beta=1$, $b'(a)\to-\kappa$ (la caída se vuelve lineal); con $\beta>1$, $b'(a)\to-\infty$ (la caída se acelera).
+\begin{frame}{Proposición 1: lo que se gana votando sube y después baja}
+  \begin{block}{En palabras}
+    Lo que se gana votando sube con la edad, llega a un \textbf{único máximo} a la edad $a^*$ y después baja.
+    Si $\beta>1$, la caída se acelera con los años.
   \end{block}
-  \begin{itemize}\setlength{\itemsep}{0.45em}
-    \item Prueba: $b'(a)=a^{\alpha-1}\bigl[A\alpha-\kappa\beta a^{\beta-\alpha}\bigr]$ cambia de signo una sola vez, y $b''<0$.
-    \item ¿Conviene $\beta>1$? Sin hábito los datos piden $\beta=\betaStatic$; con hábito, $\beta=\betaBest$.
+  \begin{itemize}\setlength{\itemsep}{0.5em}
+    \item \textbf{¿Por qué?} Lo que suma la edad se estanca y lo que resta no: las dos curvas se cruzan en pendiente una sola vez. Antes de $a^*$ domina lo que suma; después, lo que resta.
+    \item \textbf{¿Hace falta $\beta>1$?} Sin costumbre, los datos piden $\beta=\betaStatic$; con costumbre, $\beta=\betaBest$.
   \end{itemize}
+  \formal{$b(a)=Aa^{\alpha}-\kappa a^{\beta}$ con $0<\alpha<1\le\beta$ es estrictamente cóncava y tiene su máximo en $a^*=(A\alpha/\kappa\beta)^{1/(\beta-\alpha)}$. Con $\beta=1$, $b'\to-\kappa$; con $\beta>1$, $b'\to-\infty$.}
 \end{frame}
 
-% (1:00)
-\begin{frame}{Lema 1: más incentivo en cada elección, más hábito siempre}
-  \begin{block}{Lema 1 \quad ($0\le\lambda\le\lambda'$, $\rho\ge0$)}
-    Fije $\eta_i$ y los shocks $\varepsilon_{i1},\varepsilon_{i2},\dots$ Si los umbrales sin hábito cumplen $\theta_j\le\theta'_j$ en cada elección $j$,
-    entonces $0\le h_j\le h'_j$ para todo $j$, y si el ciudadano vota en el primer entorno, también vota en el segundo.
+% (1:15)
+\begin{frame}{Lema 1: la misma persona en dos mundos}
+  \begin{block}{En palabras}
+    \small Misma persona, mismos días buenos y malos, dos mundos. Si en el mundo 2 cada elección le da \textbf{al menos tantas razones}
+    para votar, en el mundo 2 vota al menos las mismas veces y tiene al menos tanta costumbre, \textbf{siempre}.
   \end{block}
-  \fig[0.39]{../code/figures/s_coupling.pdf}
-  \takeaway{Por inducción: si $h_j\le h'_j$, el corte es mayor en el segundo entorno, así que $v_j\le v'_j$ y $h_{j+1}\le h'_{j+1}$. Es la herramienta de P2 y P3.}
+  \fig[0.44]{../code/figures/s_coupling.pdf}
+  \takeaway{¿Por qué? Más razones hoy $\Rightarrow$ vota $\Rightarrow$ más costumbre mañana $\Rightarrow$ más razones mañana. Aquí, mundo 2 = obligado siempre: tendría más costumbre (P2, P3).}
 \end{frame}
 
 % (1:00)
-\begin{frame}{Proposición 2: el hábito achica el salto}
-  \begin{block}{Proposición 2 \quad (Supuestos 1--4)}
-    A los 70 el hábito se acumuló bajo obligación, y $\tau^{70}$ es la masa de cumplidores dado ese hábito.
-    Si $g_\varepsilon$ es unimodal con moda $m$ y $\bar c\ge m$ en cada punto del soporte de $(\eta,h_{70})$,
-    $\tau^{70}$ es \textbf{no creciente en $\lambda$}.
+\begin{frame}{Proposición 2: la costumbre achica el salto}
+  \begin{block}{En palabras}
+    \small (1) La costumbre de quien cumple 70 se formó cuando votar era obligatorio y ese día no cambia: el salto mide \textbf{solo} el efecto de quitar la sanción.
+    (2) Cuanta más costumbre, \textbf{más pequeño} es el salto.
   \end{block}
   \begin{columns}[c]
     \begin{column}{0.5\textwidth}
@@ -511,91 +507,97 @@
         \fill[upaccent!45,domain=0.2:1.0,smooth,samples=30,variable=\x] (0.2,0) -- plot (\x,{exp(-(\x)^2/2)/2.5066}) -- (1.0,0) -- cycle;
         \fill[upred!40,domain=1.2:2.0,smooth,samples=30,variable=\x] (1.2,0) -- plot (\x,{exp(-(\x)^2/2)/2.5066}) -- (2.0,0) -- cycle;
         \draw[line width=1.4pt,upblue,domain=-3:3.2,smooth,samples=80] plot (\x,{exp(-(\x)^2/2)/2.5066});
-        \draw[->,upgray] (-3.1,0) -- (3.5,0) node[below left,font=\scriptsize,text=black]{shock $\varepsilon$};
-        \draw[dashed,upgray] (0,0) -- (0,0.42);
-        \node[below,font=\scriptsize,text=upgray] at (0,0) {moda};
-        \node[font=\scriptsize,text=upblue,anchor=south] at (0.6,0.42) {poco hábito: masa 0.26};
-        \node[font=\scriptsize,text=upred,anchor=west] at (2.05,0.13) {más hábito: 0.09};
+        \draw[->,upgray] (-3.1,0) -- (3.5,0) node[below left,font=\scriptsize,text=black]{costo de ese día};
+        \node[font=\scriptsize,text=upblue,anchor=south] at (0.6,0.42) {poca costumbre: 26\% son cumplidores};
+        \node[font=\scriptsize,text=upred,anchor=west] at (2.05,0.13) {mucha: 9\%};
         \draw[->,thick] (0.9,0.31) to[bend left=30] (1.6,0.17);
       \end{tikzpicture}
     \end{column}
     \begin{column}{0.48\textwidth}
       \small
-      \begin{itemize}\setlength{\itemsep}{0.4em}
-        \item La banda de cumplidores es $[\bar c,\bar c+S)$: siempre del mismo ancho $S$.
-        \item Más hábito sube $\bar c$ (Lema 1) y corre la banda a la derecha.
-        \item Sobre la moda la densidad baja: la misma banda tiene \textbf{menos masa}.
+      \begin{itemize}\setlength{\itemsep}{0.35em}
+        \item Los cumplidores son una franja de ancho fijo $S$: los que tienen un costo entre $B$ y $B+S$.
+        \item Más costumbre sube $B$: la franja se corre a la derecha.
+        \item Ahí hay cada vez menos gente: la franja tiene \textbf{menos cumplidores}.
       \end{itemize}
     \end{column}
   \end{columns}
-  \takeaway{El salto que se ve a los 70 ya viene achicado por el hábito: el hábito no está \emph{en} el salto, está \emph{después}.}
+  \formal{(2) vale si la franja está a la derecha del pico de la curva (la mayoría vota con holgura). Entonces $\tau^{70}$ no crece con $\lambda$.}
 \end{frame}
 
 % (1:15)
-\begin{frame}{Proposición 3: la brecha es una cota superior}
-  \begin{block}{Proposición 3 \quad (Supuestos 1--4, $\lambda\ge0$, $S\ge0$)}
-    $P_1(a)$: participación si la elección actual fuera obligatoria a la edad $a$ ($P_1=P$ antes de 70).
-    $P^f(a)$, $a\ge70$: los mismos ciudadanos, obligados en todas las elecciones pasadas y libres hoy.
-    Si \textbf{(H)}: $P_1$ es no creciente en $[60,70]$ y $P^f$ es no creciente en $[70,\infty)$, entonces
-    \begin{gather*}
-      \Delta=\tau^{70}+\mathcal{E}+\mathcal{D}\;\ge\;\tau^{70},\\
-      \mathcal{E}=\underbrace{[\bar P_{60\text{--}69}-P_1(70)]}_{\mathcal{E}_1}+\underbrace{[P^f(70)-\bar P^f_{70+}]}_{\mathcal{E}_2}\ge0,\qquad
-      \mathcal{D}=\bar P^f_{70+}-\bar P_{70+}\ge0 .
-    \end{gather*}
+\begin{frame}{Proposición 3: la brecha exagera el efecto}
+  \begin{block}{En palabras: la brecha es la suma de tres piezas, y ninguna es negativa}
+    \small\vspace{-0.15cm}
+    \[ \underbrace{\Delta}_{\text{brecha}} \;=\; \underbrace{\tau^{70}}_{\text{salto por la obligación}} \;+\; \underbrace{\mathcal{E}}_{\text{diferencia de edad}} \;+\; \underbrace{\mathcal{D}}_{\text{costumbre perdida}} \;\ge\;\tau^{70} \]
   \end{block}
-  \begin{itemize}\setlength{\itemsep}{0.35em}\small
-    \item $\mathcal{E}$: envejecimiento dentro de cada grupo. $\mathcal{D}$: el hábito que se pierde tras la exención.
-    \item (H) es sobre el índice \textbf{total} $b(a)+\lambda h$, no sobre $b$: con $a^*\le60$ y nada más hay contraejemplos (parte 7).
+  \begin{itemize}\setlength{\itemsep}{0.3em}\small
+    \item \textbf{Diferencia de edad} ($\mathcal{E}$): el grupo 70+ es mucho más viejo que el de 60--69, y a más edad se vota menos aunque no hubiera exención.
+    \item \textbf{Costumbre perdida} ($\mathcal{D}$): tras los 70, quien deja de votar pierde costumbre y vota aún menos. Obligado, la conservaría (Lema 1).
+    \item \textbf{Condición:} la participación no sube con la edad desde los 60. \alert{Que lo que se gana baje no alcanza}: la costumbre puede seguir subiendo (parte 7).
   \end{itemize}
+  \formal{(H): $P_1$ (si siguiera obligado) no crece en $[60,70]$ y $P^f$ (libre hoy, obligado antes) no crece desde 70. La prueba, en la parte 4.}
 \end{frame}
 
 % (1:00)
 \begin{frame}{Proposición 3 en el modelo calibrado}
   \fig[0.62]{../code/figures/s_p3_decomp.pdf}
-  {\centering\tiny Modelo con hábito calibrado (M2), elección \runTag. La columna de la derecha baja de $\bar P_{60\text{--}69}$ a $\bar P_{70+}$ por tramos.\par}
-  \takeaway{De una brecha de \runDelta, el salto causal es \runTau. Lo grande es $\mathcal{E}_2=\runEtwo$: envejecimiento dentro de la banda abierta 70+.}
+  {\centering\tiny Modelo calibrado con costumbre (M2), elección \runTag. La columna de la derecha baja del promedio 60--69 al promedio 70+ por tramos.\par}
+  \takeaway{De una brecha de \runDelta, el efecto de la obligación es solo \runTau. La pieza más grande (\runEtwo) es que el grupo 70+ es mucho más viejo.}
 \end{frame}
 
-% (1:00)
-\begin{frame}{Proposición 4: la huella del hábito}
-  \small Supuesto adicional: \textbf{entorno estacionario} ($\mu_t=\mu$, $S_t=S$ hoy y en el pasado). Sea $H(a)=\E[h]$ a la edad $a$.
-  \begin{block}{Proposición 4 \quad ($\rho$ constante; identidad exacta)}
-    \[ H(a)=\sum_{k\ge0}\rho^{k}\,P\bigl(a-(k+1)d\bigr), \]
-    y si $a+1-18$ no es múltiplo de $d$,
-    \[ H(a+1)-H(a)=\sum_{k\ge0}\rho^{k}\bigl[P(a+1-(k+1)d)-P(a-(k+1)d)\bigr]. \]
+% (1:15)
+\begin{frame}{Proposición 4: la costumbre deja escalones cada 5 años}
+  \begin{block}{En palabras}
+    \small La costumbre de hoy suma los votos pasados: el último pesa 1, el anterior $\rho$, el de antes $\rho^2$\dots
+    Por eso el salto de los 70 \textbf{vuelve} como un escalón a los 75, más chico a los 80, y así.
   \end{block}
-  \begin{itemize}\setlength{\itemsep}{0.35em}\small
-    \item Entre 74 y 75 años, el término $k=0$ es $P(70)-P(69)$: \textbf{el salto vuelve como escalón}. Entre 73 y 74, todo son diferencias de un año entre edades obligadas.
-    \item Con $\lambda>0$ ese escalón del hábito pasa a la participación; con $\lambda=0$, el perfil sobre 70 es continuo.
-  \end{itemize}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \small\textbf{Ejemplo: 74 contra 75 años.}
+      \begin{itemize}\setlength{\itemsep}{0.25em}\footnotesize
+        \item La de 74 votó por última vez a los 69, \textbf{obligada}: casi todos fueron.
+        \item La de 75 votó por última vez a los 70, \textbf{ya libre}: muchos no fueron.
+        \item Entre los 74 y los 75 la costumbre cae en lo mismo que cayó la participación a los 70.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \small\textbf{Y entre 73 y 74, ¿hay escalón?}
+      \begin{itemize}\setlength{\itemsep}{0.25em}\footnotesize
+        \item No: los dos votaron por última vez obligados (a los 68 y a los 69).
+        \item Sin costumbre ($\lambda=0$) no hay escalones: la caída tras los 70 es suave.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \formal{Con elecciones iguales entre sí, la costumbre promedio es $H(a)=\sum_{k\ge0}\rho^{k}P(a-(k+1)d)$; el primer término de $H(75)-H(74)$ es $P(70)-P(69)$.}
 \end{frame}
 
 % (0:45)
 \begin{frame}{Proposición 4: cómo se ve}
   \fig[0.58]{../code/figures/s_p4_steps.pdf}
-  {\centering\tiny Parámetros ilustrativos. A la izquierda, el escalón del hábito a los 75 es casi exactamente el salto $P(70)-P(69)$.\par}
-  \takeaway{Con hábito ($\lambda>0$), la participación cae en escalones a los 75, 80 y 85; sin hábito, no. Es un contraste que se puede llevar al perfil por edad exacta.}
+  {\centering\tiny Parámetros ilustrativos. Izquierda: el escalón de la costumbre a los 75 es casi igual al salto de los 70. Derecha: esos escalones pasan a la participación.\par}
+  \takeaway{Con costumbre, la participación cae en escalones a los 75, 80 y 85; sin costumbre, no. Es algo que se puede buscar en los datos por edad exacta.}
 \end{frame}
 
 % (1:00)
-\begin{frame}{Proposición 5: persistencia que sube con la edad}
-  \small Mismos supuestos que P4, pero con $\rho$ no decreciente en la edad. Sea $\Pi_k(a)=\prod_{j=1}^{k}\rho(a-jd)$, con $\Pi_0=1$.
-  \begin{block}{Proposición 5}
-    $H(a)=\sum_{k}\Pi_k(a)\,P(a-(k+1)d)$ y, si $a+1-18$ no es múltiplo de $d$,
-    \begin{gather*}
-      H(a+1)-H(a)=\sum_{k}\Pi_k(a+1)\bigl[P(a+1-(k+1)d)-P(a-(k+1)d)\bigr]+\alert{R(a)},\\
-      R(a)=\sum_{k}\bigl[\Pi_k(a+1)-\Pi_k(a)\bigr]P(a-(k+1)d)\;\ge\;0 .
-    \end{gather*}
-    En el escalón de $70+(k+1)d$, el salto entra con peso $\Pi_k(70+(k+1)d)\ge\rho(70)^k$.
+\begin{frame}{Proposición 5: si la costumbre se borra más lento en la vejez}
+  \begin{block}{En palabras}
+    \small Ahora $\rho$, la fracción de costumbre que sobrevive de una elección a otra, \textbf{sube con la edad}: a los mayores les cuesta más perder la costumbre.
+    Los escalones de P4 siguen ahí, y se borran \textbf{más lento}.
   \end{block}
-  \takeaway{Si es más difícil cambiar de hábito con la edad, el salto se propaga \textbf{más} lejos. El resto $R(a)$ no estaba en mi primer borrador (parte 7).}
+  \begin{itemize}\setlength{\itemsep}{0.35em}\small
+    \item Al pasar de una edad a la siguiente cambian \textbf{dos} cosas: los votos pasados que cuentan y \textbf{cuánto pesa cada uno}.
+    \item El segundo cambio es un término extra, \alert{$R(a)\ge0$}. Mi primer borrador, hecho con la IA, lo olvidaba (parte 7).
+    \item El costo: la costumbre también crece más rápido antes de los 70, y es más fácil que falle la condición de P3.
+  \end{itemize}
+  \formal{los pesos son productos de persistencias, $\Pi_k(a)=\prod_{j=1}^{k}\rho(a-jd)$, y $R(a)=\sum_k[\Pi_k(a+1)-\Pi_k(a)]P(a-(k+1)d)\ge0$ (fórmula completa en la parte 7).}
 \end{frame}
 
 % (0:45) [opcional]
 \begin{frame}{Proposición 5: cómo se ve}
   \fig[0.58]{../code/figures/s_p5_rho.pdf}
-  {\centering\tiny Parámetros ilustrativos: $\rho$ constante en 0.5 contra $\rho(a)$ que sube de 0.5 a los 18 años a 0.9 a los 100.\par}
-  \takeaway{Los escalones decaen más lento (derecha), pero el hábito sigue creciendo entre los 60 y 69 (izquierda): con $\rho'>0$ es más fácil violar (H). Por eso la calibración comprueba (H) elección por elección.}
+  {\centering\tiny Parámetros ilustrativos: $\rho$ fija en 0.5 contra $\rho$ que sube de 0.5 a los 18 años a 0.9 a los 100.\par}
+  \takeaway{Los escalones se borran más lento (derecha), pero la costumbre sigue creciendo entre los 60 y los 69 (izquierda). Por eso la calibración comprueba la condición de P3 elección por elección.}
 \end{frame}
 
 % =====================================================================
@@ -604,11 +606,12 @@
 
 % (1:15)
 \begin{frame}{La prueba de la Proposición 3 en tres pasos}
-  \begin{enumerate}\setlength{\itemsep}{0.7em}
-    \item \textbf{Identidad.} A los 70 la historia de todos fue obligada: $P^f(70)=P(70)$, así que $\tau^{70}=P_1(70)-P^f(70)$. Sumando y restando,
-    {\small\[ \Delta=\underbrace{[\bar P_{60\text{--}69}-P_1(70)]}_{\mathcal{E}_1}+\underbrace{[P_1(70)-P^f(70)]}_{\tau^{70}}+\underbrace{[P^f(70)-\bar P^f_{70+}]}_{\mathcal{E}_2}+\underbrace{[\bar P^f_{70+}-\bar P_{70+}]}_{\mathcal{D}} .\]}
-    \item \textbf{(H) firma $\mathcal{E}$.} Si $P_1$ no crece en $[60,70]$, su promedio en 60--69 es $\ge P_1(70)$. Igual con $P^f$ sobre 70. Pesos no negativos que suman 1.
-    \item \textbf{El Lema 1 firma $\mathcal{D}$.} La historia obligada tiene umbrales $\theta_j+(1-O_{a_j})S_j\ge\theta_j$ porque $S\ge0$. Más hábito, y como $\lambda\ge0$, quien vota con su historia observada también vota con la obligada: $P^f(a)\ge P(a)$.
+  \small Notación: $P_1$ = participación si siguiera obligado; $P^f$ = libre hoy, pero con la costumbre de haber estado obligado siempre.
+  \begin{enumerate}\setlength{\itemsep}{0.6em}
+    \item \textbf{Sumar y restar.} A los 70 todos tienen historia obligada, así que el salto es $\tau^{70}=P_1(70)-P^f(70)$. Sumando y restando esos dos términos, la brecha se parte en cuatro pedazos:
+    {\small\[ \Delta=\underbrace{[\bar P_{60\text{--}69}-P_1(70)]}_{\text{edad, en 60--69}}+\underbrace{[P_1(70)-P^f(70)]}_{\text{salto}}+\underbrace{[P^f(70)-\bar P^f_{70+}]}_{\text{edad, en 70+}}+\underbrace{[\bar P^f_{70+}-\bar P_{70+}]}_{\text{costumbre perdida}} .\]}
+    \item \textbf{Los pedazos de edad no son negativos.} Si la participación no sube con la edad, el promedio de 60--69 queda por encima del valor a los 70, y el valor a los 70 por encima del promedio de 70+.
+    \item \textbf{El pedazo de costumbre no es negativo.} Con historia obligada hubo más razones para votar en cada elección pasada. Por el Lema 1, tiene más costumbre y vota al menos tanto.
   \end{enumerate}
 \end{frame}
 
@@ -618,26 +621,26 @@
     \begin{column}{0.32\textwidth}
       {\color{upblue}\bfseries Hecho}
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
-        \item Pruebas completas de P1--P5 y del Lema 1, \textbf{también en Lean}, sin \texttt{sorry}.
-        \item P2, P3: por acoplamiento (mismos shocks, trayectorias ordenadas).
-        \item P4, P5: forma cerrada del AR(1) por linealidad de la esperanza.
+        \item Pruebas completas del Lema 1 y de P1--P5, a mano y \textbf{en Lean}, sin huecos.
+        \item P2 y P3: comparar a la misma persona en dos mundos (Lema 1).
+        \item P4 y P5: escribir la costumbre como suma de votos pasados.
       \end{itemize}
     \end{column}
     \begin{column}{0.32\textwidth}
       {\color{upred}\bfseries Lo difícil}
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
-        \item La hipótesis correcta de P3: con hábito, ``$b$ decreciente'' no alcanza.
-        \item Los supuestos que las pruebas usaban sin decirlo: $\lambda\ge0$, $S\ge0$ y la estacionariedad de P4--P5.
-        \item El resto $R(a)$ de P5, que apareció al escribirla en Lean.
+        \item Encontrar la condición correcta de P3: que lo que se gana baje con la edad no alcanza.
+        \item Supuestos usados sin decirlo: costumbre y sanción no negativas; elecciones iguales entre sí (P4--P5).
+        \item El término extra $R(a)$ de P5, que apareció al escribirla en Lean.
       \end{itemize}
     \end{column}
     \begin{column}{0.32\textwidth}
       {\color{upgray}\bfseries Abierto}
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
-        \item Una condición sobre primitivas que implique (H).
-        \item P4--P5 con $\mu_t$ y $S_t$ que cambian entre elecciones.
-        \item Heterogeneidad, (d) y (iv): piden $P_0(70)\le50\%$, que falla en la calibración. Signo de $\partial\tau^{70}/\partial s$ abierto.
-        \item Versión con votante que mira hacia adelante.
+        \item Una condición sobre los parámetros que garantice la condición de P3.
+        \item P4--P5 cuando las elecciones difieren entre sí.
+        \item ¿Más diferencias entre personas agrandan el salto? Solo se sabe si a los 70, libres, vota $\le$50\% (calibrado: 78\%).
+        \item Votante que mira al futuro.
       \end{itemize}
     \end{column}
   \end{columns}
@@ -654,30 +657,30 @@
       box/.style={draw=upaccent,fill=uplight,rounded corners=3pt,text width=3.75cm,align=flush left,font=\scriptsize,inner sep=5pt,minimum height=2.3cm},
       head/.style={font=\small\bfseries,text=upblue},
       arr/.style={-{Stealth[length=2.2mm]},thick,upgray}]
-    \node[box] (ext) at (0,0) {\textbf{Externos}\\[2pt] $d=5$ años.\\ Multa $F_t$ en \% de la UIT, ponderada por electores (JNE): 4\% antes de la Ley 28859, 1.8--1.9\% después.};
-    \node[box] (par) at (4.7,0) {\textbf{A calibrar}\\[2pt] Comunes a todas\\ las elecciones:\\ $a^*,\alpha,\kappa,\beta,\lambda,\rho_0,\rho_1,\omega,s_0,q$.\\[2pt] Uno por elección:\\ el nivel $\mu_t$.};
-    \node[box] (mom) at (9.4,0) {\textbf{Momentos} (\nMoments)\\[2pt] $\theta_a$ por edad exacta, 45--80, con peso $1/\text{ee}^2$; niveles de las bandas 60--69 y 70+. Seis elecciones: 2001 2V y 1V 2006--2026.};
+    \node[box] (ext) at (0,0) {\textbf{Viene de afuera}\\[2pt] Elecciones cada 5 años.\\ La multa promedio $F_t$ (JNE): 4\% de la UIT antes de la Ley 28859, 1.8--1.9\% después.};
+    \node[box] (par) at (4.7,0) {\textbf{Se elige con los datos}\\[2pt] Iguales en todas las elecciones: la edad del máximo, la caída, cuánto pesa y cuánto dura la costumbre, la sanción y el peso de la multa.\\[2pt] Uno por elección: el costo medio $\mu_t$.};
+    \node[box] (mom) at (9.4,0) {\textbf{Lo que debe replicar} (\nMoments\ datos)\\[2pt] La participación a cada edad de 45 a 80, relativa a la de 69, y los promedios de 60--69 y 70+. Seis elecciones: 2001 2V y 1V 2006--2026.};
     \draw[arr] (ext) -- (par);
     \draw[arr] (mom) -- (par);
   \end{tikzpicture}
 
   \vspace{0.35cm}
   \raggedright\small
-  \textbf{Modelos anidados:} M0 estático con $\beta=1$ $\subset$ M1 con $\beta$ libre $\subset$ M2 con hábito $\subset$ M3 con $\rho(a)$ creciente.
-  Distancia mínima con mínimos cuadrados no lineales; el modelo se resuelve en una grilla, sin ruido de simulación.
-  \takeaway{Como en un DSGE: unos parámetros vienen de afuera, el resto se elige para replicar los perfiles estimados en la tesis.}
+  \textbf{Cuatro versiones, de menos a más:} M0 sin costumbre y caída lineal; M1 la caída puede acelerarse ($\beta$ libre); M2 agrega la costumbre; M3 la costumbre dura más con la edad.
+  Se eligen los parámetros que dejan al modelo lo más cerca posible de los datos.
+  \takeaway{Como en un DSGE: unos parámetros vienen de afuera y el resto se elige para que el modelo reproduzca los perfiles por edad estimados en la tesis.}
 \end{frame}
 
 % (0:45)
-\begin{frame}{Resultados: el hábito mejora el ajuste; $\beta>1$, poco}
+\begin{frame}{Resultados: la costumbre mejora el ajuste}
   \centering\small
   \IfFileExists{../code/output/calib_models.tex}{\resizebox{\textwidth}{!}{\input{../code/output/calib_models.tex}}}{\pending{tabla de modelos}}
   \vspace{0.3cm}
   \raggedright
   \begin{itemize}\setlength{\itemsep}{0.35em}
-    \item ¿Conviene $\beta>1$? Poco: el objetivo pasa de \objMzero{} a \objMone{} ($\beta=\betaStatic$). El hábito aporta más (\objBest{}).
-    \item $\rho_0=\rhoBest$, en su cota: el hábito que piden los datos es casi permanente. \textbf{$\rho'(a)>0$ no mejora nada} ($\rho_1\to0$).
-    \item $q\approx0$: la multa no explica el salto (siguiente slide).
+    \item ¿Ayuda que la caída se acelere ($\beta>1$)? Poco: la distancia a los datos baja de \objMzero{} a \objMone{} ($\beta=\betaStatic$). La costumbre ayuda más (\objBest{}).
+    \item Los datos piden una costumbre que casi no se borra ($\rho=\rhoBest$). \textbf{Que dure más en la vejez no agrega nada} (M3 = M2).
+    \item La multa no explica el salto: su peso $q$ es casi cero (siguiente slide).
   \end{itemize}
 \end{frame}
 
@@ -685,7 +688,7 @@
 \begin{frame}[c]{Ajuste a los perfiles por edad}
   \centering
   \IfFileExists{../code/figures/fit_profiles.pdf}{\includegraphics[width=0.92\textwidth,height=0.62\textheight,keepaspectratio]{../code/figures/fit_profiles.pdf}}{\pending{figura de ajuste}}
-  \takeaway{Después de los 70 los dos modelos ajustan casi igual: sin hábito, la caída la hace $\beta=\betaStatic$. El hábito gana entre los 45 y 59 años. Fuera de la zona sombreada (edades no calibradas) ninguno ajusta.}
+  \takeaway{Después de los 70 los dos modelos ajustan casi igual: sin costumbre, la caída la produce $\beta=\betaStatic$. La costumbre gana entre los 45 y los 59 años. Fuera de la zona sombreada (edades que no se usaron) ninguno ajusta.}
 \end{frame}
 
 % (0:30) [opcional]
@@ -698,8 +701,9 @@
       \small
       \begin{itemize}\setlength{\itemsep}{0.5em}
         \item En 2006, con multa de 4\% de la UIT, $\theta_{70}=-0.063$; en 2021, con 1.9\%, $-0.118$.
-        \item La calibración da $q\approx0$: la sanción que importa es $s_0$, el costo no monetario de no votar.
-        \item Coincide con Gonzales et al.\ (2022): quitar toda la multa pesa menos de 1/5 de la exención.
+        \item $q\approx0$: el salto lo explica $s_0$, lo que pesa \textbf{estar obligado} aparte del monto (deber, trámites).
+        \item El salto cambia entre elecciones por el costo medio $\mu_t$: en 2021 (pandemia) había más gente cerca del margen.
+        \item Como en Gonzales et al.\ (2022): quitar la multa pesa menos de 1/5 de la exención.
       \end{itemize}
     \end{column}
   \end{columns}
@@ -708,7 +712,7 @@
 % (1:00)
 \begin{frame}{¿Cuánto de la brecha es causal?}
   \fig[0.6]{../code/figures/s_decomp_bars.pdf}
-  \takeaway{El efecto causal es $\tau^{70}\in[\tauMin,\tauMax]$: \textbf{solo el \tauShareMin--\tauShareMax\% de la brecha}. El resto es envejecimiento dentro de la banda abierta 70+; el hábito perdido aporta a lo más \habitDecayMax.}
+  \takeaway{El efecto de la obligación es $\tau^{70}\in[\tauMin,\tauMax]$: \textbf{solo el \tauShareMin--\tauShareMax\% de la brecha}. El resto es, sobre todo, que el grupo 70+ es más viejo; la costumbre perdida aporta a lo más \habitDecayMax.}
 \end{frame}
 
 % (0:45)
@@ -717,17 +721,17 @@
     \begin{column}{0.48\textwidth}
       {\color{upblue}\bfseries \texttt{code/verify.py} verifica}
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
-        \item P1 y (a)--(d) con SymPy.
-        \item P2--P5 con el modelo: las identidades de P4 y P5 al error de máquina.
-        \item Contraejemplos: (iv) con promedios, turno 5 de claude.ai, P3 sin (H) y P5 sin $R(a)$.
+        \item P1 y la estática comparativa, con álgebra simbólica (SymPy).
+        \item P2--P5 en el modelo: las igualdades de P4 y P5 se cumplen hasta el error de redondeo.
+        \item Los contraejemplos: (iv) con promedios (turno 5 de claude.ai), P3 sin su condición y P5 sin $R(a)$.
         \item La calibración se reproduce desde \texttt{code/data/} y respeta el anidamiento.
       \end{itemize}
     \end{column}
     \begin{column}{0.48\textwidth}
       {\color{upred}\bfseries Lo que no puede mostrar}
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
-        \item Una simulación sobre una grilla de parámetros no es una prueba.
-        \item La calibración no identifica cohortes: el corte transversal mezcla edad y cohorte.
+        \item Probar muchos parámetros no es una prueba.
+        \item No separa edad de generación: en un mismo año, los de 80 también nacieron antes.
         \item El padrón con fallecidos baja la participación medida de 70+.
         \item Las edades jóvenes: ningún ciclo de vida las ajusta (pregunta 2).
       \end{itemize}
@@ -741,7 +745,9 @@
 
 % (1:15)
 \begin{frame}[fragile]{Lean: la Proposición 3, del paper a Lean}
-  \small\textbf{En el paper.} Bajo (H), $\Delta=\tau^{70}+\mathcal{E}+\mathcal{D}$ con $\mathcal{E}\ge0$ y $\mathcal{D}\ge0$, así que $\Delta\ge\tau^{70}$.
+  \small Lean es un verificador de pruebas: revisa cada paso y no acepta nada que no se siga de los supuestos.
+
+  \textbf{En el paper.} Bajo (H), $\Delta=\tau^{70}+\mathcal{E}+\mathcal{D}$ con $\mathcal{E}\ge0$ y $\mathcal{D}\ge0$, así que $\Delta\ge\tau^{70}$.
 
   \textbf{En Lean} (\texttt{lean/PaperInterface.lean}). $P$, $P_1$ y $P^f$ se definen desde las primitivas: la regla de corte,
   la recursión del hábito con las edades $a-(n-j)d$ y una población finita con pesos.
@@ -797,9 +803,8 @@
     ``Si $a^*\le 60$ y el hábito es estacionario bajo obligación, entonces $\Delta\ge\tau^{70}$.''
   \end{block}
   \fig[0.42]{../code/figures/s_counter_p3.pdf}
-  {\small \textbf{Veredicto: falso tal como estaba.} Con elecciones cada 5 años el hábito no es estacionario a los 60 ($\rho^8$ no es despreciable).
-  Aquí $b$ alcanza su máximo a los \cxPeak{} años, pero $b+\lambda H$ sigue subiendo: $\Delta=\cxDelta<\tau^{70}=\cxTau$.
-  \textbf{Corrección:} la hipótesis (H) va sobre la participación, no sobre $b$.\par}
+  {\small \textbf{Veredicto: falso.} A los 60 la costumbre todavía crece. Aquí lo que se gana llega a su máximo a los \cxPeak{}, pero con la costumbre las razones para votar suben hasta los 70: la brecha (\cxDelta) queda bajo el salto (\cxTau).
+  \textbf{Corrección:} la condición va sobre la participación, no sobre lo que se gana.\par}
 \end{frame}
 
 % (1:00)
@@ -807,6 +812,7 @@
   \begin{block}{Lo que afirmó el modelo (primer borrador de P5)}
     ``Con $\rho$ creciente, la identidad de P4 vale reemplazando $\rho^k$ por el producto de las persistencias.''
   \end{block}
+  \small\textbf{En palabras:} al pasar de la edad $a$ a la $a+1$ cambian dos cosas, los votos pasados y cuánto pesa cada uno. El borrador solo contaba la primera.\par\vspace{0.1cm}
   \small Con $\Pi_k(a)=\prod_{j=1}^{k}\rho(a-jd)$ y $H(a)=\sum_k\Pi_k(a)P(a-(k+1)d)$:
   {\footnotesize
   \begin{align*}
@@ -815,8 +821,7 @@
     R(a)&=\textstyle\sum_k\bigl[\Pi_k(a+1)-\Pi_k(a)\bigr]P(a-(k+1)d)\;\ge\;0\quad\text{si }\rho'\ge0 .
   \end{align*}}
   \begin{itemize}\setlength{\itemsep}{0.2em}
-    \item Los coeficientes dependen de la edad \textbf{de hoy}, $a$ o $a+1$: al restar, sobra $R(a)$. Sin él, el error llega a $\PfiveNaiveErr$ (\texttt{verify.py}).
-    \item Salió al escribir el enunciado para Lean, que ahora prueba la versión con $R(a)$.
+    \item Sin $R(a)$ el error llega a $\PfiveNaiveErr$ (\texttt{verify.py}). Salió al escribir el enunciado para Lean, que ahora prueba la versión con $R(a)$.
   \end{itemize}
 \end{frame}
 

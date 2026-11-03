@@ -111,7 +111,7 @@ def fig_theta_exact():
     ax.set_ylim(-0.55, 0.3)
     mark_threshold(ax, top=0.3)
     ax.set_xlabel("edad exacta")
-    ax.set_ylabel(r"$\theta_a = P(a) - P(69)$")
+    ax.set_ylabel("participación\nmenos la de 69 años")
     ax.legend(handles=[plt.Line2D([], [], color=BLUE, lw=1.8, label=f"{RUN.replace('_', ' ')} (IC 95% sombreado)"),
                        plt.Line2D([], [], color=LIGHT, lw=1.0, label="las otras 5 elecciones")],
               loc="upper left", ncol=2, handlelength=1.6)
@@ -129,9 +129,9 @@ def fig_lifecycle():
     ax1.fill_between(a, cost, ben, color=BLUE, alpha=0.10, lw=0)
     ax1.plot(a, ben, color=BLUE)
     ax1.plot(a, cost, color=RED)
-    ax1.text(60, ben[np.searchsorted(a, 60)] + 1.5, r"$A\,a^{\alpha}$ (cóncavo)", color=INK, fontsize=8, ha="right")
-    ax1.text(88, cost[np.searchsorted(a, 88)] - 3.5, r"$\kappa\,a^{\beta}$ (convexo)", color=INK, fontsize=8, ha="center")
-    ax1.text(50, 17.8, "$b(a)$ =\nla distancia", color=INK2, fontsize=8, ha="center", va="center")
+    ax1.text(60, ben[np.searchsorted(a, 60)] + 1.5, r"lo que suma: $A\,a^{\alpha}$", color=INK, fontsize=8, ha="right")
+    ax1.text(70, cost[np.searchsorted(a, 70)] - 9, r"lo que resta: $\kappa\,a^{\beta}$", color=INK, fontsize=8, ha="left")
+    ax1.text(33, 11.5, "lo que se gana\n= la distancia", color=INK2, fontsize=7.5, ha="center", va="center")
     ax1.set_xlabel("edad")
     ax1.set_title("dos fuerzas que crecen con la edad", loc="left", color=INK)
     b = ben - cost
@@ -143,7 +143,7 @@ def fig_lifecycle():
     mark_threshold(ax2, label=False)
     ax2.text(70.8, 9.9, "70", color=INK2, fontsize=8)
     ax2.set_xlabel("edad")
-    ax2.set_title(r"$b(a)=A a^{\alpha}-\kappa a^{\beta}$: U invertida", loc="left", color=INK)
+    ax2.set_title(r"lo que se gana, $b(a)$: sube y luego baja", loc="left", color=INK)
     ax2.set_ylim(6.3, 11.9)
     fig.tight_layout(w_pad=2)
     save(fig, "s_lifecycle")
@@ -168,11 +168,12 @@ def fig_static_index():
         ax.plot(ages[post], yc[post], color=BLUE, ls=(0, (3, 2)), lw=1.3)
         mark_threshold(ax, label=False)
         ax.set_xlabel("edad")
-    ax1.set_title(r"índice $b(a)+O_aS-\mu$", loc="left", color=INK)
+    ax1.set_title("lo que gana + sanción", loc="left", color=INK)
     ax1.annotate("", xy=(70.6, z[ages == 70][0]), xytext=(70.6, zc[ages == 70][0]),
                  arrowprops=dict(arrowstyle="->", color=INK, lw=1.0))
-    ax1.text(72, (z[ages == 70][0] + zc[ages == 70][0]) / 2, "baja $S$", fontsize=8, color=INK, va="center")
-    ax2.set_title(r"participación $P(a)=\mathbb{E}\,G(\cdot)$", loc="left", color=INK)
+    ax1.text(72, (z[ages == 70][0] + zc[ages == 70][0]) / 2, "pierde la\nsanción $S$", fontsize=8, color=INK,
+             va="center")
+    ax2.set_title("participación", loc="left", color=INK)
     t70 = at(Pc, 70) - at(P, 70)
     ax2.annotate("", xy=(70.6, at(P, 70)), xytext=(70.6, at(Pc, 70)),
                  arrowprops=dict(arrowstyle="->", color=INK, lw=1.0))
@@ -200,7 +201,7 @@ def fig_habit_paths():
     ax.set_ylim(-0.15, 2.8)
     ax.set_xlim(16, 99)
     ax.set_xlabel("edad en cada elección (cada 5 años)")
-    ax.set_ylabel("hábito $h$ al votar")
+    ax.set_ylabel("costumbre $h$")
     dot = dict(ls="none", marker="o", ms=5.5)
     ax.legend(handles=[plt.Line2D([], [], color=BLUE, lw=1.4, label="A: costo persistente bajo"),
                        plt.Line2D([], [], color=AMBER, lw=1.4, label="B: costo persistente alto"),
@@ -218,27 +219,45 @@ def fig_coupling():
     eta = 0.4
     ages, Ho, Vo = citizen(p, MU_I, S_I, eta, z)
     _, Hc, Vc = citizen(p, MU_I, S_I, eta, z, voluntary_from=200)
-    fig, ax = plt.subplots(figsize=(W, 2.2))
-    shift = np.where(ages >= THRESHOLD, 0.8, 0.0)   # pull the two regimes apart once they differ
-    ax.plot(ages + shift, Hc, color=BLUE, lw=1.4, ls=(0, (3, 2)), zorder=2)
-    ax.plot(ages - shift, Ho, color=RED, lw=1.4, zorder=2)
-    for x, H, V, col in ((ages + shift, Hc, Vc, BLUE), (ages - shift, Ho, Vo, RED)):
-        ax.scatter(x[V == 1], H[V == 1], s=28, color=col, edgecolor="white", lw=1.2, zorder=3)
-        ax.scatter(x[V == 0], H[V == 0], s=28, facecolor="white", edgecolor=col, lw=1.4, zorder=3)
-    ax.text(ages[-1] + 2.2, Hc[-1], "obligado siempre", color=INK, fontsize=8, va="center")
-    ax.text(ages[-1] + 1.2, Ho[-1], "libre desde 70", color=INK, fontsize=8, va="center")
-    mark_threshold(ax, label=False)
-    ax.text(70, -0.1, " 70", fontsize=8, color=INK2, va="bottom")
-    ax.set_ylim(-0.15, 2.8)
-    ax.set_xlim(16, 110)
-    ax.set_xticks(range(20, 100, 10))
-    ax.spines["bottom"].set_bounds(16, 96)
-    ax.set_xlabel("edad en cada elección")
-    ax.set_ylabel("hábito $h$")
-    dot = dict(ls="none", marker="o", ms=5.5)
-    ax.legend(handles=[plt.Line2D([], [], color=INK2, mec="white", label="votó", **dot),
-                       plt.Line2D([], [], mfc="white", mec=INK2, mew=1.4, label="no votó", **dot)],
-              loc="upper left", ncol=2, handlelength=1.0)
+    split = int(np.argmax(Vo != Vc))              # first election where the two worlds differ
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(W, 2.7), sharex=True,
+                                   gridspec_kw={"height_ratios": [1, 1.7], "hspace": 0.15})
+    # top: did the same person vote, in each world?
+    for y, V, col in ((1, Vc, BLUE), (0, Vo, RED)):
+        ax1.scatter(ages[V == 1], np.full((V == 1).sum(), y), s=34, color=col, edgecolor=col, lw=1.4, zorder=3)
+        ax1.scatter(ages[V == 0], np.full((V == 0).sum(), y), s=34, facecolor="white", edgecolor=col, lw=1.4,
+                    zorder=3)
+    ax1.set_yticks([1, 0], ["si siguiera obligado", "vida real (libre desde 70)"])
+    ax1.set_ylim(-0.6, 1.6)
+    ax1.grid(False)
+    ax1.spines["left"].set_visible(False)
+    ax1.tick_params(axis="y", length=0)
+    ax1.annotate(f"a los {ages[split]}: sin sanción no va; obligado, sí", xy=(ages[split] - 1, 0.5),
+                 xytext=(ages[split] - 4, 0.5), fontsize=7.5, color=INK, va="center", ha="right",
+                 arrowprops=dict(arrowstyle="->", color=INK2, lw=0.7))
+    ax1.set_title("¿votó? (relleno = sí, vacío = no) — misma persona, mismos días buenos y malos",
+                  loc="left", color=INK, fontsize=8)
+    # bottom: the habit, identical until the worlds split, then always higher if obliged
+    same = ages <= ages[split]
+    ax2.plot(ages[same], Ho[same], color=INK2, lw=1.6)
+    ax2.plot(ages[split:], Hc[split:], color=BLUE, lw=1.6)
+    ax2.plot(ages[split:], Ho[split:], color=RED, lw=1.6)
+    ax2.text(56, 1.5, "igual en los dos mundos", fontsize=7.5, color=INK2, ha="center")
+    ax2.text(ages[-1] + 1.5, Hc[-1], "obligado", fontsize=7.5, color=INK, va="center")
+    ax2.text(ages[-1] + 1.5, Ho[-1], "real", fontsize=7.5, color=INK, va="center")
+    k = split + 1
+    ax2.annotate("", xy=(ages[k], Ho[k]), xytext=(ages[k], Hc[k]),
+                 arrowprops=dict(arrowstyle="<->", color=INK, lw=0.9, shrinkA=1, shrinkB=1))
+    ax2.annotate("más costumbre\nsi siguiera obligado", xy=(ages[k] - 0.3, (Ho[k] + Hc[k]) / 2),
+                 xytext=(ages[k] - 18, 0.6), fontsize=7.5, color=INK, va="center", ha="center",
+                 arrowprops=dict(arrowstyle="-", color=INK2, lw=0.7))
+    for ax in (ax1, ax2):
+        ax.axvline(69.5, color=INK2, lw=0.8, ls=(0, (2, 2)), zorder=1)
+    ax2.set_ylim(-0.15, 2.8)
+    ax2.set_xlim(14, 101)
+    ax2.set_xticks(range(20, 100, 10))
+    ax2.set_xlabel("edad en cada elección (cada 5 años)")
+    ax2.set_ylabel("costumbre $h$")
     save(fig, "s_coupling")
 
 
@@ -307,24 +326,25 @@ def fig_p3_decomp():
     ax.plot(ages[pre], at(P, ages[pre]), color=BLUE)
     ax.plot([69, 70], [at(P, 69), P1_70], color=BLUE, ls=(0, (3, 2)), lw=1.3)
     ax.plot([70], [P1_70], "o", color=BLUE, ms=4.5, mec="white", mew=1.0)
-    ax.annotate("$P_1(70)$:\nobligado a los 70", xy=(70, P1_70), xytext=(57, 0.66), fontsize=8, color=INK,
+    ax.annotate("a los 70,\nsi siguiera obligado", xy=(70, P1_70), xytext=(57, 0.66), fontsize=8, color=INK,
                 va="center", arrowprops=dict(arrowstyle="-", color=INK2, lw=0.7, shrinkB=3))
     ax.plot(ages[post], at(Pf, ages[post]), color=AMBER, lw=1.5, ls=(0, (3, 1.5)))
     ax.plot(ages[post], at(P, ages[post]), color=RED)
-    ax.annotate("$P^f$: libre hoy,\nhistoria obligada", xy=(86, at(Pf, 86)), xytext=(97.5, 0.36), fontsize=8,
-                color=INK, va="center", arrowprops=dict(arrowstyle="-", color=INK2, lw=0.7, shrinkB=2))
-    ax.annotate("$P$ observada", xy=(90, at(P, 90)), xytext=(97.5, 0.16), fontsize=8, color=INK, va="center",
+    ax.annotate("libre hoy, pero\ncon su costumbre\nde obligado", xy=(86, at(Pf, 86)), xytext=(97.5, 0.38),
+                fontsize=8, color=INK, va="center",
+                arrowprops=dict(arrowstyle="-", color=INK2, lw=0.7, shrinkB=2))
+    ax.annotate("lo observado", xy=(90, at(P, 90)), xytext=(97.5, 0.14), fontsize=8, color=INK, va="center",
                 arrowprops=dict(arrowstyle="-", color=INK2, lw=0.7, shrinkB=2))
     ax.plot([60, 69.5], [m60, m60], color=INK, lw=2.2, solid_capstyle="butt")
     ax.plot([70, 95], [m70, m70], color=INK, lw=2.2, solid_capstyle="butt")
-    ax.text(59.5, m60, r"$\bar P_{60-69}$", fontsize=8, color=INK, ha="right", va="center")
-    ax.text(71, m70 - 0.03, r"$\bar P_{70+}$", fontsize=8, color=INK, va="top")
+    ax.text(59.5, m60 - 0.03, "promedio\n60–69", fontsize=8, color=INK, ha="right", va="top")
+    ax.text(84, m70 + 0.02, "promedio 70+", fontsize=8, color=INK, va="bottom")
     # waterfall column right of the curves: from the 60-69 mean down to the 70+ mean
     x0, wd = 98, 2.4
-    pieces = [(m60, P1_70, LIGHT, r"$\mathcal{E}_1$ envejecimiento 60–69"),
-              (P1_70, Pf_70, BLUE, r"$\tau^{70}$ salto causal"),
-              (Pf_70, mf70, LIGHT, r"$\mathcal{E}_2$ envejecimiento 70+"),
-              (mf70, m70, AMBER, r"$\mathcal{D}$ decaimiento del hábito")]
+    pieces = [(m60, P1_70, LIGHT, "edad, dentro de 60–69"),
+              (P1_70, Pf_70, BLUE, "salto por la obligación"),
+              (Pf_70, mf70, LIGHT, "edad, dentro de 70+"),
+              (mf70, m70, AMBER, "costumbre perdida")]
     ylab, last = [], None
     for top, bot, *_ in pieces:          # label heights, at least 0.075 apart
         y = (top + bot) / 2 if last is None else min((top + bot) / 2, last - 0.075)
@@ -337,7 +357,7 @@ def fig_p3_decomp():
                     arrowprops=dict(arrowstyle="-", color=INK2, lw=0.6, shrinkA=0, shrinkB=0))
     ax.plot([69.5, x0], [m60, m60], color=INK2, lw=0.6, ls=(0, (1, 2)))
     ax.plot([95, x0], [m70, m70], color=INK2, lw=0.6, ls=(0, (1, 2)))
-    ax.text(x0 + wd / 2, m60 + 0.03, rf"$\Delta$ = {m60 - m70:.3f}", fontsize=8, color=INK, ha="center", va="bottom")
+    ax.text(x0 + wd / 2, m60 + 0.03, f"brecha = {m60 - m70:.3f}", fontsize=8, color=INK, ha="center", va="bottom")
     mark_threshold(ax, label=False)
     ax.set_xlim(55, 132)
     ax.set_xticks(range(55, 100, 5))
@@ -365,17 +385,17 @@ def fig_p4_steps():
     P, H = turnout_profile(illustrative(), MU_I, S_I, return_parts=True)
     ages = np.arange(60, 91)
     ax1.plot(ages, at(H, ages), color=RED, marker="o", ms=3.2, mec="white", mew=0.6, lw=1.2)
-    ax1.annotate(f"$H(75)-H(74)$ = {at(H, 75) - at(H, 74):.3f}\n$P(70)-P(69)$ = {at(P, 70) - at(P, 69):.3f}",
+    ax1.annotate(f"escalón 74→75: {at(H, 75) - at(H, 74):.3f}\nsalto 69→70: {at(P, 70) - at(P, 69):.3f}",
                  xy=(74.6, (at(H, 75) + at(H, 74)) / 2), xytext=(61, at(H, 88)), fontsize=8, color=INK,
                  va="center", arrowprops=dict(arrowstyle="-", color=INK2, lw=0.7, shrinkB=2))
     ax1.axvline(69.5, color=INK2, lw=0.8, ls=(0, (2, 2)))
-    ax1.set_title(r"hábito medio $H(a)$, $\lambda$ = 0.5, $\rho$ = 0.6", loc="left", color=INK)
+    ax1.set_title("costumbre promedio por edad", loc="left", color=INK)
     for lam, col, ls in ((0.5, RED, "-"), (0.0, GRAY, (0, (3, 2)))):
         P = turnout_profile(illustrative(lam=lam), MU_I if lam else MU_I - 1.1, S_I)
         dP = np.where(keep, at(P, a1) - at(P, a1 - 1), np.nan)
         ax2.plot(a1, dP, color=col, ls=ls, lw=1.2, marker="o", ms=3.2, mec="white", mew=0.6,
-                 label=rf"$\lambda$ = {lam:g}" + (" (sin hábito)" if lam == 0 else ""))
-    ax2.set_title(r"$P(a)-P(a-1)$ después del salto", loc="left", color=INK)
+                 label="sin costumbre" if lam == 0 else "con costumbre")
+    ax2.set_title("cambio de la participación\nde un año al siguiente", loc="left", color=INK)
     ax2.legend(loc="upper right", handlelength=1.6, borderaxespad=0.1, fontsize=7.5)
     for s in (75, 80, 85, 90):
         for ax in (ax1, ax2):
@@ -395,12 +415,12 @@ def fig_p5_rho():
     (Pc, Hc), (Pr, Hr) = (turnout_profile(x, MU_I, S_I, return_parts=True) for x in (pc, pr))
     ages = np.arange(18, 96)
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(W, 2.2), gridspec_kw={"width_ratios": [1.35, 1]})
-    ax1.plot(ages, at(Hc, ages), color=BLUE, label=r"$\rho$ constante (0.5)")
-    ax1.plot(ages, at(Hr, ages), color=AMBER, label=r"$\rho(a)$ creciente (0.5 $\to$ 0.9)")
+    ax1.plot(ages, at(Hc, ages), color=BLUE, label="se borra igual a toda edad")
+    ax1.plot(ages, at(Hr, ages), color=AMBER, label="se borra más lento con la edad")
     ax1.axvspan(60, 69.5, color=GRID, lw=0, zorder=0)
     ax1.text(64.7, 0.2, "60–69", fontsize=7.5, color=INK2, ha="center")
     mark_threshold(ax1, label=False)
-    ax1.set_title("hábito medio $H(a)$", loc="left", color=INK)
+    ax1.set_title("costumbre promedio por edad", loc="left", color=INK)
     ax1.set_xlabel("edad")
     ax1.legend(loc="upper left")
     ax1.set_ylim(0, 4.6)
@@ -410,7 +430,7 @@ def fig_p5_rho():
     ax2.bar(x - 0.19, rel(Hc), width=0.36, color=BLUE, edgecolor="white", lw=1.0)
     ax2.bar(x + 0.19, rel(Hr), width=0.36, color=AMBER, edgecolor="white", lw=1.0)
     ax2.set_xticks(x, [str(s) for s in steps])
-    ax2.set_title("escalón / primer escalón", loc="left", color=INK)
+    ax2.set_title("tamaño de cada escalón\n(el de los 75 = 1)", loc="left", color=INK)
     ax2.set_xlabel("edad del escalón")
     ax2.set_ylim(0, 1.15)
     fig.tight_layout(w_pad=1.5)
@@ -422,14 +442,14 @@ def fig_decomp_bars():
     x = np.arange(len(dec))
     fig, ax = plt.subplots(figsize=(W, 2.3))
     wd = 0.5
-    ax.bar(x, dec.tau70, width=wd, color=BLUE, edgecolor="white", lw=1.0, label=r"salto causal $\tau^{70}$")
+    ax.bar(x, dec.tau70, width=wd, color=BLUE, edgecolor="white", lw=1.0, label=r"salto por la obligación $\tau^{70}$")
     ax.bar(x, dec.ageing, bottom=dec.tau70, width=wd, color=LIGHT, edgecolor="white", lw=1.0,
-           label=r"envejecimiento $\mathcal{E}$")
+           label="diferencia de edad entre grupos")
     ax.bar(x, dec.habit_decay, bottom=dec.tau70 + dec.ageing, width=wd, color=AMBER, edgecolor="white", lw=1.0,
-           label=r"decaimiento del hábito $\mathcal{D}$")
-    ax.plot(x, dec.Delta_data, "D", color=INK, ms=4.5, mec="white", label=r"$\Delta$ en los datos (ONPE)")
+           label="costumbre perdida")
+    ax.plot(x, dec.Delta_data, "D", color=INK, ms=4.5, mec="white", label="brecha en los datos (ONPE)")
     ax.set_xticks(x, [f"{t.replace('_', ' ')}\n{100 * r.tau70 / r.Delta:.0f}%" for t, r in zip(dec.tag, dec.itertuples())])
-    ax.text(-0.72, -0.105, r"$\tau^{70}/\Delta$:", transform=ax.get_xaxis_transform(), ha="right", va="center",
+    ax.text(-0.72, -0.105, "salto / brecha:", transform=ax.get_xaxis_transform(), ha="right", va="center",
             fontsize=8, color=INK2)
     ax.set_ylabel("puntos de participación")
     ax.set_ylim(0, 0.5)
@@ -457,20 +477,20 @@ def fig_counter_p3():
     b60 = p.b(60)
     idx = p.b(ages) + p.lam * at(Hc, ages)
     ax1.plot(ages, p.b(ages) - b60, color=GRAY, lw=1.4, ls=(0, (3, 2)),
-             label=f"$b(a)$: máximo en $a^*$ = {p.peak_age():.0f}")
-    ax1.plot(ages, idx - (b60 + p.lam * at(Hc, 60)), color=BLUE, label=r"$b(a)+\lambda H(a)$, obligado")
+             label=f"lo que se gana: máximo a los {p.peak_age():.0f}")
+    ax1.plot(ages, idx - (b60 + p.lam * at(Hc, 60)), color=BLUE, label="lo que se gana + costumbre")
     ax1.axvspan(60, 69.5, color=GRID, lw=0, zorder=0)
     ax1.axhline(0, color=INK2, lw=0.6)
-    ax1.legend(loc="upper left", handlelength=1.6)
+    ax1.legend(loc="lower left", bbox_to_anchor=(0, 1.0), handlelength=1.6, fontsize=7.5, borderaxespad=0.2)
     ax1.set_ylim(-1.6, 2.6)
-    ax1.set_title("índice, relativo a los 60 años", loc="left", color=INK)
+    ax1.set_ylabel("razones para votar\n(0 = a los 60)")
     ax1.set_xlabel("edad")
     pre, post = ages < THRESHOLD, ages >= THRESHOLD
     ax2.plot(ages[pre], at(P, ages[pre]), color=BLUE)
     ax2.plot(ages[post], at(P, ages[post]), color=RED)
     ax2.plot(ages[post], at(Pc, ages[post]), color=BLUE, ls=(0, (3, 2)), lw=1.3)
     ax2.axvspan(60, 69.5, color=GRID, lw=0, zorder=0)
-    ax2.set_title(rf"$\Delta$ = {g['Delta']:.3f} < $\tau^{{70}}$ = {g['tau70']:.3f}", loc="left", color=INK)
+    ax2.set_title(f"brecha {g['Delta']:.3f} < salto {g['tau70']:.3f}", loc="left", color=INK)
     ax2.set_xlabel("edad")
     ax2.set_ylim(0, 1.0)
     for ax in (ax1, ax2):
@@ -492,7 +512,7 @@ def fig_fine_theta():
         ax.text(f - 0.07 if r.tag in left else f + 0.07, r.theta70_data, r.tag.replace("_", " "), fontsize=8,
                 color=INK, va="center", ha="right" if r.tag in left else "left")
     ax.set_xlabel("multa media (% de la UIT)")
-    ax.set_ylabel(r"$\theta_{70}$ en los datos")
+    ax.set_ylabel("salto a los 70 (datos)")
     ax.set_xlim(0.9, 4.7)
     ax.set_ylim(-0.13, -0.04)
     save(fig, "s_fine_theta")
