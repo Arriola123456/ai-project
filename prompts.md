@@ -758,3 +758,123 @@ empiezan por un recuadro "En palabras", y el enunciado formal queda abajo, en le
 Rehízo el gráfico del Lema 1: la misma persona en dos mundos (vida real y obligada siempre), con sus votos
 arriba y su costumbre abajo. También cambió las etiquetas de los demás gráficos (sin P₁, Pᶠ, θ ni índices)
 y acortó títulos y textos para que nada se desborde. `verify.py` pasa.
+
+### Turno 14 (3-nov-2026)
+
+**Prompt** (instrucción pegada)
+
+```text
+Contexto: estoy trabajando en mi modelo de participación electoral en el umbral de
+los 70 años (voto obligatorio antes de los 70, facultativo después). Tengo un PDF
+de derivación completa en LaTeX ("Derivación completa del modelo") y una
+presentación Beamer. Encuentra ambos .tex en el repositorio antes de editar y
+dime qué archivos vas a tocar.
+
+Objetivo: extender el resultado (d) de la sección 6 (efecto de la heterogeneidad
+sobre el salto). Hoy el Paso 6.8 termina diciendo que, con P0(70) ≈ 0.78 en la
+calibración, "el signo de dτ/ds queda abierto". Quiero reemplazar eso por una
+predicción condicional, verificada.
+
+1. RESULTADO A DERIVAR (Paso 6.8 bis, después del 6.8)
+
+Parte de la fórmula del Paso 6.6:
+  dτ/ds = -(1/s) [ z1 f(z1) - z0 f(z0) ],  z0 = F^{-1}(P0(70)), z1 = F^{-1}(P1(70)).
+Como z0 < z1: dτ/ds < 0  <=>  z1 f(z1) > z0 f(z0).
+
+Con F normal:
+  d/dz [z φ(z)] = φ(z) + z φ'(z) = φ(z)(1 - z^2)   [regla del producto; φ'(z) = -z φ(z)]
+así que z φ(z) crece en [0,1] y decrece en [1,∞). z = 1 equivale a participación
+Φ(1) ≈ 0.841.
+
+Casos:
+  a) P0 ≤ 0.50 < P1: signo negativo (es el Paso 6.7).
+  b) 0.50 < P0 < P1 ≤ 0.841: negativo.
+  c) 0.841 ≤ P0 < P1: positivo.
+  d) P0 < 0.841 < P1: depende; hay que calcular el cruce.
+
+Para P0 = 0.78 (caso d): z0 = Φ^{-1}(0.78), calcular z0 φ(z0), y resolver
+z1* > 1 tal que z1* φ(z1*) = z0 φ(z0). Mis cuentas a mano dan z0 ≈ 0.772,
+z0 φ(z0) ≈ 0.229, z1* ≈ 1.25, P1* = Φ(z1*) ≈ 0.894. VERIFÍCALAS con más
+precisión y usa tus valores, no los míos. Si alguno no coincide, dímelo
+explícitamente.
+
+Predicción: si P1(70) < P1* (equivalente: τ70 < P1* - P0), más heterogeneidad
+achica el salto; si P1(70) > P1*, lo agranda. Regla práctica para los datos:
+por el Paso 5.9, P(69) = P1(69) aproxima P1(70); comparar P(69) con P1*.
+
+Intuición a incluir en una frase: más s angosta la banda de cumplidores en
+unidades estandarizadas (ancho S/s) y a la vez la acerca al centro de la
+distribución; cerca del centro domina lo primero, en la cola lo segundo.
+
+2. VERIFICACIÓN (obligatoria)
+
+  a) SymPy: verificar simbólicamente d/dz[z φ(z)] = φ(z)(1 - z^2).
+  b) Numérico: z0, z0 φ(z0), z1* (con un root-finder), P1*.
+  c) Versión rigurosa en el modelo calibrado (M2): el resultado es por
+     ciudadano (condicional en η y h70), y 0.78 es un promedio. Usando el
+     código de calibración existente, para los ciudadanos de 70 años calcula
+     la distribución de las probabilidades individuales sin y con obligación,
+     y reporta: (i) la fracción de ciudadanos en cada uno de los casos a)-d);
+     (ii) E[ z1 φ(z1) - z0 φ(z0) ] con zk = Φ^{-1} de la probabilidad
+     individual, y su signo. Ojo: en la calibración s = σ_ε = sqrt(1 - ω).
+  d) Guarda el script en el repo y su salida en un archivo de texto.
+
+3. PDF DE DERIVACIÓN COMPLETA
+
+Agrega el Paso 6.8 bis respetando EXACTAMENTE el estilo del documento:
+  - un paso = una operación;
+  - cada línea con su regla entre corchetes en gris a la derecha;
+  - cancelaciones con el tachado rojo que ya usa el documento;
+  - el resultado final en recuadro;
+  - nada se usa antes de definirse.
+Pasos sugeridos: (i) signo de dτ/ds en términos de z f(z); (ii) derivada de
+z φ(z) con la regla del producto; (iii) monotonía por tramos y el umbral 0.841;
+(iv) tabla de casos; (v) cálculo del cruce para P0 = 0.78; (vi) recuadro con la
+predicción; (vii) dos advertencias: es un resultado por ciudadano (con la
+cifra de 2c) y en la calibración cambiar s vía ω también cambia Var(η).
+Cambia la frase final del Paso 6.8 para que remita al 6.8 bis.
+Agrega al Apéndice A: regla del producto y φ'(z) = -z φ(z).
+Actualiza el índice si corresponde. No modifiques ningún otro resultado.
+
+4. SLIDES
+
+Agrega una o dos slides después de las de estática comparativa:
+  - una con la tabla de casos y el gráfico de z φ(z) sobre [0, 3] con líneas
+    verticales en z0 y z1* (genera la figura con matplotlib y guárdala en el
+    repo);
+  - la predicción en una línea y el resultado de 2c.
+Ecuaciones en LaTeX, sin animaciones, sin capturas. Mismo idioma y estilo que
+el resto de la presentación.
+
+5. CIERRE
+
+Compila ambos .tex y confirma que compilan sin errores. Trabaja en una rama
+nueva y abre un PR, no escribas directo en main. Agrega a prompts.md esta
+instrucción y un resumen de lo que hiciste. En el resumen final dime: valores
+verificados vs. los míos, resultado de 2c, archivos modificados.
+
+Formato: no uses em dashes en ningún texto que escribas.
+```
+
+**Respuesta (resumen):** trabajó en la rama nueva `heterogeneidad`, que sale de `final`.
+
+- **Verificación.** `code/heterogeneity.py` comprueba con SymPy que d/dz[z φ(z)] = φ(z)(1 − z²) y que
+  φ'(z) = −z φ(z). Con P0 = 0.78 obtiene z0 = 0.772193, z0 φ(z0) = 0.228641, z1* = 1.246770 (brentq) y
+  P1* = 0.893759. Coinciden con las cuentas a mano.
+- **Modelo calibrado (M2, 2016).** Clasificó a los ciudadanos de 70 años según sus probabilidades
+  individuales:
+
+  | Caso | a) | b) | c) | d) | P1 ≤ 0.50 |
+  |---|---|---|---|---|---|
+  | Fracción | 4.2% | 22.7% | 50.4% | 17.2% | 5.5% |
+
+  Solo el 38.5% tiene dτ/ds < 0. E[z1 φ(z1) − z0 φ(z0)] = 0.0008 > 0, así que dτ/ds = −0.0008: negativo,
+  pero casi cero. La regla aplicada a los promedios acierta el signo en las seis elecciones, pero exagera
+  el tamaño. La salida está en `code/output/heterogeneity.txt`.
+- **Documento de derivación** (fuera del repo). Agregó el Paso 6.8 bis, (i) a (viii), sin renumerar los
+  demás pasos; el Paso 6.8 ahora remite a él. Sumó dos reglas al Apéndice A y una entrada en el índice.
+- **Deck.** Agregó dos slides de la extensión, después de la Proposición 5: la figura `s_zphi.pdf` con la
+  tabla de casos, y la predicción con el resultado de M2. Actualizó el ítem "Heterogeneidad" de la
+  columna "Abierto".
+
+Los dos .tex compilan sin errores.

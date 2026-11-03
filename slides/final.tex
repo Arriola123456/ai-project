@@ -99,6 +99,7 @@
 \newcommand{\fig}[2][0.62]{{\centering\includegraphics[width=\linewidth,height=#1\textheight,keepaspectratio]{#2}\par}}
 \IfFileExists{../code/output/numbers.tex}{\input{../code/output/numbers.tex}}{}
 \IfFileExists{../code/output/slide_numbers.tex}{\input{../code/output/slide_numbers.tex}}{}
+\IfFileExists{../code/output/heterogeneity_numbers.tex}{\input{../code/output/heterogeneity_numbers.tex}}{}
 % The photo of the hand derivation, wherever it was saved (jpg, png or pdf)
 \newcommand{\handfile}{../hand/05-proposicion-5-resto}
 \newcommand{\handphoto}[1]{%
@@ -600,6 +601,57 @@
   \takeaway{Los escalones se borran más lento (derecha), pero la costumbre sigue creciendo entre los 60 y los 69 (izquierda). Por eso la calibración comprueba la condición de P3 elección por elección.}
 \end{frame}
 
+% (1:15) Extension of result (d): derivation, Step 6.8 bis; numbers from code/heterogeneity.py
+\begin{frame}{Extensión: ¿la heterogeneidad agranda o achica el salto?}
+  \begin{block}{En palabras}
+    \small Si los costos del día se dispersan más (más $s$), ¿hay más o menos cumplidores? Depende de dónde cae la franja.
+  \end{block}
+  \begin{columns}[c]
+    \begin{column}{0.47\textwidth}
+      \fig[0.5]{../code/figures/s_zphi.pdf}
+    \end{column}
+    \begin{column}{0.51\textwidth}
+      \footnotesize
+      $\dfrac{\partial\tau}{\partial s}=-\dfrac1s\bigl[z_1\phi(z_1)-z_0\phi(z_0)\bigr]$, \quad $z_k=\Phi^{-1}(P_k)$
+
+      \vspace{0.1cm}
+      $\dfrac{d}{dz}\bigl[z\phi(z)\bigr]=\phi(z)(1-z^2)$: sube hasta $z=1$ y luego baja.
+
+      \vspace{0.15cm}
+      \renewcommand{\arraystretch}{1.15}
+      \begin{tabular}{@{}lll@{}}
+        \toprule
+        & Probabilidades & $\partial\tau/\partial s$ \\
+        \midrule
+        a) & $P_0\le0.50<P_1$ & negativo \\
+        b) & $0.50<P_0<P_1\le\hetPeak$ & negativo \\
+        c) & $\hetPeak\le P_0<P_1$ & positivo \\
+        d) & $0.50<P_0<\hetPeak<P_1$ & depende del cruce $z_1^*$ \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+  \takeaway{Con $P_0=0.78$: $z_0=\hetZzero$, cruce en $z_1^*=\hetZone$, es decir, $P_1^*=\hetPone$ (Paso 6.8 bis).}
+\end{frame}
+
+% (1:00)
+\begin{frame}{Extensión: la predicción y lo que dice el modelo calibrado}
+  \begin{block}{Predicción (con $P_0(70)=0.78$)}
+    Si $P_1(70)<\hetPone$ (o sea, $\tau^{70}<0.114$), más heterogeneidad \textbf{achica} el salto; si $P_1(70)>\hetPone$, lo \textbf{agranda}.
+    En los datos: comparar $P(69)$ con \hetPone.
+  \end{block}
+  \small\textbf{Por qué:} más $s$ angosta la franja de cumplidores (su ancho es $S/s$) y a la vez la acerca al centro; cerca del centro domina lo primero, en la cola lo segundo.
+  \vspace{0.15cm}
+
+  \textbf{En M2 (\runTag), ciudadano por ciudadano a los 70:}
+  \begin{itemize}\setlength{\itemsep}{0.3em}\small
+    \item Casos: a) \hetRunCaseA\%, b) \hetRunCaseB\%, c) \hetRunCaseC\%, d) \hetRunCaseD\%; el \hetRunCaseO\% restante tiene $P_1\le0.50$.
+    \item Con los promedios, $P_1(70)=\hetRunPone<\hetPone$: achica. Pero solo el \hetRunNeg\% tiene signo negativo, y en promedio $\partial\tau^{70}/\partial s=\hetRunDtds$: \alert{negativo, pero casi cero}.
+    \item La regla con promedios acierta el signo en las seis elecciones, pero exagera el tamaño.
+  \end{itemize}
+  \takeaway{Ojo: en la calibración $s=\sqrt{1-\omega}$, así que cambiar $s$ también cambia la dispersión del costo propio, $\mathrm{Var}(\eta)=\omega$.}
+\end{frame}
+
 % =====================================================================
 \section[4 Prueba]{La prueba}
 % =====================================================================
@@ -639,7 +691,7 @@
       \begin{itemize}\setlength{\itemsep}{0.4em}\small
         \item Una condición sobre los parámetros que garantice la condición de P3.
         \item P4--P5 cuando las elecciones difieren entre sí.
-        \item ¿Más diferencias entre personas agrandan el salto? Solo se sabe si a los 70, libres, vota $\le$50\% (calibrado: 78\%).
+        \item Heterogeneidad: el signo ya es una predicción condicional (slides de la extensión), pero en el modelo calibrado el efecto es casi cero.
         \item Votante que mira al futuro.
       \end{itemize}
     \end{column}
