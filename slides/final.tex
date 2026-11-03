@@ -634,48 +634,55 @@
 % =====================================================================
 
 % (1:15)
-\begin{frame}{La prueba de la Proposición 3 en tres pasos}
-  \small Supuesto: elecciones iguales entre sí (mismo costo medio y sanción) y $\rho$ constante.
-  \begin{enumerate}\setlength{\itemsep}{0.35em}
-    \item \textbf{La costumbre es una suma de votos pasados.} Desde $h=0$, aplicando $h'=\rho h+v$:
-    \;$h_a=v_{a-5}+\rho\,v_{a-10}+\rho^2\,v_{a-15}+\dots$
-    \item \textbf{Promediar.} El promedio de una suma es la suma de los promedios, y el de $v$ a la edad $x$ es $P(x)$:
-    \;$H(a)=P(a-5)+\rho\,P(a-10)+\dots$
-    \item \textbf{Restar 74 de 75.} Tienen el mismo número de elecciones pasadas: los términos se restan uno a uno.
-    {\small\[ H(75)-H(74)=\underbrace{[P(70)-P(69)]}_{\text{el salto de los 70}}+\rho\underbrace{[P(65)-P(64)]}_{\text{un año, obligado}}+\dots \]}
-    Entre 73 y 74, todas las edades de la resta son de 69 o menos: no hay escalón.
-  \end{enumerate}
+\begin{frame}{Prueba de P3 (1/2): la costumbre suma los votos pasados}
+  \small Supuesto: todas las elecciones son iguales entre sí (mismo costo medio y sanción), y $\rho$ es constante.
+
+  \textbf{Paso 1. Aplicar $h'=\rho\,h+v$ elección por elección} (una persona que vota desde los 20):
+  {\footnotesize
+  \renewcommand{\arraystretch}{1.15}
+  \begin{center}
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    Edad & Costumbre al llegar a votar & Cuenta \\
+    \midrule
+    25 & $h_{25}=v_{20}$ & $\rho\cdot0+v_{20}$ \\
+    30 & $h_{30}=v_{25}+\rho\,v_{20}$ & $\rho\,h_{25}+v_{25}$ \\
+    35 & $h_{35}=v_{30}+\rho\,v_{25}+\rho^2\,v_{20}$ & $\rho\,h_{30}+v_{30}$ \\
+    \bottomrule
+  \end{tabular}
+  \end{center}}
+  \vspace{-0.1cm}
+  El patrón: \textbf{el último voto pesa 1, el anterior $\rho$, el de antes $\rho^2$}\dots\ (con $\rho=0.6$: 1, 0.6, 0.36).
+
+  \vspace{0.15cm}
+  \textbf{Paso 2. Promediar entre las personas de la misma edad.} El promedio de una suma es la suma de los promedios,
+  y el promedio de $v$ a la edad $x$ es la participación $P(x)$:
+  \[ H(a)=P(a-5)+\rho\,P(a-10)+\rho^2\,P(a-15)+\dots \]
 \end{frame}
 
-% (0:45)
-\begin{frame}{La prueba: qué está hecho, qué costó y qué sigue abierto}
-  \begin{columns}[T]
-    \begin{column}{0.32\textwidth}
-      {\color{upblue}\bfseries Hecho}
-      \begin{itemize}\setlength{\itemsep}{0.4em}\small
-        \item Pruebas completas del Lema 1 y de P1--P4, a mano y \textbf{en Lean}, sin huecos.
-        \item P2: comparar a la misma persona en dos mundos (Lema 1).
-        \item P3 y P4: escribir la costumbre como suma de votos pasados.
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.32\textwidth}
-      {\color{upred}\bfseries Lo difícil}
-      \begin{itemize}\setlength{\itemsep}{0.4em}\small
-        \item Separar la costumbre de una caída por edad que se acelera ($\beta>1$).
-        \item Supuestos usados sin decirlo: costumbre y sanción no negativas; elecciones iguales entre sí (P3--P4).
-        \item El término extra $R(a)$ de P4, que apareció al escribirla en Lean.
-      \end{itemize}
-    \end{column}
-    \begin{column}{0.32\textwidth}
-      {\color{upgray}\bfseries Abierto}
-      \begin{itemize}\setlength{\itemsep}{0.4em}\small
-        \item Contrastar los escalones con los datos por edad exacta.
-        \item P3--P4 cuando las elecciones difieren entre sí.
-        \item Heterogeneidad: signo condicional (extensión); en la calibración, casi cero.
-        \item Votante que mira al futuro.
-      \end{itemize}
-    \end{column}
-  \end{columns}
+% (1:15)
+\begin{frame}{Prueba de P3 (2/2): comparar 74 con 75 años}
+  \small\textbf{Paso 3. Escribir la costumbre de cada uno y restar, columna por columna.}
+  {\footnotesize
+  \renewcommand{\arraystretch}{1.25}
+  \begin{center}
+  \begin{tabular}{@{}lccc@{}}
+    \toprule
+    & último voto (peso 1) & penúltimo (peso $\rho$) & antepenúltimo ($\rho^2$) \\
+    \midrule
+    Tiene 75 hoy & $P(70)$, \textcolor{upred}{libre} & $P(65)$ & $P(60)$ \\
+    Tiene 74 hoy & $P(69)$, \textcolor{upblue}{obligado} & $P(64)$ & $P(59)$ \\
+    \midrule
+    Resta & \textcolor{upred}{$\boldsymbol{P(70)-P(69)}$: el salto} & un año & un año \\
+    \bottomrule
+  \end{tabular}
+  \end{center}}
+  \begin{itemize}\setlength{\itemsep}{0.3em}\small
+    \item La primera columna es \textbf{el salto de los 70}: grande. Las demás son diferencias de un año, bajo obligación: pequeñas.
+    \item Por eso la costumbre cae de golpe entre los 74 y los 75: el \textbf{escalón}. A los 80 vuelve, multiplicado por $\rho$.
+    \item \textbf{Entre 73 y 74 no hay escalón:} sus últimos votos fueron a los 68 y 69, los dos obligados.
+  \end{itemize}
+  \takeaway{Con costumbre ($\lambda>0$), el escalón de la costumbre pasa a la participación. Sin costumbre, nada cae a los 75.}
 \end{frame}
 
 % =====================================================================
@@ -683,36 +690,106 @@
 % =====================================================================
 
 % (1:00)
-\begin{frame}{Calibración al estilo DSGE}
+\begin{frame}{Calibración (1/4): qué es y qué datos usa}
+  \begin{block}{La idea, como en un DSGE}
+    \small El modelo tiene \textbf{perillas} (parámetros). Calibrar es \textbf{girarlas hasta que el modelo reproduzca los datos}.
+    Si lo logra, el modelo responde lo que los datos no dicen solos, como ``¿qué pasaría si siguieran obligados?''.
+  \end{block}
+  \begin{columns}[T]
+    \begin{column}{0.47\textwidth}
+      \small\textbf{Lo que debe reproducir} (\nMoments\ números, seis elecciones):
+      \begin{itemize}\setlength{\itemsep}{0.25em}\footnotesize
+        \item \textbf{La curva por edad exacta}: participación a cada edad de 45 a 80 menos la de 69, entre electores de la misma mesa (tesis). 35 edades por elección, cada una con su error estándar.
+        \item \textbf{Dos niveles}: la participación promedio de 60--69 y de 70+ (ONPE).
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.51\textwidth}
+      \fig[0.45]{../code/figures/s_theta_exact.pdf}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% (1:00)
+\begin{frame}{Calibración (2/4): las perillas}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.12}
+  \begin{tabularx}{\textwidth}{@{}lYll@{}}
+    \toprule
+    Perilla & Qué significa & Cómo se fija & Valor (M2) \\
+    \midrule
+    $F_t$ & multa promedio, \% de la UIT (JNE) & de afuera & 4\% hasta 2006; luego 1.8--1.9\% \\
+    $a^*$ & edad a la que más se gana votando & con los datos & \peakBest\ años \\
+    $\alpha,\kappa,\beta$ & qué tan rápido sube y cae lo que se gana & con los datos & 0.64; 12.3; \betaBest \\
+    $\lambda$ & cuánto suma cada unidad de costumbre & con los datos & \lamBest \\
+    $\rho$ & fracción de la costumbre que sobrevive 5 años & con los datos & \rhoBest\ (en su tope) \\
+    $\omega$ & parte del costo que es propia de la persona & con los datos & 0.05 (en su piso) \\
+    $s_0$ & lo que pesa estar obligado, aparte de la multa & con los datos & 0.29 \\
+    $q$ & cuánto pesa cada punto de multa & con los datos & 0.00 \\
+    $\mu_t$ & costo medio de votar, uno por elección & con los datos & 10.8 a 11.4 \\
+    \bottomrule
+  \end{tabularx}
+  \takeaway{Las perillas son \textbf{las mismas en las seis elecciones}; solo $\mu_t$ cambia entre elecciones. Elecciones cada 5 años, fijo.}
+\end{frame}
+
+% (1:15)
+\begin{frame}{Calibración (3/4): cómo se giran las perillas}
   \centering
   \begin{tikzpicture}[
-      box/.style={draw=upaccent,fill=uplight,rounded corners=3pt,text width=3.75cm,align=flush left,font=\scriptsize,inner sep=5pt,minimum height=2.3cm},
-      head/.style={font=\small\bfseries,text=upblue},
+      box/.style={draw=upaccent,fill=uplight,rounded corners=3pt,text width=2.75cm,align=center,font=\scriptsize,inner sep=3pt,minimum height=1.2cm},
       arr/.style={-{Stealth[length=2.2mm]},thick,upgray}]
-    \node[box] (ext) at (0,0) {\textbf{Viene de afuera}\\[2pt] Elecciones cada 5 años.\\ La multa promedio $F_t$ (JNE): 4\% de la UIT antes de la Ley 28859, 1.8--1.9\% después.};
-    \node[box] (par) at (4.7,0) {\textbf{Se elige con los datos}\\[2pt] Iguales en todas las elecciones: la edad del máximo, la caída, cuánto pesa y cuánto dura la costumbre, la sanción y el peso de la multa.\\[2pt] Uno por elección: el costo medio $\mu_t$.};
-    \node[box] (mom) at (9.4,0) {\textbf{Lo que debe replicar} (\nMoments\ datos)\\[2pt] La participación a cada edad de 45 a 80, relativa a la de 69, y los promedios de 60--69 y 70+. Seis elecciones: 2001 2V y 1V 2006--2026.};
-    \draw[arr] (ext) -- (par);
-    \draw[arr] (mom) -- (par);
+    \node[box] (a) at (0,0) {\textbf{1. Elegir valores}\\ para las perillas};
+    \node[box] (b) at (3.6,0) {\textbf{2. Resolver el modelo}\\ cohortes que votan cada 5 años, con su costumbre};
+    \node[box] (c) at (7.2,0) {\textbf{3. Calcular la curva}\\ del modelo, por edad y elección};
+    \node[box] (d) at (10.8,0) {\textbf{4. Medir la distancia}\\ entre modelo y datos};
+    \draw[arr] (a) -- (b);
+    \draw[arr] (b) -- (c);
+    \draw[arr] (c) -- (d);
+    \draw[arr] (d.south) -- ++(0,-0.4) -| node[pos=0.25,below,font=\scriptsize,text=black]{5. corregir las perillas para acortar la distancia, y repetir} (a.south);
   \end{tikzpicture}
 
-  \vspace{0.35cm}
-  \raggedright\small
-  \textbf{Cuatro versiones, de menos a más:} M0 sin costumbre y caída lineal; M1 la caída puede acelerarse ($\beta$ libre); M2 agrega la costumbre; M3 la costumbre dura más con la edad.
-  Se eligen los parámetros que dejan al modelo lo más cerca posible de los datos.
-  \takeaway{Como en un DSGE: unos parámetros vienen de afuera y el resto se elige para que el modelo reproduzca los perfiles por edad estimados en la tesis.}
+  \vspace{0.15cm}\raggedright\small
+  \textbf{La distancia}: en cada punto, (modelo $-$ dato) dividido por la precisión del dato, al cuadrado, y se suma todo:
+  \[ Q=\sum_{t,\,a}\Bigl(\frac{\text{modelo}_{a,t}-\text{dato}_{a,t}}{\text{error estándar}_{a,t}}\Bigr)^2+\sum_{t,\,\text{grupo}}\Bigl(\frac{\text{modelo}-\text{dato}}{0.01}\Bigr)^2 . \]
+  \vspace{-0.25cm}
+  \begin{itemize}\setlength{\itemsep}{0.15em}\footnotesize
+    \item Pesan más las edades medidas con precisión: errar por 0.01 donde el error estándar es 0.005 suma $2^2=4$.
+    \item Sin números al azar: la costumbre se sigue en una grilla, así que dos corridas dan lo mismo.
+    \item La búsqueda (mínimos cuadrados) parte de varios puntos y se queda con la menor distancia.
+  \end{itemize}
 \end{frame}
 
 % (0:45)
-\begin{frame}{Resultados: la costumbre mejora el ajuste}
+\begin{frame}{Calibración (4/4): cuatro versiones del modelo}
+  \small
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabularx}{\textwidth}{@{}lYr@{}}
+    \toprule
+    Versión & Qué agrega & Distancia $Q$ \\
+    \midrule
+    M0 & Sin costumbre; lo que se gana cae a ritmo constante con la edad ($\beta=1$). & \objMzero \\
+    M1 & La caída puede acelerarse con la edad ($\beta$ libre). & \objMone \\
+    M2 & \textbf{Costumbre de votar}, con $\rho$ igual a toda edad. & \textbf{\objBest} \\
+    M3 & La costumbre se borra más lento en la vejez ($\rho$ sube con la edad). & \objBest \\
+    \bottomrule
+  \end{tabularx}
+  \vspace{0.2cm}
+  \begin{itemize}\setlength{\itemsep}{0.35em}\small
+    \item Cada versión contiene a la anterior: agregar una perilla nunca empeora la distancia. La pregunta es \textbf{cuánto mejora}.
+    \item Acelerar la caída mejora poco (de \objMzero\ a \objMone). La costumbre mejora bastante más (\objBest). Que dure más en la vejez no agrega nada.
+    \item Desde aquí, los resultados usan \textbf{M2}.
+  \end{itemize}
+\end{frame}
+
+% (0:45)
+\begin{frame}{Resultados: qué valores eligen los datos}
   \centering\small
   \IfFileExists{../code/output/calib_models.tex}{\resizebox{\textwidth}{!}{\input{../code/output/calib_models.tex}}}{\pending{tabla de modelos}}
   \vspace{0.3cm}
   \raggedright
-  \begin{itemize}\setlength{\itemsep}{0.35em}
-    \item ¿Ayuda que la caída se acelere ($\beta>1$)? Poco: la distancia a los datos baja de \objMzero{} a \objMone{} ($\beta=\betaStatic$). La costumbre ayuda más (\objBest{}).
-    \item Los datos piden una costumbre que casi no se borra ($\rho=\rhoBest$). \textbf{Que dure más en la vejez no agrega nada} (M3 = M2).
-    \item La multa no explica el salto: su peso $q$ es casi cero (siguiente slide).
+  \begin{itemize}\setlength{\itemsep}{0.35em}\small
+    \item \textbf{La costumbre hace parte del trabajo de la edad.} Sin costumbre, el máximo es a los 53 y la caída necesita $\beta=\betaStatic$; con costumbre, el máximo es a los \peakBest\ y basta $\beta=\betaBest$.
+    \item \textbf{La costumbre casi no se borra:} $\rho=\rhoBest$, en su tope; cada unidad suma $\lambda=\lamBest$.
+    \item \textbf{La multa no explica el salto:} su peso $q$ es casi cero; lo que pesa es estar obligado, $s_0$ (siguiente slide).
   \end{itemize}
 \end{frame}
 

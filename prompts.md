@@ -930,3 +930,42 @@ P3, ahora la central, y la persistencia creciente pasa a ser la P4.
   - "Dónde no le creí a la IA (1)".
 - **Pendiente para el 26-nov:** el paper, Lean (nombres) y el documento de derivación todavía tienen la
   numeración anterior.
+
+### Turno 18 (3-nov-2026)
+
+**Prompt**
+
+```text
+Vuelve a explicarme la proposición 2
+```
+
+**Respuesta (resumen):** explicó la P2 en dos partes:
+
+1. El salto de los 70 mide solo la sanción. La costumbre de quien cumple 70 se formó bajo obligación y
+   ese día no cambia; la pérdida de costumbre llega en la elección siguiente.
+2. Más costumbre achica el salto. Los cumplidores son una franja de ancho fijo S; la costumbre la corre
+   hacia donde hay menos gente (26% contra 9% en el ejemplo).
+
+Agregó la condición (participación sobre 50%, que se cumple a los 70) y para qué sirve el resultado.
+
+### Turno 19 (3-nov-2026)
+
+**Prompt**
+
+```text
+Elimina la slide 29 de la presentación y mejora la slide 28 para que se entienda mejor los pasos. Explayate más en la calibración DSGE, no se entiende que haz hecho, POR FAVOR EXPLCIALO MEJOR
+```
+
+**Respuesta (resumen):**
+
+- **Slide 29** ("hecho, difícil, abierto"): la eliminó.
+- **Slide 28** (la prueba de los escalones): la dividió en dos.
+  - (1/2) La regla de la costumbre aplicada elección por elección, en una tabla, y el promedio.
+  - (2/2) La costumbre de alguien de 74 y de 75 años, columna por columna; la resta deja el salto de los
+    70 en la primera columna.
+- **Calibración:** pasó de una slide a cuatro.
+  - (1/4) Qué es calibrar y qué datos debe reproducir.
+  - (2/4) Tabla de perillas: qué significa cada una, cómo se fija y su valor.
+  - (3/4) El ciclo elegir, resolver, calcular, medir y corregir, con la fórmula de la distancia y un
+    ejemplo.
+  - (4/4) Las cuatro versiones del modelo con su distancia.
