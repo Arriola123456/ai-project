@@ -1,12 +1,26 @@
 % Final presentation -- work in progress, presented for critique.
+% Slot: Wednesday, November 4, 2026, 08:20 (45 minutes with discussion).
+% Timing in the comments adds up to about 36 minutes (34 without the slides
+% marked [opcional]); the issue suggests about 30 minutes of talk.
 % No animations and no screenshots of papers: equations are typeset in LaTeX.
-\documentclass[aspectratio=169,11pt]{beamer}
+% Figures: code/slide_figures.py (mechanics with illustrative parameters, results
+% with the calibrated model) and code/verify.py (fit by election).
+\documentclass[aspectratio=169,11pt,xcolor=table]{beamer}
+
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[english]{babel}
+\IfFileExists{spanish.ldf}{\usepackage[spanish,es-nodecimaldot,es-noshorthands,es-lcroman]{babel}}{}
+\IfFileExists{lmodern.sty}{\usepackage[T1]{fontenc}\usepackage{lmodern}}{}
 \usepackage{amsmath,amssymb}
+\usepackage{bbm}
 \usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 \usepackage{graphicx}
+\usepackage{appendixnumberbeamer}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,decorations.pathreplacing,calc}
 \usepackage{newunicodechar}
 % Lean code is full of Unicode that typewriter fonts do not have. Each line
 % maps one symbol to math mode, so Lean can be pasted into a verbatim block
@@ -22,86 +36,949 @@
 \newunicodechar{⟨}{\ensuremath{\langle}}  \newunicodechar{⟩}{\ensuremath{\rangle}}
 \newunicodechar{λ}{\ensuremath{\lambda}}  \newunicodechar{α}{\ensuremath{\alpha}}
 \newunicodechar{β}{\ensuremath{\beta}}    \newunicodechar{ε}{\ensuremath{\varepsilon}}
-\usetheme{default}
-\usecolortheme{seahorse}
-\setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{footline}[frame number]
-\setbeamerfont{frametitle}{size=\large}
+\newunicodechar{ρ}{\ensuremath{\rho}}     \newunicodechar{κ}{\ensuremath{\kappa}}
+\newunicodechar{τ}{\ensuremath{\tau}}     \newunicodechar{η}{\ensuremath{\eta}}
+\newunicodechar{μ}{\ensuremath{\mu}}      \newunicodechar{∑}{\ensuremath{\sum}}
+\newunicodechar{₀}{\ensuremath{_0}}       \newunicodechar{₁}{\ensuremath{_1}}
+\newunicodechar{⁻}{\ensuremath{^{-}}}     \newunicodechar{¹}{\ensuremath{^{1}}}
+\newunicodechar{Δ}{\ensuremath{\Delta}}   \newunicodechar{ω}{\ensuremath{\omega}}
+\newunicodechar{θ}{\ensuremath{\theta}}   \newunicodechar{∏}{\ensuremath{\prod}}
+\newunicodechar{·}{\ensuremath{\cdot}}     \newunicodechar{∣}{\ensuremath{\mid}}
 
-\title{Your Title}
-\subtitle{Final presentation}
-\author{Your Name}
-\date{October--November 2026}
+% ---------------- Estilo (el de la tesis) ----------------
+\definecolor{upblue}{HTML}{1E3A8A}
+\definecolor{upaccent}{HTML}{2E6FD8}
+\definecolor{upgray}{HTML}{5B6170}
+\definecolor{upred}{HTML}{C0392B}
+\definecolor{uplight}{HTML}{EEF2FA}
+\definecolor{upamber}{HTML}{D98E04}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{frametitle}{fg=upblue}
+\setbeamerfont{frametitle}{series=\bfseries,size=\Large}
+\setbeamercolor{structure}{fg=upblue}
+\setbeamercolor{normal text}{fg=black!85}
+\setbeamercolor{alerted text}{fg=upred}
+\setbeamertemplate{itemize items}{\color{upaccent}$\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{\color{upgray}--}
+\newcommand{\itemgap}{0.9em}
+\makeatletter
+\let\OLDitemize\itemize
+\renewcommand\itemize{\OLDitemize\ifnum\@itemdepth=1\setlength{\itemsep}{\itemgap}\else\setlength{\itemsep}{0.4em}\setlength{\topsep}{0.5em}\fi}
+\makeatother
+\setbeamercolor{block title}{bg=upblue,fg=white}
+\setbeamercolor{block body}{bg=uplight}
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamertemplate{frametitle}{%
+  \vspace{0.35cm}\insertframetitle\par
+  \vspace{-0.1cm}{\color{upaccent}\rule{2.2cm}{1.5pt}}%
+}
+% Footline: the eight parts of the talk, the current one highlighted, and the page.
+\setbeamercolor{section in head/foot}{fg=upblue}
+\setbeamerfont{section in head/foot}{size=\fontsize{6}{7}\selectfont}
+\setbeamertemplate{section in head/foot shaded}{\color{upgray!45}\usebeamertemplate{section in head/foot}}
+\setbeamertemplate{footline}{%
+  \hbox{\begin{beamercolorbox}[wd=\paperwidth,ht=3ex,dp=1.2ex]{}%
+    \hspace{0.25cm}\insertsectionnavigationhorizontal{0.86\paperwidth}{}{}%
+    \hfill{\color{upgray}\tiny\insertframenumber/\inserttotalframenumber}\hspace{0.4cm}%
+  \end{beamercolorbox}}%
+}
+\newcommand{\hl}[1]{\textcolor{upaccent}{\textbf{#1}}}
+\newcommand{\nt}[1]{{\color{upaccent}#1}}          % the new piece of the model at each step
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\1}{\mathbbm{1}}
+\newcommand{\pending}[1]{\textcolor{upred}{\textbf{[Pendiente: #1]}}}
+% The decision rule built so far, at the top of each step of the model
+\newcommand{\rulebar}[1]{{\centering\colorbox{uplight}{\small\strut\;#1\;}\par}\vspace{0.12cm}}
+% One-line message at the bottom of a slide
+\newcommand{\takeaway}[1]{\par\vspace{0.12cm}{\setlength{\fboxsep}{4pt}\colorbox{uplight}{%
+  \parbox{\dimexpr\linewidth-8pt}{\small{\color{upblue}\textbf{Idea.}} #1}}}}
+% The formal statement, small and gray, under the plain-language version
+\newcommand{\formal}[1]{\par\vspace{0.12cm}{\footnotesize\color{upgray}\textbf{Formalmente.} #1\par}}
+\newcommand{\fig}[2][0.62]{{\centering\includegraphics[width=\linewidth,height=#1\textheight,keepaspectratio]{#2}\par}}
+\IfFileExists{../code/output/numbers.tex}{\input{../code/output/numbers.tex}}{}
+\IfFileExists{../code/output/slide_numbers.tex}{\input{../code/output/slide_numbers.tex}}{}
+\IfFileExists{../code/output/heterogeneity_numbers.tex}{\input{../code/output/heterogeneity_numbers.tex}}{}
+% The photo of the hand derivation, wherever it was saved (jpg, png or pdf)
+\newcommand{\handfile}{hand_habito}   % crop of hand/01-derivacion-del-modelo.pdf (the habit section)
+\newcommand{\handphoto}[1]{%
+  \IfFileExists{\handfile.jpg}{\includegraphics[height=#1]{\handfile.jpg}}{%
+  \IfFileExists{\handfile.png}{\includegraphics[height=#1]{\handfile.png}}{%
+  \IfFileExists{\handfile.pdf}{\includegraphics[height=#1]{\handfile.pdf}}{%
+  \fbox{\parbox[c][#1][c]{0.6\linewidth}{\centering\small\pending{foto de la derivación a mano}\\[0.2cm]
+    {\footnotesize se incluye sola si se guarda como\\ \texttt{hand/05-proposicion-5-resto.jpg}}}}}}}}
+
+\title{Voto obligatorio a los 70: el salto, la edad y la costumbre}
+\subtitle{Ciclo de vida, costumbre de votar y una calibración con datos de la ONPE}
+\author{Manuel Alfredo Arriola Montenegro}
+\date{4 de noviembre de 2026}
 
 \begin{document}
 
-% The title slide carries the repository link.
-\begin{frame}[plain]
-  \titlepage
-  \begin{center}\small
-    \texttt{github.com/your-user/ai-project}
+% ===== Portada (0:20) =====
+{
+\setbeamertemplate{footline}{}
+\begin{frame}
+  \begin{center}
+    \includegraphics[height=1.3cm]{logo.png}\\[0.5cm]
+    {\color{upblue}\Large\bfseries Voto obligatorio a los 70:\\ el salto, la edad y la costumbre}\\[0.2cm]
+    {\color{upgray}\large \insertsubtitle}\\[0.5cm]
+    {\small\textbf{Manuel Alfredo Arriola Montenegro}}\\[0.2cm]
+    {\small Presentación final (trabajo en progreso, para crítica) \;\textbar\; Track B: modelo de tesis}\\[0.15cm]
+    {\footnotesize\color{upgray} Inteligencia Artificial y Modelamiento Económico \;\textbar\; Lima, 4 de noviembre de 2026}\\[0.25cm]
+    {\small\color{upaccent}\href{https://github.com/Arriola123456/ai-project}{\texttt{github.com/Arriola123456/ai-project}}}
   \end{center}
 \end{frame}
+}
 
-\begin{frame}{1 \textperiodcentered{} The question and the answer}
-  \textbf{Replace.} The question, and your result in one sentence --- with its
-  condition.
+% ===== Hoja de ruta (0:30) =====
+{
+\setbeamertemplate{footline}{}
+\begin{frame}{Hoja de ruta}
+  \centering
+  \begin{tikzpicture}[
+      part/.style={draw=upaccent,fill=uplight,rounded corners=3pt,minimum width=3.2cm,minimum height=1.25cm,
+                   align=center,font=\small,text width=3.0cm},
+      num/.style={circle,fill=upblue,text=white,font=\scriptsize\bfseries,inner sep=1.5pt,minimum size=0.45cm}]
+    \node[part] (p1) at (0,0) {La pregunta y\\el resultado};
+    \node[part] (p2) at (3.6,0) {El modelo,\\paso a paso};
+    \node[part] (p3) at (7.2,0) {Las\\proposiciones};
+    \node[part] (p4) at (10.8,0) {La prueba};
+    \node[part] (p5) at (0,-1.75) {Simulaciones\\y calibración};
+    \node[part] (p6) at (3.6,-1.75) {Lean};
+    \node[part] (p7) at (7.2,-1.75) {Dónde no le\\creí a la IA};
+    \node[part] (p8) at (10.8,-1.75) {Preguntas\\para ustedes};
+    \foreach \i in {1,...,8} \node[num] at (p\i.north west) {\i};
+  \end{tikzpicture}
+
+  \vspace{0.5cm}
+  {\small\color{upgray} El modelo se construye en seis pasos, una pieza a la vez. Al pie de cada slide se ve en qué parte vamos.}
+\end{frame}
+}
+
+% =====================================================================
+\section[1 Pregunta]{La pregunta y el resultado}
+% =====================================================================
+
+% (0:45)
+\begin{frame}[c]{La participación cae a los 70 años}
+  \fig[0.6]{grafico1.png}
+  {\centering\tiny Participación = sufragantes / habilitados por grupo etario. Fuente: ONPE. Elaboración propia.\par}
+  \takeaway{Entre los grupos 60--69 y 70+ la participación cae entre 25 y 46 puntos, según la elección. Desde los 70 años el voto es facultativo.}
 \end{frame}
 
-\begin{frame}{2 \textperiodcentered{} The model}
-  \textbf{Replace.} Primitives, timing, and the agent's problem.
-  \[
-    \max_{e \ge 0}\; a e - \frac{c}{2}\, e^{2}, \qquad a > 0,\; c > 0
-  \]
+% (1:15)
+\begin{frame}[c]{Con la edad exacta: un salto chico y una caída larga}
+  \fig[0.62]{../code/figures/s_theta_exact.pdf}
+  {\centering\tiny Participación a cada edad menos la participación a los 69, comparando a electores de la misma mesa (tesis, $\theta_a=P(a)-P(69)$). Datos agregados en \texttt{code/data/}.\par}
+  \takeaway{Justo a los 70 la participación cae de 5 a 12 puntos según la elección ($\runJump$ en \runTag). La brecha entre grupos es entre cuatro y seis veces más grande: ¿de dónde sale el resto?}
 \end{frame}
 
-\begin{frame}{3 \textperiodcentered{} The result, with all its conditions}
-  \textbf{Replace.} The proposition as it is stated in the paper.
-
-  \medskip
-  \textbf{Proposition 1.} If $a > 0$ and $c > 0$, the unique solution is
-  $e^{*} = a/c$, and $\partial e^{*}/\partial a = 1/c > 0$.
+% (0:45)
+\begin{frame}[c]{La intuición: dos caídas superpuestas}
+  \centering
+  \begin{tikzpicture}[xscale=1.75,yscale=1.2]
+    \draw[->,thick,upgray] (0,0) -- (6.4,0) node[below left,font=\small]{edad};
+    \draw[->,thick,upgray] (0,0) -- (0,3.7) node[above,font=\small]{participación};
+    \draw[line width=2pt,upaccent,domain=0.3:3.8,smooth] plot (\x,{3-0.18*(\x-2.4)^2});
+    \draw[line width=2pt,upaccent,dashed,domain=3.8:5.4,smooth] plot (\x,{3-0.18*(\x-2.4)^2});
+    \draw[line width=2pt,upred,domain=3.8:5.4,smooth] plot (\x,{2.0-0.18*(\x-2.4)^2});
+    \draw[dashed,gray,thick] (3.8,0) -- (3.8,3.4) node[above,font=\small]{70 años};
+    \draw[<->,thick,upred] (3.9,{3-0.18*(3.9-2.4)^2-0.06}) -- (3.9,{2.0-0.18*(3.9-2.4)^2+0.06});
+    \node[font=\small,upred,right] at (3.95,{2.5-0.18*(3.9-2.4)^2}) {$\tau^{70}$};
+    \draw[thick,black!70] (3.0,{3-0.18*(3.4-2.4)^2}) -- (3.75,{3-0.18*(3.4-2.4)^2}) node[left,pos=0,font=\scriptsize]{media 60--69};
+    \draw[thick,black!70] (3.85,{2.0-0.18*(4.8-2.4)^2}) -- (5.4,{2.0-0.18*(4.8-2.4)^2}) node[pos=0.3,below,font=\scriptsize]{media 70+};
+    \draw[dotted,thick,black!70] (3.75,{3-0.18*(3.4-2.4)^2}) -- (6.0,{3-0.18*(3.4-2.4)^2});
+    \draw[dotted,thick,black!70] (5.4,{2.0-0.18*(4.8-2.4)^2}) -- (6.0,{2.0-0.18*(4.8-2.4)^2});
+    \draw[<->,thick,black] (5.95,{3-0.18*(3.4-2.4)^2-0.04}) -- (5.95,{2.0-0.18*(4.8-2.4)^2+0.04}) node[midway,right,font=\small]{$\Delta$};
+    \draw[line width=2pt,upaccent] (4.3,3.45) -- (4.7,3.45) node[right,font=\small,black]{bajo obligación};
+    \draw[line width=2pt,upred] (4.3,3.05) -- (4.7,3.05) node[right,font=\small,black]{voto facultativo};
+  \end{tikzpicture}
+  \takeaway{La brecha entre promedios de grupo, $\Delta$, junta dos cosas: el salto a los 70, $\tau^{70}$ (lo que causa la obligación), y la caída por edad. Con datos por edad exacta no hace falta la brecha: el salto se mide directo.}
 \end{frame}
 
-\begin{frame}{4 \textperiodcentered{} The proof: what is done and what is open}
-  \textbf{Replace.} The idea of the proof, the step that was hard, and what is
-  still open today. This is a progress report: say where you are.
+% (1:15)
+\begin{frame}{La pregunta y el resultado en una frase}
+  \begin{block}{Pregunta}
+    En el Perú el voto es facultativo desde los 70 años. Justo a los 70 la participación salta; después
+    sigue cayendo. ¿Esa caída es solo la edad, o también la \textbf{costumbre de votar} que se pierde sin obligación?
+  \end{block}
+  \vspace{0.15cm}
+  \begin{block}{Resultado (Proposición 3)}
+    Si votar crea costumbre, quien deja de votar a los 70 pierde costumbre \textbf{de golpe cinco años después}:
+    la participación cae en \textbf{escalones} a los 75, 80 y 85. Sin costumbre, la caída es suave.
+  \end{block}
+  \vspace{0.1cm}
+  \begin{itemize}\setlength{\itemsep}{0.35em}\small
+    \item \textbf{En números:} con edad exacta, el salto a los 70 es de 5 a 12 puntos; la brecha de grupos que se suele citar (25 a 46) mezcla el salto con la edad.
+    \item \textbf{Para qué sirve:} los escalones se pueden buscar en los datos por edad exacta y separan la costumbre de una caída por edad que se acelera.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{5 \textperiodcentered{} Simulations}
-  \begin{columns}
-    \column{.56\linewidth}
-    \includegraphics[width=\linewidth]{../code/figures/effort_check.pdf}
-    \column{.40\linewidth}
-    \textbf{Replace.} What the script checks, on which parameter range, and
-    what a simulation cannot show.
+% =====================================================================
+\section[2 Modelo]{El modelo, paso a paso}
+% =====================================================================
+
+% (0:45)
+\begin{frame}{El modelo en seis pasos}
+  \small Parto de la idea más simple y agrego una pieza por paso. \nt{En azul}, lo nuevo de cada paso.
+  \vspace{0.15cm}
+
+  \renewcommand{\arraystretch}{1.25}
+  {\small
+  \begin{tabularx}{\textwidth}{@{}L{0.9cm}Y L{3.6cm}@{}}
+    \toprule
+    \textbf{Paso} & \textbf{La idea en palabras} & \textbf{En símbolos} \\
+    \midrule
+    1 & Vota si lo que gana votando supera lo que le cuesta ir. & vota si $c<B$ \\
+    2 & Antes de los 70, no votar trae una sanción. & vota si $c<B+\nt{S}$ \\
+    3 & El costo: la elección, la persona y ese día. & $c=\nt{\mu_t+\eta_i+\varepsilon_{it}}$ \\
+    4 & Lo que se gana sube con la edad y después baja. & $B=\nt{b(a)}$ \\
+    5 & Votar crea costumbre, que se va borrando. & $B=b(a)+\nt{\lambda h}$ \\
+    6 & Hay elecciones cada 5 años. & \nt{$d=5$} \\
+    \bottomrule
+  \end{tabularx}}
+  \takeaway{Al final: una persona vota si su costo de ese día es menor que lo que gana a su edad, más su costumbre, más la sanción si tiene menos de 70.}
+\end{frame}
+
+% (1:00)
+\begin{frame}{Paso 1: votar es comparar lo que se gana con lo que cuesta}
+  \rulebar{vota si $c<B$ \quad (costo $<$ lo que gana)}
+  \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+      \centering
+      \begin{tikzpicture}[xscale=0.95,yscale=5.2]
+        \fill[upaccent!25,domain=-3:0.6,smooth,samples=60,variable=\x] (-3,0) -- plot (\x,{exp(-(\x)^2/2)/2.5066}) -- (0.6,0) -- cycle;
+        \draw[line width=1.5pt,upblue,domain=-3.2:3.2,smooth,samples=80] plot (\x,{exp(-(\x)^2/2)/2.5066});
+        \draw[->,upgray] (-3.3,0) -- (3.6,0) node[below left,font=\scriptsize,text=black]{costo de ir a votar $c$};
+        \draw[thick,upred] (0.6,0) -- (0.6,0.47) node[above,font=\small,text=black]{$B$};
+        \node[font=\small,text=upblue] at (-0.9,0.07) {\textbf{votan}};
+        \node[font=\small,text=upgray] at (2.5,0.12) {no votan};
+        \node[font=\scriptsize,text=upgray,align=center] at (-2.3,0.33) {cuántas personas\\tienen cada costo};
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}\setlength{\itemsep}{0.5em}\small
+        \item $c$: lo que le cuesta a cada persona ir a votar (tiempo, distancia, colas). Es distinto para cada uno.
+        \item $B$: lo que gana votando (influir, sentirse parte, cumplir con un deber).
+        \item Vota quien tiene un costo menor que $B$. La participación es el \textbf{área azul}.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \takeaway{Todo lo que suba $B$ corre la raya roja a la derecha: vota más gente. El resto del modelo explica qué mueve esa raya.}
+\end{frame}
+
+% (1:15)
+\begin{frame}{Paso 2: la obligación corre la raya}
+  \rulebar{antes de los 70: vota si $c<B+\nt{S}$ \qquad desde los 70: vota si $c<B$}
+  \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+      \centering
+      \begin{tikzpicture}[xscale=0.95,yscale=5.2]
+        \fill[upaccent!20,domain=-3:0,smooth,samples=50,variable=\x] (-3,0) -- plot (\x,{exp(-(\x)^2/2)/2.5066}) -- (0,0) -- cycle;
+        \fill[upaccent!65,domain=0:1.0,smooth,samples=30,variable=\x] (0,0) -- plot (\x,{exp(-(\x)^2/2)/2.5066}) -- (1.0,0) -- cycle;
+        \draw[line width=1.5pt,upblue,domain=-3.2:3.2,smooth,samples=80] plot (\x,{exp(-(\x)^2/2)/2.5066});
+        \draw[->,upgray] (-3.3,0) -- (3.6,0) node[below left,font=\scriptsize,text=black]{costo $c$};
+        \draw[thick,upgray] (0,0) -- (0,0.47) node[above,font=\small,text=black]{$B$};
+        \draw[thick,upred] (1.0,0) -- (1.0,0.47) node[above,font=\small,text=black]{$B+S$};
+        \node[font=\scriptsize,text=upblue,align=center] at (-0.8,0.1) {votan\\siempre};
+        \node[font=\scriptsize,align=center] at (2.45,0.27) {cumplidores:\\votan solo porque\\es obligatorio};
+        \draw[->,thin] (1.75,0.22) -- (0.65,0.13);
+        \node[font=\scriptsize,text=upgray] at (3.0,0.09) {nunca votan};
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}\setlength{\itemsep}{0.5em}\small
+        \item Antes de los 70, quien no vota recibe una \textbf{sanción} $S$: la multa y las molestias (trámites, sentirse en falta).
+        \item La sanción no hace más atractivo votar: hace \textbf{más caro no votar}. La raya pasa de $B$ a $B+S$.
+        \item Aparecen los \hl{cumplidores} (zona oscura): votan solo porque es obligatorio. El efecto de la obligación es cuántos son.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \takeaway{A los 70 desaparece la sanción: la raya vuelve a $B$ y los cumplidores se quedan en casa. Ese es el \textbf{salto a los 70}, al que llamo $\tau^{70}$.}
+\end{frame}
+
+% (0:45) [opcional]
+\begin{frame}{Paso 3: de dónde viene el costo}
+  \rulebar{$c_{it}=\nt{\mu_t+\eta_i+\varepsilon_{it}}$ \quad (la elección + la persona + ese día)}
+  \begin{columns}[T]
+    \begin{column}{0.31\textwidth}
+      \begin{block}{$\mu_t$: la elección}
+        \small Igual para todos en esa elección: el clima político, la logística, la pandemia en 2021.
+        \textbf{Uno por elección.}
+      \end{block}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{$\eta_i$: la persona}
+        \small Lo acompaña siempre: la distancia al local, la salud, el interés. La misma persona lo lleva a
+        \textbf{todas} las elecciones.
+      \end{block}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \begin{block}{$\varepsilon_{it}$: ese día}
+        \small Pasajero: un viaje, un trámite, la lluvia. Cambia de una elección a otra.
+      \end{block}
+    \end{column}
+  \end{columns}
+  \vspace{0.3cm}
+  \begin{itemize}\setlength{\itemsep}{0.4em}\small
+    \item Ninguna de las tres partes depende de la edad. En la calibración son normales.
+  \end{itemize}
+  \takeaway{Como $\eta_i$ acompaña a la persona, unos votan casi siempre y otros casi nunca. Por eso la costumbre de votar (paso 5) será distinta entre personas.}
+\end{frame}
+
+% (1:00)
+\begin{frame}{Paso 4: lo que se gana votando depende de la edad}
+  \rulebar{lo que se gana a la edad $a$: \; $B=\nt{b(a)=A\,a^{\alpha}-\kappa\,a^{\beta}}$}
+  \fig[0.42]{../code/figures/s_lifecycle.pdf}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \footnotesize \textbf{Lo que suma la edad} ($A a^{\alpha}$): información, arraigo, interés en lo que se decide. Sube rápido de joven y luego se estanca.
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \footnotesize \textbf{Lo que resta la edad} ($\kappa a^{\beta}$): salud, movilidad. Pesa cada vez más.
+    \end{column}
+  \end{columns}
+  \takeaway{Primero gana lo que suma y después lo que resta: hay una sola edad de máximo, $a^*$ (Proposición 1). Con los datos, $a^*=\peakBest$ años.}
+\end{frame}
+
+% (1:00)
+\begin{frame}{Paso 4, consecuencia: la participación sin costumbre}
+  \rulebar{participación a la edad $a$ = fracción de personas con costo menor que lo que gana $+$ la sanción}
+  \fig[0.5]{../code/figures/s_static_index.pdf}
+  {\centering\tiny Modelo calibrado sin costumbre (M1), elección \runTag. Línea punteada: las mismas personas si siguieran obligadas.\par}
+  \takeaway{A los 70 las razones para votar bajan de golpe en $S$ y la participación salta $\tau^{70}$. Después, la caída la produce solo la edad.}
+\end{frame}
+
+% (1:15)
+\begin{frame}{Paso 5: votar crea costumbre}
+  \rulebar{lo que se gana: $b(a)+\nt{\lambda h}$, \qquad costumbre en la siguiente elección: $\nt{h'=\rho\,h+v}$}
+  \fig[0.42]{../code/figures/s_habit_paths.pdf}
+  \begin{itemize}\setlength{\itemsep}{0.2em}\footnotesize
+    \item $h$ es la \textbf{costumbre}: cada vez que vota ($v=1$) suma 1, y de una elección a la siguiente solo queda una fracción $\rho$. Cada unidad suma $\lambda$ a lo que gana votando.
+    \item La persona no vota \emph{para} formar costumbre: solo mira la elección de hoy (Fowler, 2006).
+  \end{itemize}
+  \takeaway{Mismos días buenos y malos; B tiene un costo propio más alto. A junta costumbre y sigue votando tras los 70; B deja de votar y su costumbre se borra. (Ilustrativo.)}
+\end{frame}
+
+% (0:45)
+\begin{frame}[c]{Paso 6: el calendario, elecciones cada 5 años}
+  \centering
+  \begin{tikzpicture}[x=0.28cm,y=1cm]
+    \draw[->,upgray] (49,0) -- (81.5,0) node[right,font=\scriptsize,text=black]{edad};
+    \foreach \a in {50,55,...,80} \draw[upgray] (\a,0) -- (\a,-0.08) node[below,font=\tiny]{\a};
+    \fill[uplight] (69.5,0.05) rectangle (81,2.55);
+    \draw[upred,thick,dashed] (69.5,-0.1) -- (69.5,2.6) node[above,font=\scriptsize,text=upred]{70: termina la obligación};
+    \node[anchor=east,font=\small] at (48.5,1.85) {Tiene 72 hoy};
+    \node[anchor=east,font=\small] at (48.5,0.85) {Tiene 77 hoy};
+    \draw[upgray] (52,1.85) -- (72,1.85);
+    \draw[upgray] (52,0.85) -- (77,0.85);
+    \foreach \a in {52,57,62,67} {\fill[upaccent] (\a,1.85) circle (5pt); \fill[upaccent] (\a,0.85) circle (5pt);}
+    \fill[upred] (72,1.85) circle (5pt);
+    \fill[upred] (72,0.85) circle (5pt);
+    \fill[upred] (77,0.85) circle (5pt);
+    \draw[thick] (72,1.85) circle (8pt);
+    \draw[thick] (77,0.85) circle (8pt);
+    \node[font=\scriptsize,anchor=west,align=left] at (81.8,1.85) {su última elección\\fue \textbf{obligada}};
+    \node[font=\scriptsize,anchor=west,align=left] at (81.8,0.85) {ya pasó una\\elección \textbf{libre}};
+    \fill[upaccent] (52,-0.85) circle (5pt); \node[font=\scriptsize,anchor=west] at (53,-0.85) {elección obligada};
+    \fill[upred] (63,-0.85) circle (5pt); \node[font=\scriptsize,anchor=west] at (64,-0.85) {elección libre};
+    \draw[thick] (73,-0.85) circle (8pt); \node[font=\scriptsize,anchor=west] at (74,-0.85) {hoy};
+  \end{tikzpicture}
+
+  \vspace{0.3cm}
+  \raggedright
+  \takeaway{Quien tiene 70--74 votó por última vez obligado. Quien tiene 75--79 ya tuvo una elección libre, en la que muchos no fueron, y su costumbre ya empezó a caer. Por eso la costumbre baja en \textbf{escalones} a los 75, 80, 85 (Proposición 3).}
+\end{frame}
+
+% (0:45)
+\begin{frame}{El modelo completo, en una línea}
+  \begin{block}{La persona $i$, de edad $a$, vota en la elección $t$ si y solo si}
+    \[
+      \underbrace{\mu_t+\eta_i+\varepsilon_{it}}_{\text{su costo de ir}}
+      \;<\;
+      \underbrace{b(a)}_{\substack{\text{lo que gana}\\\text{a su edad}}}
+      +\underbrace{\lambda h_{it}}_{\text{su costumbre}}
+      +\underbrace{O_a S_t}_{\substack{\text{la sanción}\\\text{(solo antes de 70)}}}
+    \]
+  \end{block}
+  \vspace{0.1cm}
+  \begin{itemize}\setlength{\itemsep}{0.4em}\small
+    \item \hl{Lo que gana:} $b(a)=Aa^{\alpha}-\kappa a^{\beta}$, sube y luego baja \quad ($0<\alpha<1\le\beta$).
+    \item \hl{La costumbre:} $h'=\rho h+v$; empieza en 0; cada voto suma 1 y una fracción $1-\rho$ se olvida en cada elección.
+    \item \hl{La sanción:} $S_t=s_0+qF_t$: una parte que no es dinero ($s_0$) y la multa $F_t$ con peso $q$. \;$O_a=1$ si $a<70$ y $0$ si no.
+    \item \hl{Miopía:} la persona no vota para formar costumbre; solo compara costo y beneficio de hoy.
+  \end{itemize}
+\end{frame}
+
+% (0:45)
+\begin{frame}{El salto a los 70 y lo que viene después}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{El salto: el efecto de la obligación, $\tau^{70}$}
+        \small Tome a las \textbf{mismas personas} de 70 años, con la costumbre que ya tienen. ¿Qué fracción deja de votar
+        \textbf{solo} porque ya no es obligatorio? Esa fracción son los cumplidores: $\tau^{70}$.
+        \vspace{0.1cm}
+
+        \footnotesize Con edad exacta se mide directo: el salto entre 69 y 70 es $\tau^{70}$ más un año de edad.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Después: la caída tras los 70}
+        \small Después del salto, la participación sigue cayendo unos 3 a 4 puntos por año.
+        \vspace{0.1cm}
+
+        \footnotesize ¿Es la edad, o la costumbre que se pierde al dejar de votar? Eso es lo que separa el modelo.
+      \end{block}
+    \end{column}
+  \end{columns}
+  \takeaway{El salto se ve en los datos por edad exacta. Lo que el modelo agrega es entender la caída que sigue: edad contra costumbre.}
+\end{frame}
+
+% (0:45)
+\begin{frame}{El salto y la caída en el modelo calibrado}
+  \fig[0.64]{../code/figures/s_two_objects.pdf}
+  \takeaway{En el modelo calibrado a \runTag, el salto por la obligación es $\tau^{70}=\runTau$. La línea punteada muestra a las mismas personas si siguieran obligadas: la distancia que se abre después de los 70 es lo que la obligación sostenía.}
+\end{frame}
+
+% =====================================================================
+\section[3 Resultados]{Las proposiciones}
+% =====================================================================
+
+% (0:45)
+\begin{frame}[c]{Un lema y cuatro proposiciones: qué responde cada una}
+  \centering
+  \begin{tikzpicture}[
+      res/.style={draw=upaccent,fill=uplight,rounded corners=3pt,text width=3.2cm,align=left,font=\scriptsize,
+                  inner sep=4pt,minimum height=1.55cm},
+      head/.style={font=\small\bfseries,text=upblue},
+      arr/.style={-{Stealth[length=2.2mm]},thick,upgray}]
+    \node[head] at (0,2.6) {Lo que se gana};
+    \node[head] at (5.1,2.6) {El salto};
+    \node[head] at (10.2,2.6) {La huella de la costumbre};
+    \node[res] (p1) at (0,1.3) {\textbf{P1.} ¿Cómo cambia con la edad lo que se gana votando?\\ \hl{Sube y después baja.}};
+    \node[res] (l1) at (5.1,1.3) {\textbf{Lema 1.} Si en el pasado hubo más razones para votar\dots\\ \hl{hoy hay más costumbre.}};
+    \node[res] (p2) at (5.1,-0.95) {\textbf{P2.} ¿El salto a los 70 incluye costumbre?\\ \hl{No, y la costumbre lo achica.}};
+    \node[res,draw=upred,line width=1pt] (p3) at (10.2,1.3) {\textbf{P3 (central).} ¿Deja huella la costumbre?\\ \hl{Sí: escalones a los 75, 80, 85.}};
+    \node[res] (p4) at (10.2,-0.95) {\textbf{P4.} ¿Y si la costumbre dura más en la vejez?\\ \hl{Lo mismo, con un término extra.}};
+    \draw[arr] (l1.south) -- (p2.north);
+    \draw[arr] (p3.south) -- (p4.north);
+  \end{tikzpicture}
+
+  \vspace{0.3cm}
+  {\small\color{upgray} Todos están probados a mano y verificados en Lean (parte 6).}
+\end{frame}
+
+% (0:30) [opcional: ya se vio en el paso 4]
+\begin{frame}{Proposición 1: lo que se gana votando sube y después baja}
+  \begin{block}{En palabras}
+    Lo que se gana votando sube con la edad, llega a un \textbf{único máximo} a la edad $a^*$ y después baja.
+    Si $\beta>1$, la caída se acelera con los años.
+  \end{block}
+  \begin{itemize}\setlength{\itemsep}{0.5em}
+    \item \textbf{¿Por qué?} Lo que suma la edad se estanca y lo que resta no: las dos curvas se cruzan en pendiente una sola vez. Antes de $a^*$ domina lo que suma; después, lo que resta.
+    \item \textbf{¿Hace falta $\beta>1$?} Sin costumbre, los datos piden $\beta=\betaStatic$; con costumbre, $\beta=\betaBest$.
+  \end{itemize}
+  \formal{$b(a)=Aa^{\alpha}-\kappa a^{\beta}$ con $0<\alpha<1\le\beta$ es estrictamente cóncava y tiene su máximo en $a^*=(A\alpha/\kappa\beta)^{1/(\beta-\alpha)}$. Con $\beta=1$, $b'\to-\kappa$; con $\beta>1$, $b'\to-\infty$.}
+\end{frame}
+
+% (1:15)
+\begin{frame}{Lema 1: la misma persona en dos mundos}
+  \begin{block}{En palabras}
+    \small Misma persona, mismos días buenos y malos, dos mundos. Si en el mundo 2 cada elección le da \textbf{al menos tantas razones}
+    para votar, en el mundo 2 vota al menos las mismas veces y tiene al menos tanta costumbre, \textbf{siempre}.
+  \end{block}
+  \fig[0.44]{../code/figures/s_coupling.pdf}
+  \takeaway{¿Por qué? Más razones hoy $\Rightarrow$ vota $\Rightarrow$ más costumbre mañana $\Rightarrow$ más razones mañana. Aquí, mundo 2 = obligado siempre: tendría más costumbre (se usa en P2).}
+\end{frame}
+
+% (1:00)
+\begin{frame}{Proposición 2: la costumbre achica el salto}
+  \begin{block}{En palabras}
+    \small (1) La costumbre de quien cumple 70 se formó cuando votar era obligatorio y ese día no cambia: el salto mide \textbf{solo} el efecto de quitar la sanción.
+    (2) Cuanta más costumbre, \textbf{más pequeño} es el salto.
+  \end{block}
+  \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+      \centering
+      \begin{tikzpicture}[xscale=0.85,yscale=4.3]
+        \fill[upaccent!45,domain=0.2:1.0,smooth,samples=30,variable=\x] (0.2,0) -- plot (\x,{exp(-(\x)^2/2)/2.5066}) -- (1.0,0) -- cycle;
+        \fill[upred!40,domain=1.2:2.0,smooth,samples=30,variable=\x] (1.2,0) -- plot (\x,{exp(-(\x)^2/2)/2.5066}) -- (2.0,0) -- cycle;
+        \draw[line width=1.4pt,upblue,domain=-3:3.2,smooth,samples=80] plot (\x,{exp(-(\x)^2/2)/2.5066});
+        \draw[->,upgray] (-3.1,0) -- (3.5,0) node[below left,font=\scriptsize,text=black]{costo de ese día};
+        \node[font=\scriptsize,text=upblue,anchor=south] at (0.6,0.42) {poca costumbre: 26\% son cumplidores};
+        \node[font=\scriptsize,text=upred,anchor=west] at (2.05,0.13) {mucha: 9\%};
+        \draw[->,thick] (0.9,0.31) to[bend left=30] (1.6,0.17);
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \small
+      \begin{itemize}\setlength{\itemsep}{0.35em}
+        \item Los cumplidores son una franja de ancho fijo $S$: los que tienen un costo entre $B$ y $B+S$.
+        \item Más costumbre sube $B$: la franja se corre a la derecha.
+        \item Ahí hay cada vez menos gente: la franja tiene \textbf{menos cumplidores}.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \formal{(2) vale si la franja está a la derecha del pico de la curva (la mayoría vota con holgura). Entonces $\tau^{70}$ no crece con $\lambda$.}
+\end{frame}
+
+% (1:15)
+\begin{frame}{Proposición 3 (central): escalones cada 5 años}
+  \begin{block}{En palabras}
+    \small La costumbre de hoy suma los votos pasados: el último pesa 1, el anterior $\rho$, el de antes $\rho^2$\dots
+    Por eso el salto de los 70 \textbf{vuelve} como un escalón a los 75, más chico a los 80, y así.
+  \end{block}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \small\textbf{Ejemplo: 74 contra 75 años.}
+      \begin{itemize}\setlength{\itemsep}{0.25em}\footnotesize
+        \item La de 74 votó por última vez a los 69, \textbf{obligada}: casi todos fueron.
+        \item La de 75 votó por última vez a los 70, \textbf{ya libre}: muchos no fueron.
+        \item Entre los 74 y los 75 la costumbre cae en lo mismo que cayó la participación a los 70.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \small\textbf{Y entre 73 y 74, ¿hay escalón?}
+      \begin{itemize}\setlength{\itemsep}{0.25em}\footnotesize
+        \item No: los dos votaron por última vez obligados (a los 68 y a los 69).
+        \item Sin costumbre ($\lambda=0$) no hay escalones: la caída tras los 70 es suave.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \formal{Con elecciones iguales entre sí, la costumbre promedio es $H(a)=\sum_{k\ge0}\rho^{k}P(a-(k+1)d)$; el primer término de $H(75)-H(74)$ es $P(70)-P(69)$.}
+\end{frame}
+
+% (0:45)
+\begin{frame}{Proposición 3: cómo se ve}
+  \fig[0.58]{../code/figures/s_p4_steps.pdf}
+  {\centering\tiny Parámetros ilustrativos. Izquierda: el escalón de la costumbre a los 75 es casi igual al salto de los 70. Derecha: esos escalones pasan a la participación.\par}
+  \takeaway{Con costumbre, la participación cae en escalones a los 75, 80 y 85; sin costumbre, no. Es algo que se puede buscar en los datos por edad exacta.}
+\end{frame}
+
+% (1:00)
+\begin{frame}{Proposición 4: si la costumbre se borra más lento en la vejez}
+  \begin{block}{En palabras}
+    \small Ahora $\rho$, la fracción de costumbre que sobrevive de una elección a otra, \textbf{sube con la edad}: a los mayores les cuesta más perder la costumbre.
+    Los escalones de P3 siguen ahí, y se borran \textbf{más lento}.
+  \end{block}
+  \begin{itemize}\setlength{\itemsep}{0.35em}\small
+    \item Al pasar de una edad a la siguiente cambian \textbf{dos} cosas: los votos pasados que cuentan y \textbf{cuánto pesa cada uno}.
+    \item El segundo cambio es un término extra, \alert{$R(a)\ge0$}. Mi primer borrador, hecho con la IA, lo olvidaba (parte 7).
+    \item La costumbre también crece más rápido antes de los 70: parte de la participación de los 60 es costumbre, no solo edad.
+  \end{itemize}
+  \formal{los pesos son productos de persistencias, $\Pi_k(a)=\prod_{j=1}^{k}\rho(a-jd)$, y $R(a)=\sum_k[\Pi_k(a+1)-\Pi_k(a)]P(a-(k+1)d)\ge0$ (fórmula completa en la parte 7).}
+\end{frame}
+
+% (0:45) [opcional]
+\begin{frame}{Proposición 4: cómo se ve}
+  \fig[0.58]{../code/figures/s_p5_rho.pdf}
+  {\centering\tiny Parámetros ilustrativos: $\rho$ fija en 0.5 contra $\rho$ que sube de 0.5 a los 18 años a 0.9 a los 100.\par}
+  \takeaway{Los escalones se borran más lento (derecha), y la costumbre sigue creciendo entre los 60 y los 69 (izquierda). En los datos, eso hace más visibles los escalones de los 80 y 85.}
+\end{frame}
+
+% (1:15) Extension of result (d): derivation, Step 6.8 bis; numbers from code/heterogeneity.py
+\begin{frame}{Extensión: ¿la heterogeneidad agranda o achica el salto?}
+  \begin{block}{En palabras}
+    \small Si los costos del día se dispersan más (más $s$), ¿hay más o menos cumplidores? Depende de dónde cae la franja.
+  \end{block}
+  \begin{columns}[c]
+    \begin{column}{0.47\textwidth}
+      \fig[0.5]{../code/figures/s_zphi.pdf}
+    \end{column}
+    \begin{column}{0.51\textwidth}
+      \footnotesize
+      $\dfrac{\partial\tau}{\partial s}=-\dfrac1s\bigl[z_1\phi(z_1)-z_0\phi(z_0)\bigr]$, \quad $z_k=\Phi^{-1}(P_k)$
+
+      \vspace{0.1cm}
+      $\dfrac{d}{dz}\bigl[z\phi(z)\bigr]=\phi(z)(1-z^2)$: sube hasta $z=1$ y luego baja.
+
+      \vspace{0.15cm}
+      \renewcommand{\arraystretch}{1.15}
+      \begin{tabular}{@{}lll@{}}
+        \toprule
+        & Probabilidades & $\partial\tau/\partial s$ \\
+        \midrule
+        a) & $P_0\le0.50<P_1$ & negativo \\
+        b) & $0.50<P_0<P_1\le\hetPeak$ & negativo \\
+        c) & $\hetPeak\le P_0<P_1$ & positivo \\
+        d) & $0.50<P_0<\hetPeak<P_1$ & depende del cruce $z_1^*$ \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+  \end{columns}
+  \takeaway{Con $P_0=0.78$: $z_0=\hetZzero$, cruce en $z_1^*=\hetZone$, es decir, $P_1^*=\hetPone$ (Paso 6.8 bis).}
+\end{frame}
+
+% (1:00)
+\begin{frame}{Extensión: la predicción y lo que dice el modelo calibrado}
+  \begin{block}{Predicción (con $P_0(70)=0.78$)}
+    Si $P_1(70)<\hetPone$ (o sea, $\tau^{70}<0.114$), más heterogeneidad \textbf{achica} el salto; si $P_1(70)>\hetPone$, lo \textbf{agranda}.
+    En los datos: comparar $P(69)$ con \hetPone.
+  \end{block}
+  \small\textbf{Por qué:} más $s$ angosta la franja de cumplidores (su ancho es $S/s$) y a la vez la acerca al centro; cerca del centro domina lo primero, en la cola lo segundo.
+  \vspace{0.15cm}
+
+  \textbf{En M2 (\runTag), ciudadano por ciudadano a los 70:}
+  \begin{itemize}\setlength{\itemsep}{0.3em}\small
+    \item Casos: a) \hetRunCaseA\%, b) \hetRunCaseB\%, c) \hetRunCaseC\%, d) \hetRunCaseD\%; el \hetRunCaseO\% restante tiene $P_1\le0.50$.
+    \item Con los promedios, $P_1(70)=\hetRunPone<\hetPone$: achica. Pero solo el \hetRunNeg\% tiene signo negativo, y en promedio $\partial\tau^{70}/\partial s=\hetRunDtds$: \alert{negativo, pero casi cero}.
+    \item La regla con promedios acierta el signo en las seis elecciones, pero exagera el tamaño.
+  \end{itemize}
+  \takeaway{Ojo: en la calibración $s=\sqrt{1-\omega}$, así que cambiar $s$ también cambia la dispersión del costo propio, $\mathrm{Var}(\eta)=\omega$.}
+\end{frame}
+
+% =====================================================================
+\section[4 Prueba]{La prueba}
+% =====================================================================
+
+% (1:15)
+\begin{frame}{Prueba de P3 (1/2): la costumbre suma los votos pasados}
+  \small Supuesto: todas las elecciones son iguales entre sí (mismo costo medio y sanción), y $\rho$ es constante.
+
+  \textbf{Paso 1. Aplicar $h'=\rho\,h+v$ elección por elección} (una persona que vota desde los 20):
+  {\footnotesize
+  \renewcommand{\arraystretch}{1.15}
+  \begin{center}
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    Edad & Costumbre al llegar a votar & Cuenta \\
+    \midrule
+    25 & $h_{25}=v_{20}$ & $\rho\cdot0+v_{20}$ \\
+    30 & $h_{30}=v_{25}+\rho\,v_{20}$ & $\rho\,h_{25}+v_{25}$ \\
+    35 & $h_{35}=v_{30}+\rho\,v_{25}+\rho^2\,v_{20}$ & $\rho\,h_{30}+v_{30}$ \\
+    \bottomrule
+  \end{tabular}
+  \end{center}}
+  \vspace{-0.1cm}
+  El patrón: \textbf{el último voto pesa 1, el anterior $\rho$, el de antes $\rho^2$}\dots\ (con $\rho=0.6$: 1, 0.6, 0.36).
+
+  \vspace{0.15cm}
+  \textbf{Paso 2. Promediar entre las personas de la misma edad.} El promedio de una suma es la suma de los promedios,
+  y el promedio de $v$ a la edad $x$ es la participación $P(x)$:
+  \[ H(a)=P(a-5)+\rho\,P(a-10)+\rho^2\,P(a-15)+\dots \]
+\end{frame}
+
+% (1:15)
+\begin{frame}{Prueba de P3 (2/2): comparar 74 con 75 años}
+  \small\textbf{Paso 3. Escribir la costumbre de cada uno y restar, columna por columna.}
+  {\footnotesize
+  \renewcommand{\arraystretch}{1.25}
+  \begin{center}
+  \begin{tabular}{@{}lccc@{}}
+    \toprule
+    & último voto (peso 1) & penúltimo (peso $\rho$) & antepenúltimo ($\rho^2$) \\
+    \midrule
+    Tiene 75 hoy & $P(70)$, \textcolor{upred}{libre} & $P(65)$ & $P(60)$ \\
+    Tiene 74 hoy & $P(69)$, \textcolor{upblue}{obligado} & $P(64)$ & $P(59)$ \\
+    \midrule
+    Resta & \textcolor{upred}{$\boldsymbol{P(70)-P(69)}$: el salto} & un año & un año \\
+    \bottomrule
+  \end{tabular}
+  \end{center}}
+  \begin{itemize}\setlength{\itemsep}{0.3em}\small
+    \item La primera columna es \textbf{el salto de los 70}: grande. Las demás son diferencias de un año, bajo obligación: pequeñas.
+    \item Por eso la costumbre cae de golpe entre los 74 y los 75: el \textbf{escalón}. A los 80 vuelve, multiplicado por $\rho$.
+    \item \textbf{Entre 73 y 74 no hay escalón:} sus últimos votos fueron a los 68 y 69, los dos obligados.
+  \end{itemize}
+  \takeaway{Con costumbre ($\lambda>0$), el escalón de la costumbre pasa a la participación. Sin costumbre, nada cae a los 75.}
+\end{frame}
+
+% =====================================================================
+\section[5 Simulaciones]{Simulaciones y calibración}
+% =====================================================================
+
+% (1:00)
+\begin{frame}{Calibración (1/4): qué es y qué datos usa}
+  \begin{block}{La idea, como en un DSGE}
+    \small El modelo tiene \textbf{perillas} (parámetros). Calibrar es \textbf{girarlas hasta que el modelo reproduzca los datos}.
+    Si lo logra, el modelo responde lo que los datos no dicen solos, como ``¿qué pasaría si siguieran obligados?''.
+  \end{block}
+  \begin{columns}[T]
+    \begin{column}{0.47\textwidth}
+      \small\textbf{Lo que debe reproducir} (\nMoments\ números, seis elecciones):
+      \begin{itemize}\setlength{\itemsep}{0.25em}\footnotesize
+        \item \textbf{La curva por edad exacta}: participación a cada edad de 45 a 80 menos la de 69, entre electores de la misma mesa (tesis). 35 edades por elección, cada una con su error estándar.
+        \item \textbf{Dos niveles}: la participación promedio de 60--69 y de 70+ (ONPE).
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.51\textwidth}
+      \fig[0.45]{../code/figures/s_theta_exact.pdf}
+    \end{column}
   \end{columns}
 \end{frame}
 
-% Required: paper statement -> Lean statement -> what Lean verifies.
-\begin{frame}[fragile]{6 \textperiodcentered{} Lean: what is verified}
-  \textbf{In the paper.} $a > 0,\ c > 0 \;\Longrightarrow\; e^{*} = a/c$.
+% (1:00)
+\begin{frame}{Calibración (2/4): las perillas}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.12}
+  \begin{tabularx}{\textwidth}{@{}lYll@{}}
+    \toprule
+    Perilla & Qué significa & Cómo se fija & Valor (M2) \\
+    \midrule
+    $F_t$ & multa promedio, \% de la UIT (JNE) & de afuera & 4\% hasta 2006; luego 1.8--1.9\% \\
+    $a^*$ & edad a la que más se gana votando & con los datos & \peakBest\ años \\
+    $\alpha,\kappa,\beta$ & qué tan rápido sube y cae lo que se gana & con los datos & 0.64; 12.3; \betaBest \\
+    $\lambda$ & cuánto suma cada unidad de costumbre & con los datos & \lamBest \\
+    $\rho$ & fracción de la costumbre que sobrevive 5 años & con los datos & \rhoBest\ (en su tope) \\
+    $\omega$ & parte del costo que es propia de la persona & con los datos & 0.05 (en su piso) \\
+    $s_0$ & lo que pesa estar obligado, aparte de la multa & con los datos & 0.29 \\
+    $q$ & cuánto pesa cada punto de multa & con los datos & 0.00 \\
+    $\mu_t$ & costo medio de votar, uno por elección & con los datos & 10.8 a 11.4 \\
+    \bottomrule
+  \end{tabularx}
+  \takeaway{Las perillas son \textbf{las mismas en las seis elecciones}; solo $\mu_t$ cambia entre elecciones. Elecciones cada 5 años, fijo.}
+\end{frame}
 
-  \medskip
-  \textbf{In Lean} (replace with your own statement and proof fragment):
+% (1:15)
+\begin{frame}{Calibración (3/4): cómo se giran las perillas}
+  \centering
+  \begin{tikzpicture}[
+      box/.style={draw=upaccent,fill=uplight,rounded corners=3pt,text width=2.75cm,align=center,font=\scriptsize,inner sep=3pt,minimum height=1.2cm},
+      arr/.style={-{Stealth[length=2.2mm]},thick,upgray}]
+    \node[box] (a) at (0,0) {\textbf{1. Elegir valores}\\ para las perillas};
+    \node[box] (b) at (3.6,0) {\textbf{2. Resolver el modelo}\\ cohortes que votan cada 5 años, con su costumbre};
+    \node[box] (c) at (7.2,0) {\textbf{3. Calcular la curva}\\ del modelo, por edad y elección};
+    \node[box] (d) at (10.8,0) {\textbf{4. Medir la distancia}\\ entre modelo y datos};
+    \draw[arr] (a) -- (b);
+    \draw[arr] (b) -- (c);
+    \draw[arr] (c) -- (d);
+    \draw[arr] (d.south) -- ++(0,-0.4) -| node[pos=0.25,below,font=\scriptsize,text=black]{5. corregir las perillas para acortar la distancia, y repetir} (a.south);
+  \end{tikzpicture}
+
+  \vspace{0.15cm}\raggedright\small
+  \textbf{La distancia}: en cada punto, (modelo $-$ dato) dividido por la precisión del dato, al cuadrado, y se suma todo:
+  \[ Q=\sum_{t,\,a}\Bigl(\frac{\text{modelo}_{a,t}-\text{dato}_{a,t}}{\text{error estándar}_{a,t}}\Bigr)^2+\sum_{t,\,\text{grupo}}\Bigl(\frac{\text{modelo}-\text{dato}}{0.01}\Bigr)^2 . \]
+  \vspace{-0.25cm}
+  \begin{itemize}\setlength{\itemsep}{0.15em}\footnotesize
+    \item Pesan más las edades medidas con precisión: errar por 0.01 donde el error estándar es 0.005 suma $2^2=4$.
+    \item Sin números al azar: la costumbre se sigue en una grilla, así que dos corridas dan lo mismo.
+    \item La búsqueda (mínimos cuadrados) parte de varios puntos y se queda con la menor distancia.
+  \end{itemize}
+\end{frame}
+
+% (0:45)
+\begin{frame}{Calibración (4/4): cuatro versiones del modelo}
+  \small
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabularx}{\textwidth}{@{}lYr@{}}
+    \toprule
+    Versión & Qué agrega & Distancia $Q$ \\
+    \midrule
+    M0 & Sin costumbre; lo que se gana cae a ritmo constante con la edad ($\beta=1$). & \objMzero \\
+    M1 & La caída puede acelerarse con la edad ($\beta$ libre). & \objMone \\
+    M2 & \textbf{Costumbre de votar}, con $\rho$ igual a toda edad. & \textbf{\objBest} \\
+    M3 & La costumbre se borra más lento en la vejez ($\rho$ sube con la edad). & \objBest \\
+    \bottomrule
+  \end{tabularx}
+  \vspace{0.2cm}
+  \begin{itemize}\setlength{\itemsep}{0.35em}\small
+    \item Cada versión contiene a la anterior: agregar una perilla nunca empeora la distancia. La pregunta es \textbf{cuánto mejora}.
+    \item Acelerar la caída mejora poco (de \objMzero\ a \objMone). La costumbre mejora bastante más (\objBest). Que dure más en la vejez no agrega nada.
+    \item Desde aquí, los resultados usan \textbf{M2}.
+  \end{itemize}
+\end{frame}
+
+% (0:45)
+\begin{frame}{Resultados: qué valores eligen los datos}
+  \centering\small
+  \IfFileExists{../code/output/calib_models.tex}{\resizebox{\textwidth}{!}{\input{../code/output/calib_models.tex}}}{\pending{tabla de modelos}}
+  \vspace{0.3cm}
+  \raggedright
+  \begin{itemize}\setlength{\itemsep}{0.35em}\small
+    \item \textbf{La costumbre hace parte del trabajo de la edad.} Sin costumbre, el máximo es a los 53 y la caída necesita $\beta=\betaStatic$; con costumbre, el máximo es a los \peakBest\ y basta $\beta=\betaBest$.
+    \item \textbf{La costumbre casi no se borra:} $\rho=\rhoBest$, en su tope; cada unidad suma $\lambda=\lamBest$.
+    \item \textbf{La multa no explica el salto:} su peso $q$ es casi cero; lo que pesa es estar obligado, $s_0$ (siguiente slide).
+  \end{itemize}
+\end{frame}
+
+% (0:45)
+\begin{frame}[c]{Ajuste a los perfiles por edad}
+  \centering
+  \IfFileExists{../code/figures/fit_profiles.pdf}{\includegraphics[width=0.92\textwidth,height=0.62\textheight,keepaspectratio]{../code/figures/fit_profiles.pdf}}{\pending{figura de ajuste}}
+  \takeaway{Después de los 70 los dos modelos ajustan casi igual: sin costumbre, la caída la produce $\beta=\betaStatic$. La costumbre gana entre los 45 y los 59 años. Fuera de la zona sombreada (edades que no se usaron) ninguno ajusta.}
+\end{frame}
+
+% (0:30) [opcional]
+\begin{frame}[c]{La multa no explica el salto}
+  \begin{columns}[c]
+    \begin{column}{0.56\textwidth}
+      \includegraphics[width=\linewidth]{../code/figures/s_fine_theta.pdf}
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \small
+      \begin{itemize}\setlength{\itemsep}{0.5em}
+        \item En 2006, con multa de 4\% de la UIT, $\theta_{70}=-0.063$; en 2021, con 1.9\%, $-0.118$.
+        \item $q\approx0$: el salto lo explica $s_0$, lo que pesa \textbf{estar obligado} aparte del monto (deber, trámites).
+        \item El salto cambia entre elecciones por el costo medio $\mu_t$: en 2021 (pandemia) había más gente cerca del margen.
+        \item Como en Gonzales et al.\ (2022): quitar la multa pesa menos de 1/5 de la exención.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% (0:45)
+\begin{frame}{Qué verifican las simulaciones y qué no pueden mostrar}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      {\color{upblue}\bfseries \texttt{code/verify.py} verifica}
+      \begin{itemize}\setlength{\itemsep}{0.4em}\small
+        \item P1 y la estática comparativa, con álgebra simbólica (SymPy).
+        \item P2--P4 en el modelo: las igualdades de P3 y P4 se cumplen hasta el error de redondeo.
+        \item Los contraejemplos: (iv) con promedios (turno 5 de claude.ai) y P4 sin $R(a)$.
+        \item La calibración se reproduce desde \texttt{code/data/} y respeta el anidamiento.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      {\color{upred}\bfseries Lo que no puede mostrar}
+      \begin{itemize}\setlength{\itemsep}{0.4em}\small
+        \item Probar muchos parámetros no es una prueba.
+        \item No separa edad de generación: en un mismo año, los de 80 también nacieron antes.
+        \item El padrón con fallecidos baja la participación medida de 70+.
+        \item Las edades jóvenes: ningún ciclo de vida las ajusta (pregunta 2).
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\section[6 Lean]{Lean}
+% =====================================================================
+
+% (1:15)
+\begin{frame}[fragile]{Lean: la Proposición 3 (escalones), del paper a Lean}
+  \small Lean revisa cada paso de la prueba y no acepta nada que no se siga de los supuestos.
+  \textbf{En el paper:} $H(a)=\sum_k\rho^kP(a-(k+1)d)$, y entre 74 y 75 el primer término de la resta es $P(70)-P(69)$.
+  \textbf{En Lean} (\texttt{PaperInterface.lean}), con $h'=r\,h+\text{voto}$ y una población finita:
+{\footnotesize
 \begin{verbatim}
-theorem prop_effort (a c : ℝ) (ha : 0 < a) (hc : 0 < c) :
-    a / c ∈ Set.Ici (0 : ℝ) ∧
-    IsMaxOn (fun e => a * e - c / 2 * e ^ 2) (Set.Ici 0) (a / c)
-\end{verbatim}
-  \textbf{Replace.} How the objects and assumptions are represented, whether
-  Lean verifies the paper's claim exactly or under an added hypothesis, and the
-  result of the check.
+  (∀ a, H a = ∑ k ∈ Finset.range (n a), r ^ k * P (a - (k + 1) * d)) ∧
+  (∀ a, 18 ≤ a → ¬ d ∣ (a + 1 - 18) →
+    H (a + 1) - H a = ∑ k ∈ Finset.range (n a),
+      r ^ k * (P (a + 1 - (k + 1) * d) - P (a - (k + 1) * d))) ∧
+  (d = 5 → ... 74 + 1 - (0 + 1) * d = 70 ∧ 74 - (0 + 1) * d = 69 ...)
+\end{verbatim}}
+  \textbf{El paso clave} (\texttt{ProofInterface.lean}): $a$ y $a+1$ tienen las mismas elecciones pasadas; las sumas se restan término a término.
+{\footnotesize
+\begin{verbatim}
+  have hn : n (a + 1) = n a := n_succ d a ha hnd
+  rw [hcf (a + 1), hcf a, hn, ← Finset.sum_sub_distrib]
+\end{verbatim}}
+  \textbf{Qué verifica:} el enunciado del paper con sus hipótesis; agrega solo la población finita. Nombre en Lean: \texttt{prop4\_steps}.
 \end{frame}
 
-\begin{frame}{7 \textperiodcentered{} Where I did not believe the AI}
-  \textbf{Replace.} One claim of the model, your verdict with its reason, and
-  the hand derivation on screen.
+% (0:30)
+\begin{frame}{Lean: el estado de cada resultado}
+  \centering\small
+  \begin{tabular}{llll}
+    \toprule
+    Resultado & Declaración en Lean & Estado & Qué se agrega \\
+    \midrule
+    Lema 1 & \texttt{lemma1\_coupling} & probado & -- \\
+    Proposición 1 & \texttt{prop1\_lifecycle} & probado & -- \\
+    Proposición 2 & \texttt{prop2\_jump} & probado & población finita \\
+    Proposición 3 & \texttt{prop4\_steps} & probado & población finita \\
+    Proposición 4 & \texttt{prop5\_rising\_persistence} & probado & población finita \\
+    \bottomrule
+  \end{tabular}
+
+  \vspace{0.4cm}\raggedright
+  \begin{itemize}\setlength{\itemsep}{0.4em}
+    \item \IfFileExists{../lean/docs/CHECK_FAST_OUTPUT.txt}{\texttt{lake build} y \texttt{check --fast} sin errores; ningún \texttt{sorry}; solo los tres axiomas estándar.}{\pending{resultado de \texttt{check --fast}}}
+    \item Los nombres en Lean siguen la numeración anterior; se actualizan con el paper. La estacionariedad de P3--P4 está en el paper como supuesto.
+    \item Corrida de AppliedModelingLib hecha por Claude Code, no por GPT-5.6 Sol (declarado en \texttt{prompts.md}).
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{8 \textperiodcentered{} What I want from you}
-  \textbf{Replace.} The two or three questions on which you want the class's
-  critique before writing the final version.
+% =====================================================================
+\section[7 IA]{Dónde no le creí a la IA}
+% =====================================================================
+
+% (1:15)
+\begin{frame}{Dónde no le creí a la IA: el término extra de P4}
+  \begin{block}{Lo que afirmó el modelo (primer borrador de P4)}
+    ``Con $\rho$ creciente, la identidad de P3 vale reemplazando $\rho^k$ por el producto de las persistencias.''
+  \end{block}
+  \small\textbf{En palabras:} al pasar de la edad $a$ a la $a+1$ cambian dos cosas, los votos pasados y cuánto pesa cada uno. El borrador solo contaba la primera.\par\vspace{0.1cm}
+  \small Con $\Pi_k(a)=\prod_{j=1}^{k}\rho(a-jd)$ y $H(a)=\sum_k\Pi_k(a)P(a-(k+1)d)$:
+  {\footnotesize
+  \begin{align*}
+    H(a+1)-H(a)&=\textstyle\sum_k\bigl[\Pi_k(a+1)P(a+1-(k+1)d)-\Pi_k(a)P(a-(k+1)d)\bigr]\\
+    &=\textstyle\sum_k\Pi_k(a+1)\bigl[P(a+1-(k+1)d)-P(a-(k+1)d)\bigr]+R(a),\\
+    R(a)&=\textstyle\sum_k\bigl[\Pi_k(a+1)-\Pi_k(a)\bigr]P(a-(k+1)d)\;\ge\;0\quad\text{si }\rho'\ge0 .
+  \end{align*}}
+  \begin{itemize}\setlength{\itemsep}{0.2em}
+    \item Sin $R(a)$ el error llega a $\PfiveNaiveErr$ (\texttt{verify.py}). Salió al escribir el enunciado para Lean, que ahora prueba la versión con $R(a)$.
+  \end{itemize}
+\end{frame}
+
+% (0:45)
+\begin{frame}{Dónde no le creí a la IA: la derivación a mano}
+  \begin{columns}[c]
+    \begin{column}{0.6\textwidth}
+      \centering\handphoto{0.72\textheight}
+    \end{column}
+    \begin{column}{0.38\textwidth}
+      \begin{block}{Mi veredicto}
+        \small Al iterar la costumbre a mano, los pesos salen como $\Pi_k(a)=\prod_{j=1}^{k}\rho(a-jd)$: dependen de la edad \textbf{de hoy}.
+        Por eso, al pasar de $a$ a $a+1$, cambian también los pesos, y la identidad del borrador es \textbf{falsa}.
+        El término que faltaba, $R(a)$, es no negativo porque $\rho$ es no decreciente y $P\ge0$.
+      \end{block}
+      \vspace{0.2cm}
+      {\small Lo comprobé con \texttt{verify.py} (error $\PfiveNaiveErr$ sin $R$, $10^{-15}$ con $R$) y con Lean. Derivación completa: \texttt{hand/}.}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\section[8 Crítica]{Preguntas para la clase}
+% =====================================================================
+
+% (1:00)
+\begin{frame}{Dónde quiero su crítica}
+  \begin{enumerate}\setlength{\itemsep}{0.9em}
+    \item ¿Es razonable el ciudadano \textbf{miope}? Con mirada hacia adelante, votar hoy tiene valor de opción por el hábito.
+    \item Las edades menores de 45 varían entre elecciones de forma que ningún ciclo de vida captura. ¿Es legítimo calibrar solo la ventana 45--80, o eso es elegir los momentos a conveniencia?
+    \item ¿Qué contraste empírico separa el hábito de un $\beta$ alto: los escalones de la Proposición 3, o algo más?
+  \end{enumerate}
+\end{frame}
+
+{
+\setbeamertemplate{footline}{}
+\begin{frame}[c]
+  \begin{center}
+    {\color{upblue}\Huge\bfseries Gracias}\\[0.3cm]
+    {\large Comentarios y crítica}\\[0.8cm]
+    Manuel Alfredo Arriola Montenegro\\[0.1cm]
+    {\small\color{upaccent}\texttt{github.com/Arriola123456/ai-project}}\\[0.3cm]
+    \includegraphics[height=1cm]{logo.png}
+  \end{center}
+\end{frame}
+}
+
+% =====================================================================
+\appendix
+% =====================================================================
+
+\begin{frame}{Respaldo: datos frente al modelo, por elección}
+  \centering\small
+  \IfFileExists{../code/output/gap_table.tex}{\resizebox{\textwidth}{!}{\input{../code/output/gap_table.tex}}}{\pending{descomposición}}
+  \vspace{0.3cm}
+  \raggedright
+  \begin{itemize}\setlength{\itemsep}{0.35em}\small
+    \item El salto a los 70 ($\theta_{70}$) del modelo sigue al de los datos; en 2001 y 2011 lo exagera.
+    \item Las columnas de la derecha reparten la brecha del modelo entre salto, edad y costumbre perdida, solo como referencia.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Respaldo: por qué la forma de $G$ no explica la caída tras los 70}
+  \begin{itemize}\setlength{\itemsep}{0.7em}
+    \item Antes de los 70 la participación depende de $b$ y del hábito acumulado bajo obligación; después, además, del decaimiento del hábito.
+    \item Con $G_\varepsilon$ normal, la densidad cambia a lo más en un 21\% entre participaciones de 0.73 y de 0.3--0.5.
+    \item La caída es unas cuatro veces más rápida después de los 70: no puede venir de la curvatura de $G$. O viene de $\beta>1$ o viene del hábito.
+    \item El perfil antes de los 70 disciplina $\beta$; los escalones de la Proposición 3 disciplinan $\lambda$ y $\rho$.
+  \end{itemize}
 \end{frame}
 
 \end{document}

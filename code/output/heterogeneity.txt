@@ -1,0 +1,28 @@
+(a) SymPy
+    d/dz [z phi(z)] = -sqrt(2)*(z - 1)*(z + 1)*exp(-z**2/2)/(2*sqrt(pi))
+    igual a phi(z) (1 - z^2): True;  phi'(z) = -z phi(z): True
+    z phi(z) alcanza su máximo en z = 1, participación Phi(1) = 0.841345
+
+(b) Cruce para P0 = 0.78
+    z0 = Phi^-1(P0)        = 0.772193
+    phi(z0)                = 0.296094
+    z0 phi(z0)             = 0.228641
+    z1* > 1 (brentq)       = 1.246770   (comprobación: z1* phi(z1*) = 0.228641)
+    P1* = Phi(z1*)         = 0.893759
+    tau* = P1* - P0        = 0.113759
+
+(c) Modelo calibrado M2, ciudadanos de 70 años (resultado por ciudadano, dado eta y h70)
+    s = sigma_eps = sqrt(1 - omega) = 0.9747  (omega = 0.0500)
+    casos: a) P0<=0.50<P1   b) 0.50<P0, P1<=0.841   c) P0>=0.841   d) 0.50<P0<0.841<P1   otro) P1<=0.50
+    elección      P0     P1    tau      a      b      c      d   otro  d,neg    neg  E[z1f-z0f]  dtau/ds    regla
+    2001_2V    0.625  0.709  0.083  0.093  0.340  0.204  0.177  0.187  0.074  0.640      0.0344  -0.0353   0.0675
+    2006_1V    0.844  0.896  0.052  0.018  0.131  0.679  0.148  0.024  0.082  0.252     -0.0171   0.0176  -0.0144
+    2011_1V    0.764  0.832  0.067  0.044  0.234  0.462  0.197  0.063  0.101  0.430      0.0050  -0.0051   0.0198
+    2016_1V    0.780  0.845  0.064  0.042  0.227  0.504  0.172  0.055  0.069  0.385      0.0008  -0.0008   0.0131
+    2021_1V    0.498  0.587  0.089  0.120  0.338  0.087  0.109  0.347  0.051  0.727      0.0462  -0.0474   0.0873
+    2026_1V    0.742  0.812  0.071  0.055  0.262  0.404  0.199  0.080  0.082  0.462      0.0109  -0.0111   0.0291
+    d,neg: fracción en el caso d) con dtau/ds < 0;  neg: fracción total con dtau/ds < 0
+    regla: z1 phi(z1) - z0 phi(z0) con z = Phi^-1 de los PROMEDIOS P0 y P1 (ciudadano representativo)
+    E[z1f-z0f] > 0  <=>  dtau/ds < 0 (más heterogeneidad achica el salto)
+
+    2016_1V: P1(70) = 0.845 frente a P1* = 0.894 con P0 = 0.78; E[z1 phi(z1) - z0 phi(z0)] = 0.0008, signo de dtau/ds: negativo
