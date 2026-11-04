@@ -969,3 +969,19 @@ Elimina la slide 29 de la presentación y mejora la slide 28 para que se entiend
   - (3/4) El ciclo elegir, resolver, calcular, medir y corregir, con la fórmula de la distancia y un
     ejemplo.
   - (4/4) Las cuatro versiones del modelo con su distancia.
+
+### Turno 20 (3-nov-2026)
+
+**Prompt**
+
+```text
+En este pdf he puesto mi hand derivation, haz push para hacer PR 
+
+C:\Users\manue\OneDrive\Escritorio\Hand_Derivation
+```
+
+**Respuesta (resumen):** copió la derivación a mano a `hand/01-derivacion-del-modelo.pdf`, borró el
+placeholder `hand/README.md` y recortó la sección del hábito para la slide "Dónde no le creí a la IA: la
+derivación a mano" (`slides/hand_habito.png`). Ajustó el veredicto a lo que muestra la foto: los pesos
+Πₖ(a) dependen de la edad de hoy. También actualizó el README. Luego hizo push de la rama `heterogeneidad`
+para que el usuario abra el PR a `main`.

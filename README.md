@@ -31,12 +31,12 @@ exacta) y P5 (persistencia creciente: la identidad gana un resto $R(a)\ge0$).
 | Componente | Estado |
 |---|---|
 | Tema (`proposal/`, `slides/topic.*`) | Presentado el 7-oct-2026 |
-| Slides finales (`slides/final.*`) | 42 slides (unos 36 min) para el miércoles 4-nov-2026 (08:20): el modelo se arma en seis pasos, con gráficos de `code/slide_figures.py`; falta la foto de la derivación a mano |
+| Slides finales (`slides/final.*`) | 41 slides más 2 de respaldo, para el miércoles 4-nov-2026 (08:20): el modelo se arma en seis pasos, con gráficos de `code/slide_figures.py`; resultado central: los escalones de la costumbre (P3) |
 | Paper (`paper/`) | Borrador completo (modelo, pruebas, calibración, apéndices); versión final el 26-nov |
 | Simulaciones (`python3 code/verify.py`) | Comprueba P1–P5, los contraejemplos y reproduce la calibración |
 | Calibración (`code/calibrate.py`) | Modelos M0–M3 en `code/output/`; datos agregados en `code/data/` |
 | Lean (`lean/`) | Lema 1 y P1–P5 probados, sin `sorry`; ver el apéndice A del paper |
-| Apéndice a mano (`hand/`) | Pendiente |
+| Apéndice a mano (`hand/`) | `hand/01-derivacion-del-modelo.pdf`: del planteamiento a la costumbre promedio $H(a)$; falta el resto $R(a)$ y la versión final para el paper |
 | `prompts.md` | Al día |
 
 Los momentos de `code/data/` son agregados (perfiles por edad, niveles por banda, electores por edad

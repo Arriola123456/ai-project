@@ -101,7 +101,7 @@
 \IfFileExists{../code/output/slide_numbers.tex}{\input{../code/output/slide_numbers.tex}}{}
 \IfFileExists{../code/output/heterogeneity_numbers.tex}{\input{../code/output/heterogeneity_numbers.tex}}{}
 % The photo of the hand derivation, wherever it was saved (jpg, png or pdf)
-\newcommand{\handfile}{../hand/05-proposicion-5-resto}
+\newcommand{\handfile}{hand_habito}   % crop of hand/01-derivacion-del-modelo.pdf (the habit section)
 \newcommand{\handphoto}[1]{%
   \IfFileExists{\handfile.jpg}{\includegraphics[height=#1]{\handfile.jpg}}{%
   \IfFileExists{\handfile.png}{\includegraphics[height=#1]{\handfile.png}}{%
@@ -921,11 +921,12 @@
     \end{column}
     \begin{column}{0.38\textwidth}
       \begin{block}{Mi veredicto}
-        \small La identidad del borrador es \textbf{falsa}: al pasar de $a$ a $a+1$ cambian también los pesos $\Pi_k$, no solo las participaciones.
+        \small Al iterar la costumbre a mano, los pesos salen como $\Pi_k(a)=\prod_{j=1}^{k}\rho(a-jd)$: dependen de la edad \textbf{de hoy}.
+        Por eso, al pasar de $a$ a $a+1$, cambian también los pesos, y la identidad del borrador es \textbf{falsa}.
         El término que faltaba, $R(a)$, es no negativo porque $\rho$ es no decreciente y $P\ge0$.
       \end{block}
       \vspace{0.2cm}
-      {\small Lo comprobé con \texttt{verify.py} (error $\PfiveNaiveErr$ sin $R$, $10^{-15}$ con $R$) y con Lean.}
+      {\small Lo comprobé con \texttt{verify.py} (error $\PfiveNaiveErr$ sin $R$, $10^{-15}$ con $R$) y con Lean. Derivación completa: \texttt{hand/}.}
     \end{column}
   \end{columns}
 \end{frame}
