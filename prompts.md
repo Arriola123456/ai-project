@@ -985,3 +985,69 @@ placeholder `hand/README.md` y recortó la sección del hábito para la slide "D
 derivación a mano" (`slides/hand_habito.png`). Ajustó el veredicto a lo que muestra la foto: los pesos
 Πₖ(a) dependen de la edad de hoy. También actualizó el README. Luego hizo push de la rama `heterogeneidad`
 para que el usuario abra el PR a `main`.
+
+### Turno 21 (4-nov-2026, antes de exponer)
+
+**Prompt**
+
+```text
+A los slides añade una diapositiva que presente como se ve la utilidad general, como se ve la utilidad cuando esta obligado y cuando no y que condición en terminos de la utilidad debe cumplirse para que el individuo decida votar, hazlo extremadamente rapido, ya me toca exponer
+```
+
+**Respuesta (resumen):** agregó la slide "La utilidad: votar o no votar". Muestra la utilidad general,
+los casos obligado y libre, y la condición U(1) > U(0), que equivale a c < b(a) + λh + O_a·S. Compiló el
+deck; el cambio quedó local, sin commit.
+
+### Turno 22 (19-nov-2026)
+
+**Prompt**
+
+```text
+Hola en que nos quedamos?
+```
+
+**Respuesta (resumen):** resumió el estado: el deck mergeado (PR #2) y la slide de la utilidad sin
+commit. Listó lo pendiente para el 26-nov: sacar la cota retirada del paper, de Lean y de la
+derivación; la heterogeneidad; la extensión del paper; la derivación a mano; y Lean.
+
+### Turno 23 (19-nov-2026)
+
+**Prompt**
+
+```text
+Revisa el link del repositorio y dime que falta nuevamente, dime que puedes ir corrigiendo tu ahora y que sí o sí debo realizar yo:
+
+https://github.com/alexanderquispe/AI-Econ-Modeling/issues/7
+```
+
+**Respuesta (resumen):** comparó el issue con el repositorio.
+
+- **Puede hacerlo Claude Code:** la slide, el paper, `verify.py`, el registro de IA, el README y
+  `prompts.md`, la derivación, y preparar Lean.
+- **Debe hacerlo el usuario:** completar la derivación a mano, lanzar la corrida de Lean con el agente
+  que pide el issue (o aceptar declarar Claude Code), firmar sus veredictos y mergear antes del 26-nov.
+
+### Turno 24 (19-nov-2026)
+
+**Prompt**
+
+```text
+Ve corrigiendo los 6 puntos que puedes hacer tu
+```
+
+**Respuesta (resumen):** en la rama `paper-final`:
+
+- **Slide de la utilidad:** commit.
+- **Paper reescrito:**
+  - título nuevo;
+  - la cota de la brecha retirada y la numeración igual que en el deck;
+  - los escalones como resultado central, con un contraste descriptivo en los datos (5 de 6 elecciones);
+  - la heterogeneidad como observación con su prueba;
+  - la calibración explicada con la tabla de parámetros;
+  - el registro de IA actualizado;
+  - unas 10,5 páginas de cuerpo.
+- **`verify.py`:** sin los chequeos de la cota; con la observación, la tabla de escalones y
+  |θ70| ≥ τ70.
+- **README:** de una página.
+- **Documento de derivación:** marca la cota como retirada y renumera.
+- **Lean:** queda declarado como pendiente de rehacer.
