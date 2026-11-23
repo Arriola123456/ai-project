@@ -1072,3 +1072,14 @@ Apruebo el push del paper final, haz tu la corrida de lean y en general todas la
     estado *formalized with caveat*.
 - **Otras corridas:** `verify.py` pasa entero; el paper recompilado (14 páginas) con el apéndice de
   Lean y el registro de IA al día; README actualizado.
+
+### Turno 26 (23-nov-2026)
+
+**Prompt**
+
+```text
+Apruebo el push
+```
+
+**Respuesta (resumen):** subió el commit `5bd8198` (corrida de Lean, apéndice, README) a la rama
+`paper-final`. Queda que el usuario abra el PR a `main` y lo mergee.
