@@ -3,15 +3,15 @@
 This file preserves the previous hand-written paper-folder README content.
 The paper-folder `README.md` is now a generated status overview.
 
-# La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio: ciclo de vida, hábito y una calibración con datos de la ONPE
+# Voto obligatorio a los 70 años: el salto, la edad y la costumbre de votar
 
 ## Source Version
 
-- Paper: *La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio: ciclo de vida, hábito y una calibración con datos de la ONPE*
+- Paper: *Voto obligatorio a los 70 años: el salto, la edad y la costumbre de votar*
 - Authors: Manuel Alfredo Arriola Montenegro
-- Version formalized: Unpublished manuscript (draft for the final presentation), ai-project commit feb0cf24c0b8f825861a31c118896c20bb8ec7f2, paper/paper.pdf, 31 October 2026
-- Official URL: https://github.com/Arriola123456/ai-project
-- Public PDF: https://github.com/Arriola123456/ai-project/blob/feb0cf24c0b8f825861a31c118896c20bb8ec7f2/paper/paper.pdf
+- Version formalized: Unpublished manuscript (final paper), ai-project commit 7fa3a62e4e8f161ddfc1412f53b1eb8fa008ceb1, paper/paper.pdf, 19 November 2026
+- Official URL: https://github.com/Arriola123456/ai-project/blob/7fa3a62e4e8f161ddfc1412f53b1eb8fa008ceb1/paper/paper.pdf
+- Public PDF: https://github.com/Arriola123456/ai-project/blob/7fa3a62e4e8f161ddfc1412f53b1eb8fa008ceb1/paper/paper.pdf
 
 Without a statement spec, a downloaded PDF is cached as `source.pdf` and ignored
 by Git. A statement spec's SHA-256-verified source bytes are copied to a stable
@@ -25,15 +25,15 @@ checked separately.
 
 ## Paper-Facing Ledger
 
-- Implementation theorem file: `Arriola26TurnoutGap/MainTheorems.lean`
-- Source-semantic interface: `Arriola26TurnoutGap/PaperInterface.lean`
-- Proof-endpoint interface: `Arriola26TurnoutGap/ProofInterface.lean`
-- Machine-readable status source: `Arriola26TurnoutGap/status.json`
-- Private outside-Lean proof plan: `Arriola26TurnoutGap/docs/FORMALIZATION_PLAN.md`
-- Final validation report: `Arriola26TurnoutGap/FINAL_VALIDATION_REPORT.md`
-- Dependency DAG: `Arriola26TurnoutGap/docs/DependencyDAG.tex`
-- Rendered DAG: `Arriola26TurnoutGap/docs/DependencyDAG.pdf`
-- LLM/source audit sidecars: `Arriola26TurnoutGap/audit/*.json`
+- Implementation theorem file: `Arriola26VotingHabit/MainTheorems.lean`
+- Source-semantic interface: `Arriola26VotingHabit/PaperInterface.lean`
+- Proof-endpoint interface: `Arriola26VotingHabit/ProofInterface.lean`
+- Machine-readable status source: `Arriola26VotingHabit/status.json`
+- Private outside-Lean proof plan: `Arriola26VotingHabit/docs/FORMALIZATION_PLAN.md`
+- Final validation report: `Arriola26VotingHabit/FINAL_VALIDATION_REPORT.md`
+- Dependency DAG: `Arriola26VotingHabit/docs/DependencyDAG.tex`
+- Rendered DAG: `Arriola26VotingHabit/docs/DependencyDAG.pdf`
+- LLM/source audit sidecars: `Arriola26VotingHabit/audit/*.json`
 
 `PaperInterface.lean` should be readable on its own: expose actual source
 definitions/models and one transparent statement specification for each
@@ -81,7 +81,7 @@ rows, artifact paths, and the paper's top-level public status.
    clarifications, genuine additional assumptions, and proof deviations in the
    working memo; it is a lead log, not evidence.
 5. Begin or resume audit and closeout with
-   `python3 scripts/closeout_reuse_plan.py --paper Arriola26TurnoutGap` and execute only
+   `python3 scripts/closeout_reuse_plan.py --paper Arriola26VotingHabit` and execute only
    its `next_action`.
 
 The current semantic judge compares the ordered byte-pinned source-anchor
@@ -110,12 +110,12 @@ not block Lean closeout.
 
 | Paper item | Lean declaration | Status | File | Remaining assumptions / notes |
 |---|---|---|---|---|
-| Lema 1 (Acoplamiento del hábito) (Section 4 (Resultados), page 3: Lema 1 (Acoplamiento del hábito)) | `lemma1_couplingSpec` -> `lemma1_coupling` | statement specification + proof stub | `PaperInterface.lean` | The transparent `...Spec : Prop` is the statement-audit target; the proof body is `by sorry`; raw-source-to-expanded-Spec judgment and premise provenance pending |
-| Proposición 1 (Ciclo de vida) (Section 4 (Resultados), page 3: Proposición 1 (Ciclo de vida)) | `prop1_lifecycleSpec` -> `prop1_lifecycle` | statement specification + proof stub | `PaperInterface.lean` | The transparent `...Spec : Prop` is the statement-audit target; the proof body is `by sorry`; raw-source-to-expanded-Spec judgment and premise provenance pending |
-| Proposición 2 (El salto no contiene hábito) (Section 4 (Resultados), page 3: Proposición 2 (El salto no contiene hábito); the stationarity paragraph (or the definition of the thresholds) on page 3) | `prop2_jumpSpec` -> `prop2_jump` | statement specification + proof stub | `PaperInterface.lean` | The transparent `...Spec : Prop` is the statement-audit target; the proof body is `by sorry`; raw-source-to-expanded-Spec judgment and premise provenance pending |
-| Proposición 3 (La brecha es una cota superior) (Section 4 (Resultados), page 3: Proposición 3 (La brecha es una cota superior)) | `prop3_boundSpec` -> `prop3_bound` | statement specification + proof stub | `PaperInterface.lean` | The transparent `...Spec : Prop` is the statement-audit target; the proof body is `by sorry`; raw-source-to-expanded-Spec judgment and premise provenance pending |
-| Proposición 4 (La huella del hábito) (Section 4 (Resultados), page 4: Proposición 4 (La huella del hábito); the stationarity paragraph (or the definition of the thresholds) on page 4) | `prop4_stepsSpec` -> `prop4_steps` | statement specification + proof stub | `PaperInterface.lean` | The transparent `...Spec : Prop` is the statement-audit target; the proof body is `by sorry`; raw-source-to-expanded-Spec judgment and premise provenance pending |
-| Proposición 5 (Persistencia creciente con la edad) (Section 4 (Resultados), page 4: Proposición 5 (Persistencia creciente con la edad); the stationarity paragraph (or the definition of the thresholds) on page 4) | `prop5_rising_persistenceSpec` -> `prop5_rising_persistence` | statement specification + proof stub | `PaperInterface.lean` | The transparent `...Spec : Prop` is the statement-audit target; the proof body is `by sorry`; raw-source-to-expanded-Spec judgment and premise provenance pending |
+| Lema 1 (Acoplamiento del hábito) (Section 4 (Resultados), page 4: Lema 1 (Acoplamiento del hábito); the definition of the thresholds θj on page 4) | `lemma1_couplingSpec` -> `lemma1_coupling` | statement specification + proof stub | `PaperInterface.lean` | The transparent `...Spec : Prop` is the statement-audit target; the proof body is `by sorry`; raw-source-to-expanded-Spec judgment and premise provenance pending |
+| Proposición 1 (Ciclo de vida) (Section 4 (Resultados), page 4: Proposición 1 (Ciclo de vida)) | `prop1_lifecycleSpec` -> `prop1_lifecycle` | statement specification + proof stub | `PaperInterface.lean` | The transparent `...Spec : Prop` is the statement-audit target; the proof body is `by sorry`; raw-source-to-expanded-Spec judgment and premise provenance pending |
+| Proposición 2 (El salto no contiene hábito y el hábito lo achica) (Section 4 (Resultados), page 4: Proposición 2 (El salto no contiene hábito y el hábito lo achica); the definition of the thresholds θj on page 4) | `prop2_jumpSpec` -> `prop2_jump` | statement specification + proof stub | `PaperInterface.lean` | The transparent `...Spec : Prop` is the statement-audit target; the proof body is `by sorry`; raw-source-to-expanded-Spec judgment and premise provenance pending |
+| Proposición 3 (La huella del hábito: escalones cada d años) (Section 4 (Resultados), page 5: Proposición 3 (La huella del hábito: escalones cada d años); the stationarity paragraph before Proposición 3 on page 5) | `prop3_stepsSpec` -> `prop3_steps` | statement specification + proof stub | `PaperInterface.lean` | The transparent `...Spec : Prop` is the statement-audit target; the proof body is `by sorry`; raw-source-to-expanded-Spec judgment and premise provenance pending |
+| Proposición 4 (Persistencia creciente con la edad) (Section 4 (Resultados), page 5: Proposición 4 (Persistencia creciente con la edad); the stationarity paragraph before Proposición 3 on page 5) | `prop4_rising_persistenceSpec` -> `prop4_rising_persistence` | statement specification + proof stub | `PaperInterface.lean` | The transparent `...Spec : Prop` is the statement-audit target; the proof body is `by sorry`; raw-source-to-expanded-Spec judgment and premise provenance pending |
+| Observación 1 (Heterogeneidad cuando la mayoría vota) (Section 4 (Resultados), page 6: Observación 1 (Heterogeneidad cuando la mayoría vota); the comparative-statics paragraph and equation (5) on page 6) | `remark1_heterogeneitySpec` -> `remark1_heterogeneity` | statement specification + proof stub | `PaperInterface.lean` | The transparent `...Spec : Prop` is the statement-audit target; the proof body is `by sorry`; raw-source-to-expanded-Spec judgment and premise provenance pending |
 
 ## Intake Checklist
 
@@ -134,7 +134,7 @@ not block Lean closeout.
 
 ## Closeout Checklist
 
-- [ ] Start with `python3 scripts/closeout_reuse_plan.py --paper Arriola26TurnoutGap` and
+- [ ] Start with `python3 scripts/closeout_reuse_plan.py --paper Arriola26VotingHabit` and
       execute only its current `next_action`.
 - [ ] Resolve every raw-source-to-expanded-Spec, material-prerequisite,
       assumption, proof-route, axiom, realization, and source-coverage finding.

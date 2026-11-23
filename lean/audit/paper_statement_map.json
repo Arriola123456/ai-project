@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "paper": "Arriola26TurnoutGap",
-  "source_url": "https://github.com/Arriola123456/ai-project",
-  "source_version": "Unpublished manuscript (draft for the final presentation), ai-project commit feb0cf24c0b8f825861a31c118896c20bb8ec7f2, paper/paper.pdf, 31 October 2026",
-  "source_artifact_path": "papers/Arriola26TurnoutGap/source-audited.pdf",
-  "source_artifact_sha256": "ff56ddf24e5cd3ea9d1442e52678d51e2bf9c5ed0c428ed9015f5247ff119fb7",
+  "paper": "Arriola26VotingHabit",
+  "source_url": "https://github.com/Arriola123456/ai-project/blob/7fa3a62e4e8f161ddfc1412f53b1eb8fa008ceb1/paper/paper.pdf",
+  "source_version": "Unpublished manuscript (final paper), ai-project commit 7fa3a62e4e8f161ddfc1412f53b1eb8fa008ceb1, paper/paper.pdf, 19 November 2026",
+  "source_artifact_path": "papers/Arriola26VotingHabit/source-audited.pdf",
+  "source_artifact_sha256": "6c8a6837e3fc254d7f853e617d7e4005430db8251a8394b57e83195710f75db0",
   "source_inventory_kind": "pinned_statement_target_scaffold",
   "source_curated": false,
   "seed_scaffold": true,
@@ -33,8 +33,8 @@
       "statement": "Lema 1 (Acoplamiento del hábito). Fije ηi y los shocks (εi1 , εi2 , . . . ) de un ciudadano, y sean (hj ) y (h′j ) sus trayectorias de hábito en dos entornos con 0 ≤ λ ≤ λ′ y θj ≤ θj′ en cada elección j . Entonces 0 ≤ hj ≤ h′j para cada j , y si el ciudadano vota en j en el primer entorno, también vota en el segundo.",
       "source_item": "Lema 1 (Acoplamiento del hábito)",
       "source_kind": "lemma",
-      "source_location": "Section 4 (Resultados), page 3: Lema 1 (Acoplamiento del hábito)",
-      "source_url": "https://github.com/Arriola123456/ai-project",
+      "source_location": "Section 4 (Resultados), page 4: Lema 1 (Acoplamiento del hábito); the definition of the thresholds θj on page 4",
+      "source_url": "https://github.com/Arriola123456/ai-project/blob/7fa3a62e4e8f161ddfc1412f53b1eb8fa008ceb1/paper/paper.pdf",
       "source_status": "pinned statement-spec transcription; independent source audit pending",
       "spec_lean_declarations": [
         "lemma1_couplingSpec"
@@ -50,11 +50,11 @@
       }
     },
     "prop1_lifecycle": {
-      "statement": "Proposición 1 (Ciclo de vida). Bajo el Supuesto 1, b es estrictamente cóncava en a > 0 y alcanza su máximo único en (︂ )︂1/(β−α) a∗ = Aα κβ . Si β = 1, b′ (a) → −κ cuando a → ∞: la caída del bene cio se vuelve lineal. Si β > 1, b′ (a) → −∞: la caída se acelera.",
+      "statement": "Proposición 1 (Ciclo de vida). Bajo el Supuesto 1, b es estrictamente cóncava en a > 0 y alcanza su máximo único en a∗ = (︂ Aα κβ )︂1/(β−α) . Si β = 1, b′ (a) → −κ cuando a → ∞: la caída del bene cio se vuelve lineal. Si β > 1, b′ (a) → −∞: la caída se acelera.",
       "source_item": "Proposición 1 (Ciclo de vida)",
       "source_kind": "proposition",
-      "source_location": "Section 4 (Resultados), page 3: Proposición 1 (Ciclo de vida)",
-      "source_url": "https://github.com/Arriola123456/ai-project",
+      "source_location": "Section 4 (Resultados), page 4: Proposición 1 (Ciclo de vida)",
+      "source_url": "https://github.com/Arriola123456/ai-project/blob/7fa3a62e4e8f161ddfc1412f53b1eb8fa008ceb1/paper/paper.pdf",
       "source_status": "pinned statement-spec transcription; independent source audit pending",
       "spec_lean_declarations": [
         "prop1_lifecycleSpec"
@@ -70,11 +70,11 @@
       }
     },
     "prop2_jump": {
-      "statement": "Las Proposiciones 2 y 3 comparan trayectorias de hábito de un mismo ciudadano bajo dos entornos. Sea θj = b(aj ) + Oaj Sj − µj − ηi el umbral de la elección j , sin el hábito, para un ciudadano que en ella tiene edad aj . [...] Proposición 2 (El salto no contiene hábito). Bajo los Supuestos 1\u00154, el hábito de quien tiene 70 años se acumuló bajo obligación, y τ 70 en (3) es la masa de cumplidores condicional en ese hábito. Si gε es unimodal con moda m y c̄ ≥ m en cada punto del soporte de (η, h70 ), entonces τ 70 es no creciente en λ: el hábito atenúa el salto.",
-      "source_item": "Proposición 2 (El salto no contiene hábito)",
+      "statement": "Proposición 2 (El salto no contiene hábito y el hábito lo achica). Bajo los Supuestos 1\u00154, el hábito de quien tiene 70 años se acumuló bajo obligación, y τ 70 en (3) es la masa de cumplidores condicional en ese hábito. Si gε es unimodal con moda m y c̄ ≥ m en cada punto del soporte de (η, h70 ), entonces τ 70 es no creciente en λ: el hábito atenúa el salto.",
+      "source_item": "Proposición 2 (El salto no contiene hábito y el hábito lo achica)",
       "source_kind": "proposition",
-      "source_location": "Section 4 (Resultados), page 3: Proposición 2 (El salto no contiene hábito); the stationarity paragraph (or the definition of the thresholds) on page 3",
-      "source_url": "https://github.com/Arriola123456/ai-project",
+      "source_location": "Section 4 (Resultados), page 4: Proposición 2 (El salto no contiene hábito y el hábito lo achica); the definition of the thresholds θj on page 4",
+      "source_url": "https://github.com/Arriola123456/ai-project/blob/7fa3a62e4e8f161ddfc1412f53b1eb8fa008ceb1/paper/paper.pdf",
       "source_status": "pinned statement-spec transcription; independent source audit pending",
       "spec_lean_declarations": [
         "prop2_jumpSpec"
@@ -89,62 +89,62 @@
         "semantic_shape": "plain"
       }
     },
-    "prop3_bound": {
-      "statement": "Proposición 3 (La brecha es una cota superior). Bajo los Supuestos 1\u00154, sea P1 (a) la participación a la edad a si la elección actual fuera obligatoria para esa edad, de modo que P1 (a) = P (a) si a < 70. Para a ≥ 70, sea P f (a) la participación de esos mismos ciudadanos si hubieran estado obligados en todas las elecciones anteriores y libres en la actual. Suponga (H): P1 es no creciente en [60, 70] y P f es no creciente en [70, ∞). Entonces ∆ = τ 70 + E + D ≥ τ 70 , 3 f donde el envejecimiento E = [P̄60\u001569 − P1 (70)] + [P f (70) − P̄70+ ] ≥ 0 y el decaimiento del hábito f D = P̄70+ − P̄70+ ≥ 0, y las barras son promedios ponderados por electores dentro de cada grupo. La condición (H) no se sigue de a∗ ≤ 60: si el hábito todavía se acumula entre los 60 y los 70 años, b(a) + λE[ha ] puede crecer aunque b decrezca.",
-      "source_item": "Proposición 3 (La brecha es una cota superior)",
+    "prop3_steps": {
+      "statement": "Proposición 3 (La huella del hábito: escalones cada d años). Bajo los Supuestos 1\u00154, con ρ constante y un entorno estacionario, H(a) = ∑︂ ρk P (a − (k + 1)d). k≥0, a−(k+1)d≥18 Si además a ≥ 18 y a + 1 − 18 no es múltiplo de d, ∑︂ [︁ ]︁ ρk P (a + 1 − (k + 1)d) − P (a − (k + 1)d) . H(a + 1) − H(a) = k≥0, a−(k+1)d≥18 En particular, con d = 5, entre 74 y 75 años el término k = 0 es P (70)−P (69), que contiene el salto en el umbral, y entre 73 y 74 todos los términos son diferencias de un año entre edades obligadas.",
+      "source_item": "Proposición 3 (La huella del hábito: escalones cada d años)",
       "source_kind": "proposition",
-      "source_location": "Section 4 (Resultados), page 3: Proposición 3 (La brecha es una cota superior)",
-      "source_url": "https://github.com/Arriola123456/ai-project",
+      "source_location": "Section 4 (Resultados), page 5: Proposición 3 (La huella del hábito: escalones cada d años); the stationarity paragraph before Proposición 3 on page 5",
+      "source_url": "https://github.com/Arriola123456/ai-project/blob/7fa3a62e4e8f161ddfc1412f53b1eb8fa008ceb1/paper/paper.pdf",
       "source_status": "pinned statement-spec transcription; independent source audit pending",
       "spec_lean_declarations": [
-        "prop3_boundSpec"
+        "prop3_stepsSpec"
       ],
       "proof_lean_declarations": [
-        "prop3_bound"
+        "prop3_steps"
       ],
       "semantic_contract_template": {
-        "spec_declaration": "prop3_boundSpec",
-        "evidence_declaration": "prop3_bound",
+        "spec_declaration": "prop3_stepsSpec",
+        "evidence_declaration": "prop3_steps",
         "evidence_mode": "proves",
         "semantic_shape": "plain"
       }
     },
-    "prop4_steps": {
-      "statement": "Las Proposiciones 4 y 5 necesitan un supuesto más, que la calibración ya usa: el entorno es estacionario, con µt = µ y St = S en la elección actual y en todas las anteriores. Así, la participación a la edad x en una elección pasada es la misma P (x) de hoy. Sea H(a) = E[h] entre los ciudadanos de edad a. Todos ellos votaron antes a las edades a − d, a − 2d, . . . que son al menos 18. [...] Proposición 4 (La huella del hábito). Bajo los Supuestos 1\u00154, con ρ constante y un entorno estacionario, ∑︂ H(a) = ρk P (a − (k + 1)d). k≥0, a−(k+1)d≥18 Si además a ≥ 18 y a + 1 − 18 no es múltiplo de d, ∑︂ ρk P (a + 1 − (k + 1)d) − P (a − (k + 1)d) . [︁ ]︁ H(a + 1) − H(a) = k≥0, a−(k+1)d≥18 En particular, entre 74 y 75 años el término k = 0 es P (70) − P (69), que contiene el salto en el umbral, y entre 73 y 74 todos los términos son diferencias de un año entre edades obligadas.",
-      "source_item": "Proposición 4 (La huella del hábito)",
+    "prop4_rising_persistence": {
+      "statement": "Proposición 4 (Persistencia creciente con la edad) ∏︁ . Bajo los supuestos de la Proposición 3, pero k con ∑︁ ρ no decreciente en la edad, sea Πk (a) = j=1 ρ(a − jd), con Π0 (a) = 1. Entonces H(a) = k≥0, a−(k+1)d≥18 Πk (a)P (a − (k + 1)d) y, si a + 1 − 18 no es múltiplo de d, H(a + 1) − H(a) = ∑︂ [︁ ]︁ Πk (a + 1) P (a + 1 − (k + 1)d) − P (a − (k + 1)d) + R(a), k R(a) = ∑︂[︁ ]︁ Πk (a + 1) − Πk (a) P (a − (k + 1)d) ≥ 0, k con las sumas sobre k ≥ 0 y a−(k+1)d ≥ 18. Con ρ constante, R = 0 y se recupera la Proposición 3. En el escalón entre 70 ∏︁ + (k + 1)d − 1 y 70 + (k + 1)d, la diferencia P (70) − P (69) entra con peso Πk (70 + (k + 1)d) = ki=1 ρ(70 + id) ≥ ρ(70)k : el salto se propaga al menos tanto como con ρ constante igual a ρ(70).",
+      "source_item": "Proposición 4 (Persistencia creciente con la edad)",
       "source_kind": "proposition",
-      "source_location": "Section 4 (Resultados), page 4: Proposición 4 (La huella del hábito); the stationarity paragraph (or the definition of the thresholds) on page 4",
-      "source_url": "https://github.com/Arriola123456/ai-project",
+      "source_location": "Section 4 (Resultados), page 5: Proposición 4 (Persistencia creciente con la edad); the stationarity paragraph before Proposición 3 on page 5",
+      "source_url": "https://github.com/Arriola123456/ai-project/blob/7fa3a62e4e8f161ddfc1412f53b1eb8fa008ceb1/paper/paper.pdf",
       "source_status": "pinned statement-spec transcription; independent source audit pending",
       "spec_lean_declarations": [
-        "prop4_stepsSpec"
+        "prop4_rising_persistenceSpec"
       ],
       "proof_lean_declarations": [
-        "prop4_steps"
+        "prop4_rising_persistence"
       ],
       "semantic_contract_template": {
-        "spec_declaration": "prop4_stepsSpec",
-        "evidence_declaration": "prop4_steps",
+        "spec_declaration": "prop4_rising_persistenceSpec",
+        "evidence_declaration": "prop4_rising_persistence",
         "evidence_mode": "proves",
         "semantic_shape": "plain"
       }
     },
-    "prop5_rising_persistence": {
-      "statement": "Las Proposiciones 4 y 5 necesitan un supuesto más, que la calibración ya usa: el entorno es estacionario, con µt = µ y St = S en la elección actual y en todas las anteriores. Así, la participación a la edad x en una elección pasada es la misma P (x) de hoy. Sea H(a) = E[h] entre los ciudadanos de edad a. Todos ellos votaron antes a las edades a − d, a − 2d, . . . que son al menos 18. [...] Proposición 5 (Persistencia creciente con la edad) ∏︁ . Bajo los supuestos de la Proposición 4, pero k con ∑︁ ρ no decreciente en la edad, sea Πk (a) = j=1 ρ(a − jd), con Π0 (a) = 1. Entonces H(a) = k≥0, a−(k+1)d≥18 Πk (a)P (a − (k + 1)d) y, si a + 1 − 18 no es múltiplo de d, ∑︂ [︁ ]︁ H(a + 1) − H(a) = Πk (a + 1) P (a + 1 − (k + 1)d) − P (a − (k + 1)d) + R(a), k ∑︂[︁ ]︁ R(a) = Πk (a + 1) − Πk (a) P (a − (k + 1)d) ≥ 0, k 4 con las sumas sobre k ≥ 0 y a−(k+1)d ≥ 18. Con ρ constante, R = 0 y se recupera la Proposición 4. En el escalón entre 70 ∏︁ + (k + 1)d − 1 y 70 + (k + 1)d, la diferencia P (70) − P (69) entra con peso Πk (70 + (k + 1)d) = ki=1 ρ(70 + id) ≥ ρ(70)k : el salto se propaga al menos tanto como con ρ constante igual a ρ(70).",
-      "source_item": "Proposición 5 (Persistencia creciente con la edad)",
-      "source_kind": "proposition",
-      "source_location": "Section 4 (Resultados), page 4: Proposición 5 (Persistencia creciente con la edad); the stationarity paragraph (or the definition of the thresholds) on page 4",
-      "source_url": "https://github.com/Arriola123456/ai-project",
+    "remark1_heterogeneity": {
+      "statement": "Observación 1 (Heterogeneidad cuando la mayoría vota). Con F = Φ normal, z ϕ(z) es creciente en [0, 1] y decreciente en [1, ∞), y z = 1 corresponde a una participación de Φ(1) = 0.841. Por ciudadano, con z0 < z1 : (a) si P0 ≤ 0.50 < P1 , ∂τ /∂s < 0; (b) si 0.50 < P0 < P1 ≤ 0.841, ∂τ /∂s < 0; (c) si 0.841 ≤ P0 < P1 , ∂τ /∂s > 0; y (d) si 0.50 < P0 < 0.841 < P1 , existe un único z1∗ > 1 con z1∗ ϕ(z1∗ ) = z0 ϕ(z0 ), y ∂τ /∂s < 0 si y solo si P1 < P1∗ = Φ(z1∗ ). Con P0 = 0.78, z0 = 0.772, z1∗ = 1.247 y P1∗ = 0.894: si P1 (70) < 0.894, más heterogeneidad achica el salto; si P1 (70) > 0.894, lo agranda.",
+      "source_item": "Observación 1 (Heterogeneidad cuando la mayoría vota)",
+      "source_kind": "claim",
+      "source_location": "Section 4 (Resultados), page 6: Observación 1 (Heterogeneidad cuando la mayoría vota); the comparative-statics paragraph and equation (5) on page 6",
+      "source_url": "https://github.com/Arriola123456/ai-project/blob/7fa3a62e4e8f161ddfc1412f53b1eb8fa008ceb1/paper/paper.pdf",
       "source_status": "pinned statement-spec transcription; independent source audit pending",
       "spec_lean_declarations": [
-        "prop5_rising_persistenceSpec"
+        "remark1_heterogeneitySpec"
       ],
       "proof_lean_declarations": [
-        "prop5_rising_persistence"
+        "remark1_heterogeneity"
       ],
       "semantic_contract_template": {
-        "spec_declaration": "prop5_rising_persistenceSpec",
-        "evidence_declaration": "prop5_rising_persistence",
+        "spec_declaration": "remark1_heterogeneitySpec",
+        "evidence_declaration": "remark1_heterogeneity",
         "evidence_mode": "proves",
         "semantic_shape": "plain"
       }

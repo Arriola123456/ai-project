@@ -311,64 +311,7 @@ def fig_two_objects():
     ax.set_xlabel("edad")
     ax.set_ylabel("participación")
     save(fig, "s_two_objects")
-
-
-def fig_p3_decomp():
-    """Proposition 3 on the calibrated model: Delta = E1 + tau + E2 + D, drawn as a
-    waterfall at the very levels of the curves."""
-    p, d, P, Pc, Pf = _calibrated_run()
-    w = d["weights"]
-    m60, m70, mf70 = band_mean(P, w, 60, 69), band_mean(P, w, 70, 130), band_mean(Pf, w, 70, 130)
-    P1_70, Pf_70 = at(Pc, 70), at(Pf, 70)
-    ages = np.arange(55, 96)
-    pre, post = ages < THRESHOLD, ages >= THRESHOLD
-    fig, ax = plt.subplots(figsize=(W, 2.5))
-    ax.plot(ages[pre], at(P, ages[pre]), color=BLUE)
-    ax.plot([69, 70], [at(P, 69), P1_70], color=BLUE, ls=(0, (3, 2)), lw=1.3)
-    ax.plot([70], [P1_70], "o", color=BLUE, ms=4.5, mec="white", mew=1.0)
-    ax.annotate("a los 70,\nsi siguiera obligado", xy=(70, P1_70), xytext=(57, 0.66), fontsize=8, color=INK,
-                va="center", arrowprops=dict(arrowstyle="-", color=INK2, lw=0.7, shrinkB=3))
-    ax.plot(ages[post], at(Pf, ages[post]), color=AMBER, lw=1.5, ls=(0, (3, 1.5)))
-    ax.plot(ages[post], at(P, ages[post]), color=RED)
-    ax.annotate("libre hoy, pero\ncon su costumbre\nde obligado", xy=(86, at(Pf, 86)), xytext=(97.5, 0.38),
-                fontsize=8, color=INK, va="center",
-                arrowprops=dict(arrowstyle="-", color=INK2, lw=0.7, shrinkB=2))
-    ax.annotate("lo observado", xy=(90, at(P, 90)), xytext=(97.5, 0.14), fontsize=8, color=INK, va="center",
-                arrowprops=dict(arrowstyle="-", color=INK2, lw=0.7, shrinkB=2))
-    ax.plot([60, 69.5], [m60, m60], color=INK, lw=2.2, solid_capstyle="butt")
-    ax.plot([70, 95], [m70, m70], color=INK, lw=2.2, solid_capstyle="butt")
-    ax.text(59.5, m60 - 0.03, "promedio\n60–69", fontsize=8, color=INK, ha="right", va="top")
-    ax.text(84, m70 + 0.02, "promedio 70+", fontsize=8, color=INK, va="bottom")
-    # waterfall column right of the curves: from the 60-69 mean down to the 70+ mean
-    x0, wd = 98, 2.4
-    pieces = [(m60, P1_70, LIGHT, "edad, dentro de 60–69"),
-              (P1_70, Pf_70, BLUE, "salto por la obligación"),
-              (Pf_70, mf70, LIGHT, "edad, dentro de 70+"),
-              (mf70, m70, AMBER, "costumbre perdida")]
-    ylab, last = [], None
-    for top, bot, *_ in pieces:          # label heights, at least 0.075 apart
-        y = (top + bot) / 2 if last is None else min((top + bot) / 2, last - 0.075)
-        ylab.append(y)
-        last = y
-    for (top, bot, col, lab), y in zip(pieces, ylab):
-        ax.bar(x0, top - bot, bottom=bot, width=wd, color=col, edgecolor="white", lw=1.0, align="edge")
-        ax.annotate(f"{lab}: {top - bot:.3f}", xy=(x0 + wd, (top + bot) / 2), xytext=(x0 + wd + 2.5, y),
-                    fontsize=7.5, color=INK, va="center",
-                    arrowprops=dict(arrowstyle="-", color=INK2, lw=0.6, shrinkA=0, shrinkB=0))
-    ax.plot([69.5, x0], [m60, m60], color=INK2, lw=0.6, ls=(0, (1, 2)))
-    ax.plot([95, x0], [m70, m70], color=INK2, lw=0.6, ls=(0, (1, 2)))
-    ax.text(x0 + wd / 2, m60 + 0.03, f"brecha = {m60 - m70:.3f}", fontsize=8, color=INK, ha="center", va="bottom")
-    mark_threshold(ax, label=False)
-    ax.set_xlim(55, 132)
-    ax.set_xticks(range(55, 100, 5))
-    ax.set_ylim(0.0, 1.02)
-    ax.set_xlabel("edad")
-    ax.set_ylabel("participación")
-    ax.xaxis.set_label_coords((95 - 55) / 2 / (132 - 55), -0.12)
-    ax.spines["bottom"].set_bounds(55, 95)
-    save(fig, "s_p3_decomp")
-    return {"runTau": f"{P1_70 - Pf_70:.3f}", "runDelta": f"{m60 - m70:.3f}", "runEone": f"{m60 - P1_70:.3f}",
-            "runEtwo": f"{Pf_70 - mf70:.3f}", "runD": f"{mf70 - m70:.3f}"}
+    return {"runTau": f"{t70:.3f}"}
 
 
 def _excluded(a1):
@@ -437,69 +380,6 @@ def fig_p5_rho():
     save(fig, "s_p5_rho")
 
 
-def fig_decomp_bars():
-    dec = pd.read_csv(HERE / "output" / "gap_decomposition.csv")
-    x = np.arange(len(dec))
-    fig, ax = plt.subplots(figsize=(W, 2.3))
-    wd = 0.5
-    ax.bar(x, dec.tau70, width=wd, color=BLUE, edgecolor="white", lw=1.0, label=r"salto por la obligación $\tau^{70}$")
-    ax.bar(x, dec.ageing, bottom=dec.tau70, width=wd, color=LIGHT, edgecolor="white", lw=1.0,
-           label="diferencia de edad entre grupos")
-    ax.bar(x, dec.habit_decay, bottom=dec.tau70 + dec.ageing, width=wd, color=AMBER, edgecolor="white", lw=1.0,
-           label="costumbre perdida")
-    ax.plot(x, dec.Delta_data, "D", color=INK, ms=4.5, mec="white", label="brecha en los datos (ONPE)")
-    ax.set_xticks(x, [f"{t.replace('_', ' ')}\n{100 * r.tau70 / r.Delta:.0f}%" for t, r in zip(dec.tag, dec.itertuples())])
-    ax.text(-0.72, -0.105, "salto / brecha:", transform=ax.get_xaxis_transform(), ha="right", va="center",
-            fontsize=8, color=INK2)
-    ax.set_ylabel("puntos de participación")
-    ax.set_ylim(0, 0.5)
-    ax.set_xlim(-0.6, len(dec) - 0.4)
-    ax.legend(loc="lower left", bbox_to_anchor=(0, 1.0), ncol=2, fontsize=7.5, handlelength=1.2,
-              columnspacing=1.2, borderaxespad=0.2)
-    save(fig, "s_decomp_bars")
-
-
-def fig_counter_p3():
-    """Where I did not believe the AI (1): a* <= 60 and still Delta < tau70.
-    Parameters from a random search like the one in verify.py (b peaks at 57,
-    strong and persistent habit), with the 2016 elector weights."""
-    from model import gap
-    p = Params(A=2.87, alpha=0.633, kappa=1.433, beta=1.18, lam=0.79, rho0=0.93, omega=0.43)
-    mu, S = 2.81, 0.72
-    cal.set_spec("main")
-    g = gap(p, mu, S, cal.load_data()[RUN]["weights"])
-    if not (p.peak_age() <= 60 and g["Delta"] < g["tau70"]):
-        raise SystemExit("slide_figures: the P3 counterexample no longer has a* <= 60 and Delta < tau70")
-    Pc, Hc = turnout_profile(p, mu, S, voluntary_from=200, return_parts=True)
-    P = turnout_profile(p, mu, S)
-    ages = np.arange(40, 91)
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(W, 2.2))
-    b60 = p.b(60)
-    idx = p.b(ages) + p.lam * at(Hc, ages)
-    ax1.plot(ages, p.b(ages) - b60, color=GRAY, lw=1.4, ls=(0, (3, 2)),
-             label=f"lo que se gana: máximo a los {p.peak_age():.0f}")
-    ax1.plot(ages, idx - (b60 + p.lam * at(Hc, 60)), color=BLUE, label="lo que se gana + costumbre")
-    ax1.axvspan(60, 69.5, color=GRID, lw=0, zorder=0)
-    ax1.axhline(0, color=INK2, lw=0.6)
-    ax1.legend(loc="lower left", bbox_to_anchor=(0, 1.0), handlelength=1.6, fontsize=7.5, borderaxespad=0.2)
-    ax1.set_ylim(-1.6, 2.6)
-    ax1.set_ylabel("razones para votar\n(0 = a los 60)")
-    ax1.set_xlabel("edad")
-    pre, post = ages < THRESHOLD, ages >= THRESHOLD
-    ax2.plot(ages[pre], at(P, ages[pre]), color=BLUE)
-    ax2.plot(ages[post], at(P, ages[post]), color=RED)
-    ax2.plot(ages[post], at(Pc, ages[post]), color=BLUE, ls=(0, (3, 2)), lw=1.3)
-    ax2.axvspan(60, 69.5, color=GRID, lw=0, zorder=0)
-    ax2.set_title(f"brecha {g['Delta']:.3f} < salto {g['tau70']:.3f}", loc="left", color=INK)
-    ax2.set_xlabel("edad")
-    ax2.set_ylim(0, 1.0)
-    for ax in (ax1, ax2):
-        ax.axvline(69.5, color=INK2, lw=0.8, ls=(0, (2, 2)))
-    fig.tight_layout(w_pad=2)
-    save(fig, "s_counter_p3")
-    return {"cxPeak": f"{p.peak_age():.0f}", "cxDelta": f"{g['Delta']:.3f}", "cxTau": f"{g['tau70']:.3f}"}
-
-
 def fig_fine_theta():
     fines = pd.read_csv(HERE / "data" / "fines.csv").set_index("tag")["fine_pct_uit"]
     dec = pd.read_csv(HERE / "output" / "gap_decomposition.csv")
@@ -522,8 +402,7 @@ def main():
     """Draw every slide figure and write the numbers the slides quote."""
     nums = {"runTag": RUN.replace("_", " ")}
     for fig_fn in (fig_theta_exact, fig_lifecycle, fig_static_index, fig_habit_paths, fig_coupling,
-                   fig_two_objects, fig_p3_decomp, fig_p4_steps, fig_p5_rho, fig_decomp_bars, fig_counter_p3,
-                   fig_fine_theta):
+                   fig_two_objects, fig_p4_steps, fig_p5_rho, fig_fine_theta):
         nums.update(fig_fn() or {})
     (HERE / "output" / "slide_numbers.tex").write_text(
         "".join(f"\\newcommand{{\\{k}}}{{{v}}}\n" for k, v in nums.items()), encoding="utf-8")

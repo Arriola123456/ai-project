@@ -5,7 +5,7 @@
 Exits with an error (SystemExit) as soon as a claim does not hold.
   1. Symbolic (SymPy): Proposition 1 (life-cycle benefit) and the static
      comparative statics (a)-(d), including the threshold condition of (iv).
-  2. Numerical (model.py): Propositions 2-5 with the AR(1) habit.
+  2. Numerical (model.py): Propositions 2-4 with the AR(1) habit (numbering of the final paper).
   3. Calibration: reloads code/output/params_M*.json, recomputes each
      objective from code/data/, checks the nesting M0 >= M1 >= M2 >= M3 and
      redraws the figures used in the paper and the slides (the slide-only
@@ -83,7 +83,7 @@ check(-0.0947 - 1e-4 < (-2 * norm.pdf(-2) + 3 * norm.pdf(-3)) < -0.0947 + 1e-4,
       "claude.ai turn 5 counterexample: z0=-3, z1=-2 gives s dtau/ds = +0.095 > 0")
 
 # =============================================================================
-print("2. Numerical checks of Propositions 2-5 (habit)")
+print("2. Numerical checks of Propositions 2-4 (habit)")
 W = {a_: 1.0 for a_ in range(18, 101)}
 
 
@@ -93,7 +93,7 @@ def random_params(n, lam_range=(0.2, 1.5), rho1=0.0):
         p = Params(A=rng.uniform(2, 5), alpha=rng.uniform(0.2, 0.8), kappa=rng.uniform(1, 3),
                    beta=rng.uniform(1, 2.5), lam=rng.uniform(*lam_range), rho0=rng.uniform(0.2, 0.8),
                    rho1=rho1, omega=rng.uniform(0.2, 0.8))
-        if p.peak_age() <= 60:                      # Proposition 3's condition
+        if p.peak_age() <= 60:                      # peak by 60, as in the calibration
             out.append((p, rng.uniform(-1.5, 1.5), rng.uniform(0.2, 1.5)))
     return out
 
@@ -110,33 +110,7 @@ for p, mu_, S_ in random_params(60):
 check(n_above > 10 and n_neg == n_above,
       f"P2: dtau70/dlam < 0 whenever the band is above the mode ({n_neg}/{n_above} draws)")
 
-# P3: the hypothesis is on the TOTAL index b(a) + lam h, not on b alone.
-#  (H) compulsory turnout non-increasing on [60, 70] and voluntary turnout with
-#      a compulsory history non-increasing on [70, 100].
-#  Then Delta >= tau70, ageing >= 0; habit decay >= 0 always (coupling).
-from model import _voluntary_today_only  # noqa: E402
-
-n_h, slack_h, slack_hab, found_counter = 0, [], [], 0
-for p, mu_, S_ in random_params(150):
-    g = gap(p, mu_, S_, W)
-    slack_hab.append(g["habit_decay"])
-    Pc = turnout_profile(p, mu_, S_, voluntary_from=200)          # compulsory at all ages
-    Pf = _voluntary_today_only(p, mu_, S_)
-    H_holds = (np.all(np.diff(Pc[60 - FIRST_AGE:71 - FIRST_AGE]) <= 1e-12)
-               and np.all(np.diff(Pf[70 - FIRST_AGE:]) <= 1e-12))
-    if H_holds:
-        n_h += 1
-        slack_h.append(min(g["Delta"] - g["tau70"], g["ageing"]))
-    elif g["Delta"] < g["tau70"]:
-        found_counter += 1
-check(n_h > 30 and min(slack_h) > -1e-9,
-      f"P3: under (H), Delta >= tau70 and ageing >= 0 on {n_h} draws (min slack {min(slack_h):.2e})")
-check(min(slack_hab) > -1e-9, "P3: habit decay >= 0 on every draw (compulsory history dominates)")
-check(found_counter > 0,
-      f"P3: a* <= 60 alone is NOT enough -- {found_counter} draws with a* <= 60, (H) violated "
-      "because the habit is still accumulating at 60-69, and Delta < tau70")
-
-# P4: steps every D years in E[h] after 70; first step = P1(69) - P0(70), any rho
+# P3: steps every D years in E[h] after 70; first step = P1(69) - P0(70), any rho
 first_steps = []
 for rho in (0.3, 0.6, 0.8):
     p = Params(A=3.0, alpha=0.5, kappa=1.8, beta=1.3, lam=0.6, rho0=rho, omega=0.5)
@@ -145,10 +119,10 @@ for rho in (0.3, 0.6, 0.8):
     smooth = P_at(H, 73) - P_at(H, 74)
     first_steps.append(step75 / (P_at(P, 69) - P_at(P, 70)))
     check(step75 > 0 and abs(smooth) < 0.05 * step75,
-          f"P4 (rho={rho}): E[h] drops {step75:.3f} between 74 and 75, only {smooth:+.4f} between 73 and 74")
+          f"P3 (rho={rho}): E[h] drops {step75:.3f} between 74 and 75, only {smooth:+.4f} between 73 and 74")
 check(all(abs(x - 1) < 0.05 for x in first_steps),
-      f"P4: first step / (P1(69)-P0(70)) = {', '.join(f'{x:.3f}' for x in first_steps)} -- equal to the jump, any rho")
-# P4 exact identity: H(a+1) - H(a) = sum_k rho^k [P(a+1-(k+1)d) - P(a-(k+1)d)]
+      f"P3: first step / (P1(69)-P0(70)) = {', '.join(f'{x:.3f}' for x in first_steps)} -- equal to the jump, any rho")
+# P3 exact identity: H(a+1) - H(a) = sum_k rho^k [P(a+1-(k+1)d) - P(a-(k+1)d)]
 p = Params(A=3.0, alpha=0.5, kappa=1.8, beta=1.3, lam=0.6, rho0=0.6, omega=0.5)
 P, H = turnout_profile(p, 1.0, 0.9, return_parts=True)
 worst = 0.0
@@ -156,24 +130,22 @@ for a_ in [a_ for a_ in range(25, 95) if (a_ + 1 - FIRST_AGE) % 5 != 0]:
     rhs = sum(0.6**k * (P_at(P, a_ + 1 - (k + 1) * 5) - P_at(P, a_ - (k + 1) * 5))
               for k in range(20) if a_ - (k + 1) * 5 >= FIRST_AGE)
     worst = max(worst, abs((P_at(H, a_ + 1) - P_at(H, a_)) - rhs))
-check(worst < 1e-9, f"P4: exact identity for H(a+1) - H(a) at every age 25-94 (max error {worst:.1e})")
+check(worst < 1e-9, f"P3: exact identity for H(a+1) - H(a) at every age 25-94 (max error {worst:.1e})")
 p_nohab = Params(A=3.0, alpha=0.5, kappa=1.8, beta=1.3, lam=0.0, rho0=0.6, omega=0.5)
 Pn = turnout_profile(p_nohab, -0.3, 0.9)
 d = np.diff(Pn[70 - FIRST_AGE:86 - FIRST_AGE])
-check(np.ptp(d[3:6]) < 0.01, "P4: with lam = 0 the profile after 70 has no steps")
+check(np.ptp(d[3:6]) < 0.01, "P3: with lam = 0 the profile after 70 has no steps")
 
-# P5: rho rising with age: same first step, slower decay, E[h] rises before 70
+# P4: rho rising with age: same first step, slower decay, E[h] rises before 70
 pc = Params(A=3.0, alpha=0.5, kappa=1.8, beta=1.3, lam=0.6, rho0=0.5, rho1=0.0, omega=0.5)
 pr = Params(**{**pc.__dict__, "rho1": 0.4})
 (Pc, Hc), (Pr, Hr) = (turnout_profile(x, -0.3, 0.9, return_parts=True) for x in (pc, pr))
 s1c, s1r = P_at(Hc, 74) - P_at(Hc, 75), P_at(Hr, 74) - P_at(Hr, 75)
 s2c, s2r = P_at(Hc, 79) - P_at(Hc, 80), P_at(Hr, 79) - P_at(Hr, 80)
-check(s2r / s1r > s2c / s1c, f"P5: second/first step {s2r / s1r:.3f} (rho'>0) > {s2c / s1c:.3f} (rho const)")
+check(s2r / s1r > s2c / s1c, f"P4: second/first step {s2r / s1r:.3f} (rho'>0) > {s2c / s1c:.3f} (rho const)")
 check(P_at(Hr, 69) > P_at(Hr, 60) and abs(P_at(Hc, 69) - P_at(Hc, 60)) < 0.02,
-      "P5: with rho'>0 the habit keeps rising between 60 and 69 (risk for a* <= 60)")
-gc, gr = gap(pc, -0.3, 0.9, W), gap(pr, -0.3, 0.9, W)
-check(gr["Delta"] >= gr["tau70"] and gc["Delta"] >= gc["tau70"], "P5: Delta >= tau70 also with rho'>0")
-# P5 exact identity with rho(a) rising: Pi_m(a) = prod_{j=1..m} rho(a - j d),
+      "P4: with rho'>0 the habit keeps rising between 60 and 69 (risk for a* <= 60)")
+# P4 exact identity with rho(a) rising: Pi_m(a) = prod_{j=1..m} rho(a - j d),
 #   H(a) = sum_k Pi_{k-1}(a) P(a - k d),
 #   H(a+1) - H(a) = sum_k Pi_{k-1}(a+1) [P(a+1-kd) - P(a-kd)] + R(a),  R(a) >= 0.
 # (the code's k >= 1 is the paper's k + 1)
@@ -182,7 +154,7 @@ Pi = lambda p_, a_, m: float(np.prod([p_.rho(a_ - j * 5) for j in range(1, m + 1
 past = lambda a_: [k_ for k_ in range(1, 20) if a_ - k_ * 5 >= FIRST_AGE]
 err_H = max(abs(P_at(Hr, a_) - sum(Pi(pr, a_, k_ - 1) * P_at(Pr, a_ - k_ * 5) for k_ in past(a_)))
             for a_ in range(FIRST_AGE, 101))
-check(err_H < 1e-9, f"P5: H(a) = sum_k Pi_k(a) P(a-(k+1)d) at every age 18-100 (max error {err_H:.1e})")
+check(err_H < 1e-9, f"P4: H(a) = sum_k Pi_k(a) P(a-(k+1)d) at every age 18-100 (max error {err_H:.1e})")
 worst5, naive5, minR = 0.0, 0.0, np.inf
 for a_ in [a_ for a_ in range(25, 95) if (a_ + 1 - FIRST_AGE) % 5 != 0]:
     lhs = P_at(Hr, a_ + 1) - P_at(Hr, a_)
@@ -190,12 +162,12 @@ for a_ in [a_ for a_ in range(25, 95) if (a_ + 1 - FIRST_AGE) % 5 != 0]:
     R = sum((Pi(pr, a_ + 1, k_ - 1) - Pi(pr, a_, k_ - 1)) * P_at(Pr, a_ - k_ * 5) for k_ in past(a_))
     worst5, naive5, minR = max(worst5, abs(lhs - main_ - R)), max(naive5, abs(lhs - main_)), min(minR, R)
 check(worst5 < 1e-9 and minR >= 0,
-      f"P5: H(a+1) - H(a) = sum_k Pi_k(a+1) [one-year differences] + R(a), R(a) >= 0 "
+      f"P4: H(a+1) - H(a) = sum_k Pi_k(a+1) [one-year differences] + R(a), R(a) >= 0 "
       f"(max error {worst5:.1e}, min R {minR:.1e})")
-check(naive5 > 1e-4, f"P5: the first draft's identity without R(a) is off by up to {naive5:.1e}")
+check(naive5 > 1e-4, f"P4: the first draft's identity without R(a) is off by up to {naive5:.1e}")
 w_jump = [Pi(pr, 70 + k_ * 5, k_ - 1) for k_ in (1, 2, 3, 4)]
 check(all(w >= float(pr.rho(70)) ** (k_ - 1) for k_, w in zip((1, 2, 3, 4), w_jump)),
-      "P5: weight of P(70)-P(69) in the step at 70+(k+1)d is >= rho(70)^k")
+      "P4: weight of P(70)-P(69) in the step at 70+(k+1)d is >= rho(70)^k")
 # Identification paragraph: the normal density moves by at most 21% between
 # turnout levels 0.73 and 0.3-0.5, so G alone cannot make the fall four times steeper
 dens = norm.pdf(norm.ppf(np.linspace(0.3, 0.5, 201))) / norm.pdf(norm.ppf(0.73))
@@ -280,38 +252,56 @@ if "main" in done:
     fig.savefig(HERE / "figures" / "fit_profiles.pdf")
     plt.close(fig)
 
-    # --- table: data vs model and decomposition of the gap ----------------------
-    from model import _voluntary_today_only  # noqa: E402
+    # --- table: the jump at 70 and the gap, data vs model -----------------------
     rows = []
     for t in TAGS:
         d = data[t]
         S_t = pred[t]["S"]
         g = gap(P_best, P_best.mu[t], S_t, d["weights"])
         lev = {int(lo): v for lo, hi, v in d["bands"]}
-        delta_data = lev[60] - lev[70]
-        th70_data = float(d["theta"][cal.FIT_AGES.index(70)])
-        th70_model = float(pred[t]["theta"][cal.FIT_AGES.index(70)])
-        Pc = turnout_profile(P_best, P_best.mu[t], S_t, voluntary_from=200)
-        Pf = _voluntary_today_only(P_best, P_best.mu[t], S_t)
-        H_ok = bool(np.all(np.diff(Pc[60 - FIRST_AGE:71 - FIRST_AGE]) <= 1e-12)
-                    and np.all(np.diff(Pf[70 - FIRST_AGE:]) <= 1e-12))
-        if H_ok:
-            check(g["Delta"] >= g["tau70"] - 1e-9, f"{t}: (H) holds at the calibration and Delta >= tau70")
-        else:
-            print(f"  note {t}: (H) does not hold at the calibration; Proposition 3 does not apply")
-        rows.append({"tag": t, "theta70_data": th70_data, "theta70_model": th70_model,
-                     "Delta_data": delta_data, **{k_: float(v) for k_, v in g.items()}, "H": H_ok})
+        rows.append({"tag": t, "theta70_data": float(d["theta"][cal.FIT_AGES.index(70)]),
+                     "theta70_model": float(pred[t]["theta"][cal.FIT_AGES.index(70)]),
+                     "Delta_data": lev[60] - lev[70], **{k_: float(v) for k_, v in g.items()}})
     dec = pd.DataFrame(rows)
     dec.to_csv(HERE / "output" / "gap_decomposition.csv", index=False)
-    lines = [r"\begin{tabular}{lrrrrrrr}", r"\toprule",
-             r" & \multicolumn{2}{c}{$\theta_{70}$} & \multicolumn{2}{c}{$\Delta$} & \multicolumn{3}{c}{Descomposición de $\Delta$ (modelo)} \\",
-             r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-8}",
-             r"Elección & datos & modelo & datos & modelo & $\tau^{70}$ & envejec. & hábito \\", r"\midrule"]
+    lines = [r"\begin{tabular}{lrrrrr}", r"\toprule",
+             r" & \multicolumn{2}{c}{Salto medido, $\theta_{70}$} & Efecto, $\tau^{70}$ & \multicolumn{2}{c}{Brecha de grupos, $\Delta$} \\",
+             r"\cmidrule(lr){2-3}\cmidrule(lr){4-4}\cmidrule(lr){5-6}",
+             r"Elección & datos & modelo & modelo & datos & modelo \\", r"\midrule"]
     for _, r_ in dec.iterrows():
         lines.append(f"{r_.tag.replace('_', ' ')} & {r_.theta70_data:.3f} & {r_.theta70_model:.3f} & "
-                     f"{r_.Delta_data:.3f} & {r_.Delta:.3f} & {r_.tau70:.3f} & {r_.ageing:.3f} & {r_.habit_decay:.3f} \\\\")
+                     f"{r_.tau70:.3f} & {r_.Delta_data:.3f} & {r_.Delta:.3f} \\\\")
     lines += [r"\bottomrule", r"\end{tabular}"]
     (HERE / "output" / "gap_table.tex").write_text("\n".join(lines), encoding="utf-8")
+    # the measured jump is the effect plus one year of ageing under compulsion (Section 3):
+    # in the model, |theta70| >= tau70 when compulsory turnout does not rise from 69 to 70
+    check(all(-r_.theta70_model >= r_.tau70 - 1e-9 for _, r_ in dec.iterrows()),
+          "model: |theta70| >= tau70 in every election (one year of ageing on top of the effect)")
+
+    # --- Proposition 3 against the data: steps at 75 and 80 -------------------------
+    # one-year changes of theta_a after 70; the step ages are compared with the mean
+    # change at the other ages 71-79 (descriptive: the thesis reports only one se per age)
+    prof = pd.read_csv(HERE / "data" / "theta_profiles.csv")
+    srows = []
+    for t in TAGS:
+        s_ = prof[prof.tag == t].set_index("edad").b
+        dlt = s_.diff()
+        other = dlt[[a_ for a_ in range(71, 80) if a_ != 75]].mean()
+        srows.append({"tag": t, "d75": dlt[75], "d80": dlt[80], "other": other})
+    steps = pd.DataFrame(srows)
+    steps.to_csv(HERE / "output" / "steps_data.csv", index=False)
+    lines = [r"\begin{tabular}{lrrr}", r"\toprule",
+             r"Elección & cambio 74$\to$75 & cambio 79$\to$80 & cambio medio en 71--79 (sin 75) \\", r"\midrule"]
+    for _, r_ in steps.iterrows():
+        lines.append(f"{r_.tag.replace('_', ' ')} & {100 * r_.d75:+.1f} & {100 * r_.d80:+.1f} & {100 * r_.other:+.1f} \\\\")
+    lines += [r"\bottomrule", r"\end{tabular}"]
+    (HERE / "output" / "steps_table.tex").write_text("\n".join(lines), encoding="utf-8")
+    n75 = int((steps.d75 < steps.other).sum())
+    n80 = int((steps.d80 < steps.other).sum())
+    print(steps.round(3).to_string(index=False))
+    # the steps in the calibrated model (2016)
+    P16 = pred["2016_1V"]["P"]
+    m75 = (P_at(P16, 75) - P_at(P16, 74)) - np.mean([P_at(P16, a_) - P_at(P16, a_ - 1) for a_ in (72, 73, 74, 76, 77, 78)])
 
     # --- numbers quoted in the text of the paper and the slides ---------------
     share = dec["tau70"] / dec["Delta"]
@@ -320,24 +310,40 @@ if "main" in done:
         "tauShareMin": f"{100 * share.min():.0f}", "tauShareMax": f"{100 * share.max():.0f}",
         "tauMin": f"{dec.tau70.min():.2f}", "tauMax": f"{dec.tau70.max():.2f}",
         "DeltaDataMin": f"{dec.Delta_data.min():.2f}", "DeltaDataMax": f"{dec.Delta_data.max():.2f}",
-        "habitDecayMax": f"{dec.habit_decay.max():.3f}",
         "objMzero": f"{objs['M0']:,.0f}".replace(",", "{,}"), "objMone": f"{objs['M1']:,.0f}".replace(",", "{,}"),
         "objBest": f"{objs[best]:,.0f}".replace(",", "{,}"), "bestModel": best,
         "betaStatic": f"{p1.beta:.2f}", "betaBest": f"{pb.beta:.2f}", "lamBest": f"{pb.lam:.2f}",
-        "rhoBest": f"{pb.rho0:.2f}", "peakBest": f"{pb.peak_age():.0f}",
+        "rhoBest": f"{pb.rho0:.2f}", "peakBest": f"{pb.peak_age():.0f}", "peakStatic": f"{p1.peak_age():.0f}",
+        "sZeroBest": f"{pb.s0:.2f}", "omegaBest": f"{pb.omega:.2f}", "alphaBest": f"{pb.alpha:.2f}",
         "nMoments": f"{sum(len(v['theta']) + len(v['bands']) for v in data.values())}",
         "PfiveNaiveErr": f"{naive5:.1e}".replace("e-0", r"\times10^{-") + "}",
+        "stepsN": f"{n75}", "stepsNeighty": f"{n80}", "stepsElections": f"{len(steps)}",
+        "stepModel": f"{100 * m75:.1f}",
     }
     (HERE / "output" / "numbers.tex").write_text(
         "\n".join(f"\\newcommand{{\\{k}}}{{{v}}}" for k, v in nums.items()) + "\n", encoding="utf-8")
-    check(share.max() < 0.5, f"the causal jump is less than half of the model gap in every election "
+    check(share.max() < 0.5, f"the jump is less than half of the group gap in every election "
           f"({100 * share.min():.0f}-{100 * share.max():.0f}%)")
+    check(m75 < 0, f"P3 in the calibrated model (2016): extra fall of {100 * m75:.1f} pp between 74 and 75")
     print(dec.drop(columns="tag").round(3).assign(tag=dec.tag).to_string(index=False))
 
     # --- figures and numbers of the final presentation ------------------------
     import slide_figures  # noqa: E402
-    nums = slide_figures.main()
-    check(float(nums["cxDelta"]) < float(nums["cxTau"]),
-          f"slides: P3 counterexample with a* = {nums['cxPeak']} has Delta = {nums['cxDelta']} < tau70 = {nums['cxTau']}")
+    slide_figures.main()
+
+# =============================================================================
+print("4. Remark (heterogeneity): sign of dtau/ds when P0(70) > 1/2")
+import heterogeneity  # noqa: E402
+
+ok_prod, ok_dphi, _ = heterogeneity.symbolic_check()
+check(ok_prod and ok_dphi, "d/dz [z phi(z)] = phi(z)(1 - z^2) and phi'(z) = -z phi(z) (SymPy)")
+z0_, v0_, z1_, P1s_ = heterogeneity.crossing(0.78)
+check(abs(z1_ * norm.pdf(z1_) - v0_) < 1e-12 and z1_ > 1 and abs(P1s_ - 0.8938) < 1e-3,
+      f"crossing for P0 = 0.78: z0 = {z0_:.4f}, z1* = {z1_:.4f}, P1* = {P1s_:.4f}")
+het = heterogeneity.main()
+check(all(np.sign(r_["E_bracket"]) == np.sign(r_["rep_bracket"]) for r_ in het.values()),
+      "the rule on group averages gets the sign of the exact (citizen by citizen) effect in every election")
+check(abs(het["2016_1V"]["dtau_ds"]) < 0.01,
+      f"2016: the exact effect is close to zero (dtau/ds = {het['2016_1V']['dtau_ds']:+.4f})")
 
 print("OK: every check passed")

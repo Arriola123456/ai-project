@@ -1,7 +1,7 @@
-import Arriola26TurnoutGap.PaperInterface
+import Arriola26VotingHabit.PaperInterface
 
 /-!
-# Proof Interface: La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio: ciclo de vida, hábito y una calibración con datos de la ONPE
+# Proof Interface: Voto obligatorio a los 70 años: el salto, la edad y la costumbre de votar
 
 This file contains exact-type proof endpoints for the transparent propositions
 in `PaperInterface.lean`. It is not a human semantic-review surface: one source
@@ -10,7 +10,7 @@ claim is reviewed once, against its expanded `...Spec : Prop` declaration.
 
 open Real Filter Topology Finset
 
-namespace Arriola26TurnoutGap
+namespace Arriola26VotingHabit
 
 /--
 Lean proof endpoint for `lemma1_couplingSpec`.
@@ -193,104 +193,14 @@ theorem prop2_jump :
       hc hS
 
 /--
-Lean proof endpoint for `prop3_boundSpec`.
+Lean proof endpoint for `prop3_stepsSpec`.
 
 This theorem is intentionally outside `PaperInterface.lean`: Lean Meta checks
 that it has exactly the transparent Spec type, while source-to-Lean semantic
 review compares the raw source bundle only to that Spec.
 -/
-theorem prop3_bound :
-  prop3_boundSpec := by
-  intro Ω _ w d amax ρ base ε S lam G wb wv hobs hcomp hd hw hρ hS hlam hG hwb hwv hwb1 hwv1
-    n age O hobs_rec hcomp_rec P P1 Pf hH1 hH2 Δ τ E D
-  have hOle : ∀ x, O x * S ≤ S := by
-    intro x
-    by_cases hx : x < 70
-    · simp [O, hx]
-    · simp [O, hx, hS]
-  -- at 70 every past election was compulsory, so both histories coincide
-  have hpast70 : ∀ j, j < n 70 → O (age 70 j) = 1 := by
-    intro j hj
-    have : 0 < (n 70 - j) * d := Nat.mul_pos (Nat.sub_pos_of_lt hj) hd
-    have hlt : age 70 j < 70 := by
-      change 70 - (n 70 - j) * d < 70
-      omega
-    simp [O, hlt]
-  have hsame : ∀ ω, hobs ω 70 (n 70) = hcomp ω 70 (n 70) := by
-    intro ω
-    obtain ⟨h0, hs⟩ := hobs_rec ω 70
-    obtain ⟨h0', hs'⟩ := hcomp_rec ω 70
-    exact habit_congr (θ := fun j => base ω (age 70 j) + O (age 70 j) * S)
-      (θ' := fun j => base ω (age 70 j) + S) (n 70)
-      (fun j hj => by simp only [hpast70 j hj, one_mul]) h0 hs h0' hs' _ le_rfl
-  have hPf70 : Pf 70 = P 70 := by
-    simp only [Pf, P]
-    apply Finset.sum_congr rfl
-    intro ω _
-    rw [hsame ω]
-    simp [O]
-  -- before 70 the current election is compulsory: P = P1
-  have hP1P : ∀ a ∈ Icc 60 69, P1 a = P a := by
-    intro a ha
-    have hlt : a < 70 := by have := (mem_Icc.1 ha).2; omega
-    simp only [P1, P]
-    simp [O, hlt]
-  -- coupling: the compulsory history dominates after 70
-  have hPPf : ∀ a, 70 ≤ a → P a ≤ Pf a := by
-    intro a ha
-    simp only [P, Pf]
-    apply Finset.sum_le_sum
-    intro ω _
-    apply mul_le_mul_of_nonneg_left _ (hw ω)
-    obtain ⟨h0, hs⟩ := hobs_rec ω a
-    obtain ⟨h0', hs'⟩ := hcomp_rec ω a
-    obtain ⟨-, hle, -⟩ := lemma1_coupling (fun j => ρ (age a j))
-      (fun j => base ω (age a j) + O (age a j) * S) (fun j => base ω (age a j) + S)
-      (ε ω a) lam lam (hobs ω a) (hcomp ω a) (fun j => hρ _) hlam le_rfl
-      (fun j => by simp only; linarith [hOle (age a j)]) h0 hs h0' hs' (n a)
-    have hOa : O a = 0 := by simp [O, show ¬ a < 70 by omega]
-    apply hG
-    rw [hOa, zero_mul, add_zero]
-    linarith [mul_le_mul_of_nonneg_left hle hlam]
-  -- the two halves of the ageing term
-  have hE1 : P1 70 ≤ ∑ a ∈ Icc 60 69, wb a * P1 a := by
-    calc P1 70 = ∑ a ∈ Icc 60 69, wb a * P1 70 := by rw [← Finset.sum_mul, hwb1, one_mul]
-      _ ≤ ∑ a ∈ Icc 60 69, wb a * P1 a := by
-        apply Finset.sum_le_sum
-        intro a ha
-        have h1 := (mem_Icc.1 ha).1
-        have h2 := (mem_Icc.1 ha).2
-        exact mul_le_mul_of_nonneg_left (hH1 a 70 h1 (by omega) le_rfl) (hwb a)
-  have hE2 : ∑ a ∈ Icc 70 amax, wv a * Pf a ≤ Pf 70 := by
-    calc ∑ a ∈ Icc 70 amax, wv a * Pf a ≤ ∑ a ∈ Icc 70 amax, wv a * Pf 70 := by
-          apply Finset.sum_le_sum
-          intro a ha
-          exact mul_le_mul_of_nonneg_left (hH2 70 a le_rfl (mem_Icc.1 ha).1) (hwv a)
-      _ = Pf 70 := by rw [← Finset.sum_mul, hwv1, one_mul]
-  have hD : ∑ a ∈ Icc 70 amax, wv a * P a ≤ ∑ a ∈ Icc 70 amax, wv a * Pf a := by
-    apply Finset.sum_le_sum
-    intro a ha
-    exact mul_le_mul_of_nonneg_left (hPPf a (mem_Icc.1 ha).1) (hwv a)
-  have hsumP1 : ∑ a ∈ Icc 60 69, wb a * P1 a = ∑ a ∈ Icc 60 69, wb a * P a :=
-    Finset.sum_congr rfl (fun a ha => by rw [hP1P a ha])
-  have hdec : Δ = τ + E + D := by
-    simp only [Δ, τ, E, D]
-    rw [hsumP1, hPf70]
-    ring
-  have hE : 0 ≤ E := by simp only [E]; linarith
-  have hD' : 0 ≤ D := by simp only [D]; linarith
-  refine ⟨hdec, hE, hD', ?_⟩
-  rw [hdec]; linarith
-
-/--
-Lean proof endpoint for `prop4_stepsSpec`.
-
-This theorem is intentionally outside `PaperInterface.lean`: Lean Meta checks
-that it has exactly the transparent Spec type, while source-to-Lean semantic
-review compares the raw source bundle only to that Spec.
--/
-theorem prop4_steps :
-  prop4_stepsSpec := by
+theorem prop3_steps :
+  prop3_stepsSpec := by
   intro Ω _ w d r θ ε lam P h hd hw hw1 n age hrec hstat H
   have hcf : ∀ a, H a = ∑ k ∈ range (n a), r ^ k * P (a - (k + 1) * d) := by
     intro a
@@ -311,14 +221,14 @@ theorem prop4_steps :
     constructor <;> omega
 
 /--
-Lean proof endpoint for `prop5_rising_persistenceSpec`.
+Lean proof endpoint for `prop4_rising_persistenceSpec`.
 
 This theorem is intentionally outside `PaperInterface.lean`: Lean Meta checks
 that it has exactly the transparent Spec type, while source-to-Lean semantic
 review compares the raw source bundle only to that Spec.
 -/
-theorem prop5_rising_persistence :
-  prop5_rising_persistenceSpec := by
+theorem prop4_rising_persistence :
+  prop4_rising_persistenceSpec := by
   intro Ω _ w d ρ θ ε lam P h hd hw hw1 hmono hρ n age hrec hstat H Pi R
   have hcf : ∀ a, H a = ∑ k ∈ range (n a), Pi k a * P (a - (k + 1) * d) := fun a =>
     mean_habit_closed_form w d ρ θ ε lam P h a (fun ω => hrec ω a) (hstat a)
@@ -358,4 +268,107 @@ theorem prop5_rising_persistence :
         generalize (k + 1) * d = X at *
         omega
 
-end Arriola26TurnoutGap
+/--
+Lean proof endpoint for `remark1_heterogeneitySpec`.
+
+This theorem is intentionally outside `PaperInterface.lean`: Lean Meta checks
+that it has exactly the transparent Spec type, while source-to-Lean semantic
+review compares the raw source bundle only to that Spec.
+-/
+theorem remark1_heterogeneity :
+  remark1_heterogeneitySpec := by
+  intro Φ normalPdf' hΦ hΦ0 τ
+  have hφ : normalPdf' = normalPdf := rfl
+  rw [hφ] at hΦ ⊢
+  have hmono := Phi_strictMono Φ hΦ
+  have hderiv : ∀ c S s, 0 < s → deriv (fun s' => τ c S s') s =
+      -(1 / s) * ((c + S) / s * normalPdf ((c + S) / s) - c / s * normalPdf (c / s)) :=
+    fun c S s hs => (tau_hasDerivAt Φ hΦ c S s hs).deriv
+  -- sign of the derivative
+  have hsign : ∀ c S s, 0 < s →
+      (deriv (fun s' => τ c S s') s < 0 ↔ c / s * normalPdf (c / s) < (c + S) / s * normalPdf ((c + S) / s)) := by
+    intro c S s hs
+    rw [hderiv c S s hs]
+    have : 0 < 1 / s := by positivity
+    constructor
+    · intro h; by_contra hc; simp only [not_lt] at hc; nlinarith
+    · intro h; nlinarith
+  refine ⟨fun c S s hs => tau_hasDerivAt Φ hΦ c S s hs, zφ_mono, zφ_anti, ?_⟩
+  intro c S s hs hS z0 z1
+  have hz01 : z0 < z1 := by
+    change c / s < (c + S) / s
+    exact div_lt_div_of_pos_right (by linarith) hs
+  have h0 : Φ 0 < Φ 1 := hmono (by norm_num)
+  refine ⟨?_, ?_, ?_, ?_⟩
+  · rintro ⟨ha, hb⟩
+    rw [hsign c S s hs]
+    have hz0 : z0 ≤ 0 := by
+      by_contra h; simp only [not_le] at h; have := hmono h; linarith
+    have hz1 : 0 < z1 := by
+      by_contra h; simp only [not_lt] at h; have := hmono.monotone h; linarith
+    have e0 : z0 * normalPdf z0 ≤ 0 := mul_nonpos_of_nonpos_of_nonneg hz0 (φ_pos _).le
+    have e1 : 0 < z1 * normalPdf z1 := mul_pos hz1 (φ_pos _)
+    change z0 * normalPdf z0 < z1 * normalPdf z1
+    linarith
+  · rintro ⟨ha, hb⟩
+    rw [hsign c S s hs]
+    have hz0 : 0 < z0 := by
+      by_contra h; simp only [not_lt] at h; have := hmono.monotone h; linarith
+    have hz1 : z1 ≤ 1 := hmono.le_iff_le.1 hb
+    exact zφ_mono ⟨hz0.le, by linarith⟩ ⟨by linarith, hz1⟩ hz01
+  · intro ha
+    have hz0 : 1 ≤ z0 := hmono.le_iff_le.1 ha
+    rw [hderiv c S s hs]
+    have hlt : z1 * normalPdf z1 < z0 * normalPdf z0 :=
+      zφ_anti (show (1 : ℝ) ≤ z0 from hz0) (show (1 : ℝ) ≤ z1 by linarith) hz01
+    have : 0 < 1 / s := by positivity
+    change 0 < -(1 / s) * (z1 * normalPdf z1 - z0 * normalPdf z0)
+    nlinarith
+  · rintro ⟨ha, hb, hc⟩
+    have hz0 : 0 < z0 := by
+      by_contra h; simp only [not_lt] at h; have := hmono.monotone h; linarith
+    have hz0' : z0 < 1 := hmono.lt_iff_lt.1 hb
+    have hz1 : 1 < z1 := hmono.lt_iff_lt.1 hc
+    set y := z0 * normalPdf z0 with hy
+    have hy0 : 0 < y := mul_pos hz0 (φ_pos _)
+    have hy1 : y < 1 * normalPdf 1 := zφ_mono ⟨hz0.le, hz0'.le⟩ ⟨by norm_num, le_refl _⟩ hz0'
+    -- a point M > 1 with M normalPdf M < y
+    have hsq := sqrt_two_pi_pos
+    set M : ℝ := 2 / (y * Real.sqrt (2 * Real.pi)) + 2 with hM
+    have hMpos : 2 < M := by
+      have : 0 < 2 / (y * Real.sqrt (2 * Real.pi)) := by positivity
+      linarith
+    have hMy : M * normalPdf M < y := by
+      have h1 := zφ_lt M (by linarith)
+      have h2 : 2 / M / Real.sqrt (2 * Real.pi) < y := by
+        rw [div_div, div_lt_iff₀ (by positivity)]
+        have : 2 / (y * Real.sqrt (2 * Real.pi)) < M := by linarith
+        rw [div_lt_iff₀ (by positivity)] at this
+        nlinarith
+      linarith
+    -- intermediate value theorem on [1, M]
+    have hivt : y ∈ (fun z => z * normalPdf z) '' Set.Icc 1 M := by
+      have := intermediate_value_Icc' (show (1 : ℝ) ≤ M by linarith) zφ_cont.continuousOn
+      exact this ⟨hMy.le, hy1.le⟩
+    obtain ⟨zs, ⟨hzs1, hzsM⟩, hzs⟩ := hivt
+    have hzs1' : 1 < zs := by
+      rcases eq_or_lt_of_le hzs1 with h | h
+      · subst h; simp at hzs; linarith
+      · exact h
+    refine ⟨zs, ⟨hzs1', hzs, ?_⟩, ?_⟩
+    · rw [hsign c S s hs]
+      change y < z1 * normalPdf z1 ↔ Φ z1 < Φ zs
+      rw [hmono.lt_iff_lt, ← hzs]
+      constructor
+      · intro h
+        by_contra hn; simp only [not_lt] at hn
+        have : z1 * normalPdf z1 ≤ zs * normalPdf zs :=
+          zφ_anti.antitoneOn (show (1:ℝ) ≤ zs from hzs1) (show (1:ℝ) ≤ z1 from hz1.le) hn
+        simp only at h; linarith
+      · intro h
+        exact zφ_anti (show (1:ℝ) ≤ z1 from hz1.le) (show (1:ℝ) ≤ zs from hzs1) h
+    · rintro w ⟨hw1, hw, -⟩
+      exact zφ_anti.injOn (show (1:ℝ) ≤ w from hw1.le) (show (1:ℝ) ≤ zs from hzs1)
+        (show w * normalPdf w = zs * normalPdf zs by rw [hw]; exact hzs.symm)
+
+end Arriola26VotingHabit

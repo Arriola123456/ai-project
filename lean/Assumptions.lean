@@ -1,7 +1,7 @@
-import Arriola26TurnoutGap.MainTheorems
+import Arriola26VotingHabit.MainTheorems
 
 /-!
-# Paper Assumptions: La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio: ciclo de vida, hábito y una calibración con datos de la ONPE
+# Paper Assumptions: Voto obligatorio a los 70 años: el salto, la edad y la costumbre de votar
 
 This file is the only paper-local place for assumptions that are not derived in
 Lean. Keep it small. Each declaration must be explicitly stated by the paper,
@@ -20,6 +20,6 @@ antecedent. Never move an unproved lemma or target conclusion here merely to
 make a statement skeleton compile.
 -/
 
-namespace Arriola26TurnoutGap
+namespace Arriola26VotingHabit
 
-end Arriola26TurnoutGap
+end Arriola26VotingHabit

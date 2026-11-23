@@ -985,3 +985,156 @@ placeholder `hand/README.md` y recortó la sección del hábito para la slide "D
 derivación a mano" (`slides/hand_habito.png`). Ajustó el veredicto a lo que muestra la foto: los pesos
 Πₖ(a) dependen de la edad de hoy. También actualizó el README. Luego hizo push de la rama `heterogeneidad`
 para que el usuario abra el PR a `main`.
+
+### Turno 21 (4-nov-2026, antes de exponer)
+
+**Prompt**
+
+```text
+A los slides añade una diapositiva que presente como se ve la utilidad general, como se ve la utilidad cuando esta obligado y cuando no y que condición en terminos de la utilidad debe cumplirse para que el individuo decida votar, hazlo extremadamente rapido, ya me toca exponer
+```
+
+**Respuesta (resumen):** agregó la slide "La utilidad: votar o no votar". Muestra la utilidad general,
+los casos obligado y libre, y la condición U(1) > U(0), que equivale a c < b(a) + λh + O_a·S. Compiló el
+deck; el cambio quedó local, sin commit.
+
+### Turno 22 (19-nov-2026)
+
+**Prompt**
+
+```text
+Hola en que nos quedamos?
+```
+
+**Respuesta (resumen):** resumió el estado: el deck mergeado (PR #2) y la slide de la utilidad sin
+commit. Listó lo pendiente para el 26-nov: sacar la cota retirada del paper, de Lean y de la
+derivación; la heterogeneidad; la extensión del paper; la derivación a mano; y Lean.
+
+### Turno 23 (19-nov-2026)
+
+**Prompt**
+
+```text
+Revisa el link del repositorio y dime que falta nuevamente, dime que puedes ir corrigiendo tu ahora y que sí o sí debo realizar yo:
+
+https://github.com/alexanderquispe/AI-Econ-Modeling/issues/7
+```
+
+**Respuesta (resumen):** comparó el issue con el repositorio.
+
+- **Puede hacerlo Claude Code:** la slide, el paper, `verify.py`, el registro de IA, el README y
+  `prompts.md`, la derivación, y preparar Lean.
+- **Debe hacerlo el usuario:** completar la derivación a mano, lanzar la corrida de Lean con el agente
+  que pide el issue (o aceptar declarar Claude Code), firmar sus veredictos y mergear antes del 26-nov.
+
+### Turno 24 (19-nov-2026)
+
+**Prompt**
+
+```text
+Ve corrigiendo los 6 puntos que puedes hacer tu
+```
+
+**Respuesta (resumen):** en la rama `paper-final`:
+
+- **Slide de la utilidad:** commit.
+- **Paper reescrito:**
+  - título nuevo;
+  - la cota de la brecha retirada y la numeración igual que en el deck;
+  - los escalones como resultado central, con un contraste descriptivo en los datos (5 de 6 elecciones);
+  - la heterogeneidad como observación con su prueba;
+  - la calibración explicada con la tabla de parámetros;
+  - el registro de IA actualizado;
+  - unas 10,5 páginas de cuerpo.
+- **`verify.py`:** sin los chequeos de la cota; con la observación, la tabla de escalones y
+  |θ70| ≥ τ70.
+- **README:** de una página.
+- **Documento de derivación:** marca la cota como retirada y renumera.
+- **Lean:** queda declarado como pendiente de rehacer.
+
+### Turno 25 (23-nov-2026)
+
+**Prompt**
+
+```text
+Apruebo el push del paper final, haz tu la corrida de lean y en general todas las corridas faltantes
+```
+
+**Respuesta (resumen):**
+
+- **Push:** subió la rama `paper-final` (commits `d44dbd2` y `7fa3a62`).
+- **Lean (Claude Code, no GPT-5.6 Sol; declarado):** corrió AppliedModelingLib sobre el paper
+  fijado en `7fa3a62`, en la carpeta nueva `Arriola26VotingHabit`, que reemplaza a `lean/`:
+  - Lema 1 y P1–P4 con los enunciados de la corrida anterior, renumerados (sin la cota retirada);
+  - la Observación 1 (heterogeneidad), formalizada por primera vez, con Φ fijada por Φ' = φ y
+    Φ(0) = 1/2;
+  - `lake build` y `check --fast` sin errores, ningún `sorry`, solo los tres axiomas estándar;
+    estado *formalized with caveat*.
+- **Otras corridas:** `verify.py` pasa entero; el paper recompilado (14 páginas) con el apéndice de
+  Lean y el registro de IA al día; README actualizado.
+
+### Turno 26 (23-nov-2026)
+
+**Prompt**
+
+```text
+Apruebo el push
+```
+
+**Respuesta (resumen):** subió el commit `5bd8198` (corrida de Lean, apéndice, README) a la rama
+`paper-final`. Queda que el usuario abra el PR a `main` y lo mergee.
+
+### Turno 27 (23-nov-2026)
+
+**Prompt**
+
+```text
+ok, recuerdame una ultima vez que faltaba por mi parte, dame las direcciones exactas de lo que tengo que revisar
+```
+
+**Respuesta (resumen):** listó lo pendiente del usuario: completar la derivación a mano en `hand/`
+con las secciones de la guía, revisar los veredictos del registro de IA (último apéndice del paper)
+y abrir y mergear el PR antes del 26-nov a las 22:00.
+
+### Turno 28 (23-nov-2026)
+
+**Prompt**
+
+```text
+Puedes ver en que parte de la derivación me quede?
+```
+
+**Respuesta (resumen):** leyó el PDF a mano. Terminaba en la forma cerrada de H(a) con entorno
+estacionario. Faltaban el Lema 1, la P2, la P3 (escalones), la P4 (R(a)) y la parte analítica de la
+heterogeneidad. Señaló un detalle: el texto decía ρ ∈ (0,1] y el paper usa [0,1).
+
+### Turno 29 (23-nov-2026)
+
+**Prompt**
+
+```text
+sobre la base de lo que ya tengo, dime que paginas de la derivación debo revisar y desde donde a donde
+```
+
+**Respuesta (resumen):** dio las páginas y los pasos de la guía, empezando en el Paso 7.8 (p. 18):
+
+- Lema 1: Pasos 8.1–8.5 (p. 19);
+- P2: Pasos 9.1–9.4 (p. 19–20);
+- P3: Pasos 11.1–11.7 (p. 22);
+- P4: Pasos 12.1–12.8 (p. 23–24);
+- heterogeneidad: Paso 6.8 bis (p. 13–15);
+- P1: Pasos 4.1–4.9 (p. 8–9).
+
+Indicó no copiar la cota retirada.
+
+### Turno 30 (23-nov-2026)
+
+**Prompt**
+
+```text
+He dejado la derivación actualizada en el escritorio bajo el nombre de Project - Model Derivation.pdf incluyela en el repo y haz push, este pretende ser mi ultimo push ya para hacer merge, dime como hacerlo
+```
+
+**Respuesta (resumen):** reemplazó `hand/01-derivacion-del-modelo.pdf` por la versión nueva. Ahora
+cubre hasta el Lema 1, la P2 y la P3 con el salto entre 74 y 75 años. Actualizó el README, hizo el
+commit y el push de `paper-final`, y explicó cómo abrir y mergear el PR.

@@ -1,6 +1,6 @@
 {
   "schema": 3,
-  "paper": "Arriola26TurnoutGap",
+  "paper": "Arriola26VotingHabit",
   "audit_kind": "raw_source_to_expanded_spec_screening",
   "prompt_version": "statement-match-v11-verbatim-source-anchor-lean-expanded-spec-claim-atoms-supporting-declarations-v4",
   "validator": "",

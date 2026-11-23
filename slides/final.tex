@@ -392,6 +392,32 @@
   \takeaway{Quien tiene 70--74 votó por última vez obligado. Quien tiene 75--79 ya tuvo una elección libre, en la que muchos no fueron, y su costumbre ya empezó a caer. Por eso la costumbre baja en \textbf{escalones} a los 75, 80, 85 (Proposición 3).}
 \end{frame}
 
+% (1:00)
+\begin{frame}{La utilidad: votar o no votar}
+  \begin{block}{Utilidad general}
+    \[ U(v)=v\,\bigl[\,b(a)+\lambda h_{it}-c_{it}\,\bigr]+(1-v)\,\bigl[-O_a S_t\bigr],\qquad v\in\{0,1\},\quad O_a=\1[a<70] \]
+  \end{block}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Obligado ($a<70$, $O_a=1$)}
+        \small Vota: \;$U(1)=b(a)+\lambda h-c$\\
+        No vota: \;$U(0)=-S$ \;(paga la sanción)
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Libre ($a\ge70$, $O_a=0$)}
+        \small Vota: \;$U(1)=b(a)+\lambda h-c$\\
+        No vota: \;$U(0)=0$ \;(no pierde nada)
+      \end{block}
+    \end{column}
+  \end{columns}
+  \vspace{0.15cm}
+  \begin{block}{Condición para votar: $U(1)>U(0)$}
+    \[ b(a)+\lambda h_{it}-c_{it}>-O_aS_t\iff c_{it}<b(a)+\lambda h_{it}+O_aS_t \]
+    \small Obligado: vota si $c<b(a)+\lambda h+S$. \quad Libre: vota si $c<b(a)+\lambda h$. La sanción solo sube la raya antes de los 70.
+  \end{block}
+\end{frame}
+
 % (0:45)
 \begin{frame}{El modelo completo, en una línea}
   \begin{block}{La persona $i$, de edad $a$, vota en la elección $t$ si y solo si}
@@ -968,7 +994,7 @@
   \raggedright
   \begin{itemize}\setlength{\itemsep}{0.35em}\small
     \item El salto a los 70 ($\theta_{70}$) del modelo sigue al de los datos; en 2001 y 2011 lo exagera.
-    \item Las columnas de la derecha reparten la brecha del modelo entre salto, edad y costumbre perdida, solo como referencia.
+    \item El efecto $\tau^{70}$ es menor que el salto medido: este suma un año de edad. La brecha de grupos es cuatro a seis veces mayor.
   \end{itemize}
 \end{frame}
 

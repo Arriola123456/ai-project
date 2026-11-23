@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "paper": "Arriola26TurnoutGap",
-  "source_artifact_path": "papers/Arriola26TurnoutGap/source-audited.pdf",
-  "source_artifact_sha256": "ff56ddf24e5cd3ea9d1442e52678d51e2bf9c5ed0c428ed9015f5247ff119fb7",
+  "paper": "Arriola26VotingHabit",
+  "source_artifact_path": "papers/Arriola26VotingHabit/source-audited.pdf",
+  "source_artifact_sha256": "6c8a6837e3fc254d7f853e617d7e4005430db8251a8394b57e83195710f75db0",
   "review_status": "not_started",
   "reviewed_proof_scopes": [],
   "model_conventions": [],

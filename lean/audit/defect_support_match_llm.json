@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "paper": "Arriola26TurnoutGap",
+  "paper": "Arriola26VotingHabit",
   "prompt_version": "defect-support-v1-exact-source-defect-to-lean-semantic",
   "audit_kind": "source_defect_to_lean_llm",
   "source_grounded": true,
