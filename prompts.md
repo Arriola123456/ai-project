@@ -1083,3 +1083,58 @@ Apruebo el push
 
 **Respuesta (resumen):** subió el commit `5bd8198` (corrida de Lean, apéndice, README) a la rama
 `paper-final`. Queda que el usuario abra el PR a `main` y lo mergee.
+
+### Turno 27 (23-nov-2026)
+
+**Prompt**
+
+```text
+ok, recuerdame una ultima vez que faltaba por mi parte, dame las direcciones exactas de lo que tengo que revisar
+```
+
+**Respuesta (resumen):** listó lo pendiente del usuario: completar la derivación a mano en `hand/`
+con las secciones de la guía, revisar los veredictos del registro de IA (último apéndice del paper)
+y abrir y mergear el PR antes del 26-nov a las 22:00.
+
+### Turno 28 (23-nov-2026)
+
+**Prompt**
+
+```text
+Puedes ver en que parte de la derivación me quede?
+```
+
+**Respuesta (resumen):** leyó el PDF a mano. Terminaba en la forma cerrada de H(a) con entorno
+estacionario. Faltaban el Lema 1, la P2, la P3 (escalones), la P4 (R(a)) y la parte analítica de la
+heterogeneidad. Señaló un detalle: el texto decía ρ ∈ (0,1] y el paper usa [0,1).
+
+### Turno 29 (23-nov-2026)
+
+**Prompt**
+
+```text
+sobre la base de lo que ya tengo, dime que paginas de la derivación debo revisar y desde donde a donde
+```
+
+**Respuesta (resumen):** dio las páginas y los pasos de la guía, empezando en el Paso 7.8 (p. 18):
+
+- Lema 1: Pasos 8.1–8.5 (p. 19);
+- P2: Pasos 9.1–9.4 (p. 19–20);
+- P3: Pasos 11.1–11.7 (p. 22);
+- P4: Pasos 12.1–12.8 (p. 23–24);
+- heterogeneidad: Paso 6.8 bis (p. 13–15);
+- P1: Pasos 4.1–4.9 (p. 8–9).
+
+Indicó no copiar la cota retirada.
+
+### Turno 30 (23-nov-2026)
+
+**Prompt**
+
+```text
+He dejado la derivación actualizada en el escritorio bajo el nombre de Project - Model Derivation.pdf incluyela en el repo y haz push, este pretende ser mi ultimo push ya para hacer merge, dime como hacerlo
+```
+
+**Respuesta (resumen):** reemplazó `hand/01-derivacion-del-modelo.pdf` por la versión nueva. Ahora
+cubre hasta el Lema 1, la P2 y la P3 con el salto entre 74 y 75 años. Actualizó el README, hizo el
+commit y el push de `paper-final`, y explicó cómo abrir y mergear el PR.

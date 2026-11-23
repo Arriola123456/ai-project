@@ -37,7 +37,7 @@ observación sobre la heterogeneidad (signo de $\partial\tau^{70}/\partial s$ cu
 | Simulaciones (`python3 code/verify.py`) | Comprueba P1–P4, la observación de heterogeneidad, la calibración y los escalones en los datos |
 | Calibración (`code/calibrate.py`) | Modelos M0–M3 en `code/output/`; datos agregados en `code/data/` |
 | Lean (`lean/`) | `Arriola26VotingHabit` sobre el paper final (`7fa3a62`): Lema 1, P1–P4 y la Observación 1 probados, sin `sorry`; *formalized with caveat* (hecha por Claude Code) |
-| Apéndice a mano (`hand/`) | `01-derivacion-del-modelo.pdf`, hasta $H(a)$; **pendiente completarlo** (P2, escalones, $R(a)$, heterogeneidad) |
+| Apéndice a mano (`hand/`) | `01-derivacion-del-modelo.pdf`: modelo, salto, estática comparativa, hábito, Lema 1, P2 y P3 (escalones, 74→75) |
 | `prompts.md` | Al día |
 
 Los datos de `code/data/` son agregados derivados de la tesis (perfiles por edad, niveles por banda,
