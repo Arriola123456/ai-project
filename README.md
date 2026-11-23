@@ -27,7 +27,7 @@ Resultados: Lema 1 (acoplamiento), P1 (ciclo de vida, máximo en $a^*$), P2 (el 
 hábito y el hábito lo achica), **P3 (escalones)**, P4 (persistencia creciente: resto $R(a)\ge0$) y una
 observación sobre la heterogeneidad (signo de $\partial\tau^{70}/\partial s$ cuando la mayoría vota).
 
-## Estado (19-nov-2026)
+## Estado (23-nov-2026)
 
 | Componente | Estado |
 |---|---|
@@ -36,7 +36,7 @@ observación sobre la heterogeneidad (signo de $\partial\tau^{70}/\partial s$ cu
 | Paper (`paper/`) | Versión final: unas 10,5 páginas de cuerpo, pruebas completas, calibración y apéndices |
 | Simulaciones (`python3 code/verify.py`) | Comprueba P1–P4, la observación de heterogeneidad, la calibración y los escalones en los datos |
 | Calibración (`code/calibrate.py`) | Modelos M0–M3 en `code/output/`; datos agregados en `code/data/` |
-| Lean (`lean/`) | Corrida sobre el borrador `feb0cf2` (numeración anterior, con la cota retirada); **pendiente rehacerla sobre el paper final** |
+| Lean (`lean/`) | `Arriola26VotingHabit` sobre el paper final (`7fa3a62`): Lema 1, P1–P4 y la Observación 1 probados, sin `sorry`; *formalized with caveat* (hecha por Claude Code) |
 | Apéndice a mano (`hand/`) | `01-derivacion-del-modelo.pdf`, hasta $H(a)$; **pendiente completarlo** (P2, escalones, $R(a)$, heterogeneidad) |
 | `prompts.md` | Al día |
 

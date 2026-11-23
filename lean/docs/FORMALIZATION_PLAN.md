@@ -1,4 +1,4 @@
-# Formalization Plan: La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio: ciclo de vida, hábito y una calibración con datos de la ONPE
+# Formalization Plan: Voto obligatorio a los 70 años: el salto, la edad y la costumbre de votar
 
 This is a working scratchpad for outside-Lean proof thinking. Keep it short and
 useful; it is not the final validation report. Once the current source-shaped
@@ -6,7 +6,7 @@ target and audited `PaperInterface.lean` skeleton are present, prioritize the
 next proof obligation; update this document at material boundaries rather than
 after routine proof steps.
 
-- Namespace: `Arriola26TurnoutGap`
+- Namespace: `Arriola26VotingHabit`
 
 ## Initial Outside-Lean Paper Audit
 
@@ -148,12 +148,12 @@ credit. Names route review but never establish it.
 
 | Source item / locator | Spec -> proof route | Lean semantic identity | Statement verdict | Premise provenance | Proof body |
 |---|---|---|---|---|---|
-| Lema 1 (Acoplamiento del hábito) / Section 4 (Resultados), page 3: Lema 1 (Acoplamiento del hábito) | `lemma1_couplingSpec` -> `lemma1_coupling` | pending | pending | pending | `by sorry` |
-| Proposición 1 (Ciclo de vida) / Section 4 (Resultados), page 3: Proposición 1 (Ciclo de vida) | `prop1_lifecycleSpec` -> `prop1_lifecycle` | pending | pending | pending | `by sorry` |
-| Proposición 2 (El salto no contiene hábito) / Section 4 (Resultados), page 3: Proposición 2 (El salto no contiene hábito); the stationarity paragraph (or the definition of the thresholds) on page 3 | `prop2_jumpSpec` -> `prop2_jump` | pending | pending | pending | `by sorry` |
-| Proposición 3 (La brecha es una cota superior) / Section 4 (Resultados), page 3: Proposición 3 (La brecha es una cota superior) | `prop3_boundSpec` -> `prop3_bound` | pending | pending | pending | `by sorry` |
-| Proposición 4 (La huella del hábito) / Section 4 (Resultados), page 4: Proposición 4 (La huella del hábito); the stationarity paragraph (or the definition of the thresholds) on page 4 | `prop4_stepsSpec` -> `prop4_steps` | pending | pending | pending | `by sorry` |
-| Proposición 5 (Persistencia creciente con la edad) / Section 4 (Resultados), page 4: Proposición 5 (Persistencia creciente con la edad); the stationarity paragraph (or the definition of the thresholds) on page 4 | `prop5_rising_persistenceSpec` -> `prop5_rising_persistence` | pending | pending | pending | `by sorry` |
+| Lema 1 (Acoplamiento del hábito) / Section 4 (Resultados), page 4: Lema 1 (Acoplamiento del hábito); the definition of the thresholds θj on page 4 | `lemma1_couplingSpec` -> `lemma1_coupling` | pending | pending | pending | `by sorry` |
+| Proposición 1 (Ciclo de vida) / Section 4 (Resultados), page 4: Proposición 1 (Ciclo de vida) | `prop1_lifecycleSpec` -> `prop1_lifecycle` | pending | pending | pending | `by sorry` |
+| Proposición 2 (El salto no contiene hábito y el hábito lo achica) / Section 4 (Resultados), page 4: Proposición 2 (El salto no contiene hábito y el hábito lo achica); the definition of the thresholds θj on page 4 | `prop2_jumpSpec` -> `prop2_jump` | pending | pending | pending | `by sorry` |
+| Proposición 3 (La huella del hábito: escalones cada d años) / Section 4 (Resultados), page 5: Proposición 3 (La huella del hábito: escalones cada d años); the stationarity paragraph before Proposición 3 on page 5 | `prop3_stepsSpec` -> `prop3_steps` | pending | pending | pending | `by sorry` |
+| Proposición 4 (Persistencia creciente con la edad) / Section 4 (Resultados), page 5: Proposición 4 (Persistencia creciente con la edad); the stationarity paragraph before Proposición 3 on page 5 | `prop4_rising_persistenceSpec` -> `prop4_rising_persistence` | pending | pending | pending | `by sorry` |
+| Observación 1 (Heterogeneidad cuando la mayoría vota) / Section 4 (Resultados), page 6: Observación 1 (Heterogeneidad cuando la mayoría vota); the comparative-statics paragraph and equation (5) on page 6 | `remark1_heterogeneitySpec` -> `remark1_heterogeneity` | pending | pending | pending | `by sorry` |
 
 Signature changes after a `matches` verdict invalidate the row and require a
 fresh audit. Replacing `sorry` without changing the type does not.
@@ -174,11 +174,11 @@ not a new discovery pass.
 Planned commands, in order:
 
 1. Proof loop: `lake build +<TouchedPaperModule>`. At closeout, run
-   `env LEAN_NUM_THREADS=1 python3 scripts/private_paper_checkpoint.py Arriola26TurnoutGap`
+   `env LEAN_NUM_THREADS=1 python3 scripts/private_paper_checkpoint.py Arriola26VotingHabit`
    so Lake rehashes and dependency-orders one build containing every tracked
    paper-local source module; a forced root alone may reuse stale imported
    artifacts.
-2. Closeout readiness: `python3 scripts/closeout_reuse_plan.py --paper Arriola26TurnoutGap`.
+2. Closeout readiness: `python3 scripts/closeout_reuse_plan.py --paper Arriola26VotingHabit`.
    Execute only its `next_action`. When it requests terminal closeout documents,
    write the final report and Dependency DAG from the current reviewed graph,
    compile and inspect the DAG, update paper-local status, and replan. Do not

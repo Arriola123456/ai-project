@@ -1051,3 +1051,24 @@ Ve corrigiendo los 6 puntos que puedes hacer tu
 - **README:** de una página.
 - **Documento de derivación:** marca la cota como retirada y renumera.
 - **Lean:** queda declarado como pendiente de rehacer.
+
+### Turno 25 (23-nov-2026)
+
+**Prompt**
+
+```text
+Apruebo el push del paper final, haz tu la corrida de lean y en general todas las corridas faltantes
+```
+
+**Respuesta (resumen):**
+
+- **Push:** subió la rama `paper-final` (commits `d44dbd2` y `7fa3a62`).
+- **Lean (Claude Code, no GPT-5.6 Sol; declarado):** corrió AppliedModelingLib sobre el paper
+  fijado en `7fa3a62`, en la carpeta nueva `Arriola26VotingHabit`, que reemplaza a `lean/`:
+  - Lema 1 y P1–P4 con los enunciados de la corrida anterior, renumerados (sin la cota retirada);
+  - la Observación 1 (heterogeneidad), formalizada por primera vez, con Φ fijada por Φ' = φ y
+    Φ(0) = 1/2;
+  - `lake build` y `check --fast` sin errores, ningún `sorry`, solo los tres axiomas estándar;
+    estado *formalized with caveat*.
+- **Otras corridas:** `verify.py` pasa entero; el paper recompilado (14 páginas) con el apéndice de
+  Lean y el registro de IA al día; README actualizado.

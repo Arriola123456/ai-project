@@ -1,4 +1,4 @@
-# Formalization Working Memo: La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio: ciclo de vida, hábito y una calibración con datos de la ONPE
+# Formalization Working Memo: Voto obligatorio a los 70 años: el salto, la edad y la costumbre de votar
 
 This is a working lead log, not audit evidence and not a final validation
 report. Record possible issues while reading and proving; independently verify

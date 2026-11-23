@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "paper": "Arriola26TurnoutGap",
-  "namespace": "Arriola26TurnoutGap",
+  "paper": "Arriola26VotingHabit",
+  "namespace": "Arriola26VotingHabit",
   "paper_interface_module": "",
   "semantic_route_schema": 2,
   "closeout_review_policy": {
@@ -14,30 +14,30 @@
       "final_adversarial_review": []
     }
   },
-  "source_version": "Unpublished manuscript (draft for the final presentation), ai-project commit feb0cf24c0b8f825861a31c118896c20bb8ec7f2, paper/paper.pdf, 31 October 2026",
+  "source_version": "Unpublished manuscript (final paper), ai-project commit 7fa3a62e4e8f161ddfc1412f53b1eb8fa008ceb1, paper/paper.pdf, 19 November 2026",
   "include_specs": [
     "lemma1_couplingSpec",
     "prop1_lifecycleSpec",
     "prop2_jumpSpec",
-    "prop3_boundSpec",
-    "prop4_stepsSpec",
-    "prop5_rising_persistenceSpec"
+    "prop3_stepsSpec",
+    "prop4_rising_persistenceSpec",
+    "remark1_heterogeneitySpec"
   ],
   "source_item_for_spec": {
     "lemma1_couplingSpec": "lemma1_coupling",
     "prop1_lifecycleSpec": "prop1_lifecycle",
     "prop2_jumpSpec": "prop2_jump",
-    "prop3_boundSpec": "prop3_bound",
-    "prop4_stepsSpec": "prop4_steps",
-    "prop5_rising_persistenceSpec": "prop5_rising_persistence"
+    "prop3_stepsSpec": "prop3_steps",
+    "prop4_rising_persistenceSpec": "prop4_rising_persistence",
+    "remark1_heterogeneitySpec": "remark1_heterogeneity"
   },
   "evidence_declaration_for_spec": {
-    "lemma1_couplingSpec": "Arriola26TurnoutGap.lemma1_coupling",
-    "prop1_lifecycleSpec": "Arriola26TurnoutGap.prop1_lifecycle",
-    "prop2_jumpSpec": "Arriola26TurnoutGap.prop2_jump",
-    "prop3_boundSpec": "Arriola26TurnoutGap.prop3_bound",
-    "prop4_stepsSpec": "Arriola26TurnoutGap.prop4_steps",
-    "prop5_rising_persistenceSpec": "Arriola26TurnoutGap.prop5_rising_persistence"
+    "lemma1_couplingSpec": "Arriola26VotingHabit.lemma1_coupling",
+    "prop1_lifecycleSpec": "Arriola26VotingHabit.prop1_lifecycle",
+    "prop2_jumpSpec": "Arriola26VotingHabit.prop2_jump",
+    "prop3_stepsSpec": "Arriola26VotingHabit.prop3_steps",
+    "prop4_rising_persistenceSpec": "Arriola26VotingHabit.prop4_rising_persistence",
+    "remark1_heterogeneitySpec": "Arriola26VotingHabit.remark1_heterogeneity"
   },
   "source_semantic_declarations": {},
   "paper_semantic_prerequisite_sources": {},

@@ -29,7 +29,7 @@
 \newcommand{\1}{\mathbbm{1}}
 \IfFileExists{../code/output/numbers.tex}{\input{../code/output/numbers.tex}}{}
 \IfFileExists{../code/output/heterogeneity_numbers.tex}{\input{../code/output/heterogeneity_numbers.tex}}{}
-\providecommand{\leanPaperCommit}{feb0cf24c0b8f825861a31c118896c20bb8ec7f2}
+\providecommand{\leanPaperCommit}{7fa3a62e4e8f161ddfc1412f53b1eb8fa008ceb1}
 
 \title{Voto obligatorio a los 70 años: el salto, la edad y la costumbre de votar\\
 \large Ciclo de vida, hábito y una calibración con datos de la ONPE}
@@ -609,14 +609,14 @@ hábito. Y separar la edad de la cohorte con más elecciones.
 
 \section{Formalización en Lean}\label{app:lean}
 
-La carpeta \texttt{lean/} es la carpeta \texttt{papers/Arriola26TurnoutGap/} que genera el flujo de
-AppliedModelingLib. La corrida que hoy contiene se hizo sobre el borrador fijado en el commit
-\texttt{\leanPaperCommit}, con la numeración anterior: en ese borrador había una proposición más, una
-cota para la brecha entre grupos (\texttt{prop3\_bound}), que retiré de esta versión porque con datos
-por edad exacta el salto se mide directamente. Los demás enunciados no cambiaron. Cada resultado
-numerado tiene un enunciado transparente (\texttt{...Spec : Prop}) en \texttt{lean/PaperInterface.lean}
-y su prueba en \texttt{lean/ProofInterface.lean}; los lemas auxiliares están en
-\texttt{lean/MainTheorems.lean}.
+La carpeta \texttt{lean/} es la carpeta \texttt{papers/Arriola26VotingHabit/} que genera el flujo de
+AppliedModelingLib sobre este paper, fijado en el commit \texttt{\leanPaperCommit}. El texto de los
+resultados de ese commit es el de esta versión; los cambios posteriores solo tocan este apéndice, el
+registro de IA y el README. Una corrida anterior (\texttt{Arriola26TurnoutGap}, sobre el borrador del
+31 de octubre) incluía una cota para la brecha entre grupos, que retiré porque con datos por edad
+exacta el salto se mide directamente; esta corrida la reemplaza. Cada resultado tiene un enunciado
+transparente (\texttt{...Spec : Prop}) en \texttt{lean/PaperInterface.lean} y su prueba en
+\texttt{lean/ProofInterface.lean}; los lemas auxiliares están en \texttt{lean/MainTheorems.lean}.
 
 \begin{center}\small
 \begin{tabular}{p{2.6cm}p{5.0cm}p{1.9cm}p{5.2cm}}
@@ -627,9 +627,10 @@ Lema~\ref{lem:coupling} & \texttt{lemma1\_coupling} (ProofInterface) & probado &
 Proposición~\ref{prop:lifecycle} & \texttt{prop1\_lifecycle} (ProofInterface) & probado & ninguna \\
 Proposición~\ref{prop:jump} & \texttt{prop2\_jump} (ProofInterface) & probado & la esperanza es un promedio sobre
 una población finita con pesos \\
-Proposición~\ref{prop:steps} & \texttt{prop4\_steps} (ProofInterface) & probado & ídem \\
-Proposición~\ref{prop:rho} & \texttt{prop5\_rising\_persistence} (ProofInterface) & probado & ídem \\
-Observación~\ref{rem:het} & no formalizada & -- & no es un resultado numerado \\
+Proposición~\ref{prop:steps} & \texttt{prop3\_steps} (ProofInterface) & probado & ídem \\
+Proposición~\ref{prop:rho} & \texttt{prop4\_rising\_persistence} (ProofInterface) & probado & ídem \\
+Observación~\ref{rem:het} & \texttt{remark1\_heterogeneity} (ProofInterface) & probado & $\Phi$ se
+fija por $\Phi'=\phi$ y $\Phi(0)=1/2$; los decimales no entran \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -646,12 +647,20 @@ negativos. Un electorado es finito, pero el texto usa distribuciones continuas p
 shocks pasados. La versión con medidas generales necesita la monotonía de la integral y queda
 pendiente.
 
-\paragraph{Lo que Lean no verifica.} Las cifras de la calibración y de la Sección~\ref{sec:sim}, la
-Observación~\ref{rem:het} y la cota del 21\% de la densidad normal. Todo eso lo comprueba
+En la Observación~\ref{rem:het}, $\phi(z)=e^{-z^2/2}/\sqrt{2\pi}$ se escribe tal cual y $\Phi$ es
+cualquier función con $\Phi'=\phi$ y $\Phi(0)=1/2$, lo que la determina. Lean prueba la derivada
+\eqref{eq:dtauds} de $\tau(s)=\Phi((\bar c+S)/s)-\Phi(\bar c/s)$, la forma de $z\phi(z)$ en $[0,1]$ y
+en $[1,\infty)$, el signo en los casos (a)--(c) y, en el (d), la existencia y unicidad de $z_1^*>1$ y
+la equivalencia con $P_1<\Phi(z_1^*)$. Los umbrales $0.50$ y $\hetPeak$ aparecen como $\Phi(0)$ y
+$\Phi(1)$.
+
+\paragraph{Lo que Lean no verifica.} Las cifras de la calibración y de la Sección~\ref{sec:sim}, los
+decimales de la Observación~\ref{rem:het} ($\Phi(1)=\hetPeak$, $z_0=\hetZzero$, $z_1^*=\hetZone$,
+$P_1^*=\hetPone$) y la cota del 21\% de la densidad normal. Todo eso lo comprueba
 \texttt{code/verify.py}.
 
-\paragraph{Resultado del chequeo.} \texttt{lake build Arriola26TurnoutGap} y
-\texttt{python3 scripts/paper\_contribution.py check Arriola26TurnoutGap --fast} terminan sin
+\paragraph{Resultado del chequeo.} \texttt{lake build Arriola26VotingHabit} y
+\texttt{python3 scripts/paper\_contribution.py check Arriola26VotingHabit --fast} terminan sin
 errores (salida en \texttt{lean/docs/CHECK\_FAST\_OUTPUT.txt}); ninguna prueba usa \texttt{sorry}, y
 \texttt{\#print axioms} lista solo \texttt{propext}, \texttt{Classical.choice} y
 \texttt{Quot.sound}. El estado en \texttt{lean/status.json} es \emph{formalized with caveat}: la
@@ -703,6 +712,10 @@ SymPy en \texttt{code/heterogeneity.py}. \\
 Claude Code, 3-nov & La regla con promedios da el signo, pero el efecto exacto es casi cero. &
 \textbf{Acepto.} Por eso la heterogeneidad queda como observación y no como proposición. & Cálculo
 ciudadano por ciudadano en M2 (\texttt{heterogeneity.py}). \\
+Claude Code, 23-nov & La Observación~\ref{rem:het} se puede formalizar con $\Phi$ fijada por
+$\Phi'=\phi$ y $\Phi(0)=1/2$. & \textbf{Acepto.} Es la normal estándar y no agrega supuestos; los
+decimales quedan fuera de Lean. & Lean (\texttt{remark1\_}\allowbreak\texttt{heterogeneity}) y
+\texttt{heterogeneity.py}. \\
 \bottomrule
 \end{tabular}
 \end{center}

@@ -1,11 +1,11 @@
 <!-- BEGIN GENERATED PAPER FOLDER README -->
-# La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio: ciclo de vida, hábito y una calibración con datos de la ONPE
+# Voto obligatorio a los 70 años: el salto, la edad y la costumbre de votar
 
 | Field | Value |
 |---|---|
 | Final status | Formalized with caveat |
-| Paper reference | La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio: ciclo de vida, hábito y una calibración con datos de la ONPE by Manuel Alfredo Arriola Montenegro; Publication details not listed. |
-| Lines of Code | 819 |
+| Paper reference | Voto obligatorio a los 70 años: el salto, la edad y la costumbre de votar by Manuel Alfredo Arriola Montenegro; Publication details not listed. |
+| Lines of Code | 892 |
 
 ## Key Links
 

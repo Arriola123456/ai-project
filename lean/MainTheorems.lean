@@ -3,9 +3,13 @@ import Mathlib.Data.Real.Basic
 import Mathlib.Analysis.SpecialFunctions.Pow.Deriv
 import Mathlib.Analysis.SpecialFunctions.Pow.Asymptotics
 import Mathlib.Analysis.Convex.Deriv
+import Mathlib.Analysis.SpecialFunctions.ExpDeriv
+import Mathlib.Analysis.SpecialFunctions.Sqrt
+import Mathlib.Analysis.Calculus.MeanValue
+import Mathlib.Topology.Order.IntermediateValue
 
 /-!
-# Paper-Facing Theorems: La brecha de participación a los 70 años sobrestima el efecto del voto obligatorio: ciclo de vida, hábito y una calibración con datos de la ONPE
+# Paper-Facing Theorems: Voto obligatorio a los 70 años: el salto, la edad y la costumbre de votar
 
 This file is the implementation theorem layer for the source paper. Keep
 source-faithful definitions and theorem wrappers here, and expose only the
@@ -20,24 +24,28 @@ realization audit independently binds pinned source atoms to the elaborated Spec
 and accounts for the complete Lean closure; a proof hole or a declaration name
 is never evidence for that correspondence.
 
-Import note (student run, 2026-10-31): the scaffold writes `import Mathlib`
+Import note (student run, 2026-11-23): the scaffold writes `import Mathlib`
 here and validates the statement spec under `import AppliedModelingLib`. The
 library root is not built on this laptop (see `docs/RUN_LOG.md`), so the paper
 modules import only the Mathlib modules they use: tactics, the reals, real
-powers with their derivatives and limits, and convexity from derivatives. No
-AppliedModelingLib declaration is used by any Spec or proof.
+powers with their derivatives and limits, convexity from derivatives, the
+exponential and the square root with their derivatives, the mean value theorem
+and the intermediate value theorem. No AppliedModelingLib declaration is used
+by any Spec or proof.
 
 Helper lemmas used by the proof endpoints in `ProofInterface.lean`: the cutoff
 vote indicator is monotone in the threshold; the derivative of
-`A a^α - κ a^β`; increments of a concave function fall; habit paths with equal
-thresholds coincide; the closed form of the AR(1) recursion and of the mean
-habit; the index set `k < ⌊(a-18)/d⌋`; and `⌊(a+1-18)/d⌋ = ⌊(a-18)/d⌋` when
-`d ∤ a+1-18`.
+`A a^α - κ a^β`; increments of a concave function fall; the closed form of the
+AR(1) recursion and of the mean habit; the index set `k < ⌊(a-18)/d⌋`;
+`⌊(a+1-18)/d⌋ = ⌊(a-18)/d⌋` when `d ∤ a+1-18`; and, for the heterogeneity
+remark, the standard normal density `normalPdf`, the derivative of `z φ(z)`,
+its monotonicity on `[0,1]` and `[1,∞)`, the bound `z φ(z) < 2/(z√(2π))`, the
+derivative of `τ(s) = Φ((c+S)/s) - Φ(c/s)` and the strict monotonicity of `Φ`.
 -/
 
 open Real Filter Topology Finset
 
-namespace Arriola26TurnoutGap
+namespace Arriola26VotingHabit
 
 theorem vote_mono {c c' e : ℝ} (hc : c ≤ c') :
     (if e < c then (1 : ℝ) else 0) ≤ (if e < c' then 1 else 0) := by
@@ -81,20 +89,6 @@ theorem concave_increment {G : ℝ → ℝ} {D : Set ℝ} (hG : ConcaveOn ℝ D 
       have : G x + G (y + S) = ((y - x) / L + S / L) * (G x + G (y + S)) := by rw [hab]; ring
       rw [this]; ring
     linarith
-
-theorem habit_congr {ρ θ θ' ε : ℕ → ℝ} {lam : ℝ} {h h' : ℕ → ℝ} (N : ℕ)
-    (hθ : ∀ j, j < N → θ j = θ' j)
-    (h0 : h 0 = 0) (hs : ∀ j, h (j + 1) = ρ j * h j + (if ε j < θ j + lam * h j then 1 else 0))
-    (h0' : h' 0 = 0)
-    (hs' : ∀ j, h' (j + 1) = ρ j * h' j + (if ε j < θ' j + lam * h' j then 1 else 0)) :
-    ∀ j, j ≤ N → h j = h' j := by
-  intro j
-  induction j with
-  | zero => intro _; rw [h0, h0']
-  | succ j ih =>
-    intro hj
-    have e := ih (Nat.le_of_succ_le hj)
-    rw [hs j, hs' j, e, hθ j (Nat.lt_of_succ_le hj)]
 
 theorem ar_closed_form (r V M : ℕ → ℝ) (h0 : M 0 = 0) (hs : ∀ j, M (j + 1) = r j * M j + V j) :
     ∀ N, M N = ∑ k ∈ range N, (∏ i ∈ range k, r (N - 1 - i)) * V (N - 1 - k) := by
@@ -165,4 +159,75 @@ theorem n_succ (d a : ℕ) (ha : 18 ≤ a) (hnd : ¬ d ∣ (a + 1 - 18)) :
   rw [e] at hnd ⊢
   exact Nat.succ_div_of_not_dvd hnd
 
-end Arriola26TurnoutGap
+/-- The standard normal density. -/
+noncomputable def normalPdf (z : ℝ) : ℝ := Real.exp (-(z ^ 2) / 2) / Real.sqrt (2 * Real.pi)
+
+theorem sqrt_two_pi_pos : 0 < Real.sqrt (2 * Real.pi) := Real.sqrt_pos.2 (by positivity)
+
+theorem φ_pos (z : ℝ) : 0 < normalPdf z := div_pos (Real.exp_pos _) sqrt_two_pi_pos
+
+theorem φ_hasDerivAt (z : ℝ) : HasDerivAt normalPdf (-z * normalPdf z) z := by
+  have h1 : HasDerivAt (fun z : ℝ => -(z ^ 2) / 2) (-(2 * z) / 2) z := by
+    have := ((hasDerivAt_pow 2 z).neg).div_const 2
+    simpa using this
+  have h2 := (h1.exp).div_const (Real.sqrt (2 * Real.pi))
+  unfold normalPdf
+  convert h2 using 1
+  ring
+
+theorem zφ_hasDerivAt (z : ℝ) :
+    HasDerivAt (fun z => z * normalPdf z) (normalPdf z * (1 - z ^ 2)) z := by
+  have := (hasDerivAt_id z).mul (φ_hasDerivAt z)
+  convert this using 1
+  simp; ring
+
+theorem zφ_cont : Continuous (fun z => z * normalPdf z) :=
+  continuous_iff_continuousAt.2 fun z => (zφ_hasDerivAt z).continuousAt
+
+theorem zφ_mono : StrictMonoOn (fun z => z * normalPdf z) (Set.Icc 0 1) := by
+  apply strictMonoOn_of_deriv_pos (convex_Icc 0 1) zφ_cont.continuousOn
+  intro x hx
+  rw [interior_Icc] at hx
+  rw [(zφ_hasDerivAt x).deriv]
+  have : 0 < 1 - x ^ 2 := by nlinarith [hx.1, hx.2]
+  exact mul_pos (φ_pos x) this
+
+theorem zφ_anti : StrictAntiOn (fun z => z * normalPdf z) (Set.Ici 1) := by
+  apply strictAntiOn_of_deriv_neg (convex_Ici 1) zφ_cont.continuousOn
+  intro x hx
+  rw [interior_Ici] at hx
+  rw [(zφ_hasDerivAt x).deriv]
+  have : 1 - x ^ 2 < 0 := by nlinarith [show (1 : ℝ) < x from hx]
+  exact mul_neg_of_pos_of_neg (φ_pos x) this
+
+/-- `z normalPdf(z) < 2 / (z √(2π))` for `z > 0`. -/
+theorem zφ_lt (z : ℝ) (hz : 0 < z) : z * normalPdf z < 2 / z / Real.sqrt (2 * Real.pi) := by
+  unfold normalPdf
+  have hs := sqrt_two_pi_pos
+  have he : z ^ 2 / 2 < Real.exp (z ^ 2 / 2) := by
+    have := Real.add_one_lt_exp (show z ^ 2 / 2 ≠ 0 by positivity)
+    linarith
+  have hneg : Real.exp (-(z ^ 2) / 2) = (Real.exp (z ^ 2 / 2))⁻¹ := by
+    rw [← Real.exp_neg]; ring_nf
+  rw [hneg, mul_div_assoc', div_lt_div_iff_of_pos_right hs]
+  have hE : 0 < Real.exp (z ^ 2 / 2) := Real.exp_pos _
+  rw [← div_eq_mul_inv, div_lt_div_iff₀ hE hz]
+  nlinarith
+
+theorem tau_hasDerivAt (Φ : ℝ → ℝ) (hΦ : ∀ x, HasDerivAt Φ (normalPdf x) x) (c S s : ℝ) (hs : 0 < s) :
+    HasDerivAt (fun s' => Φ ((c + S) / s') - Φ (c / s'))
+      (-(1 / s) * ((c + S) / s * normalPdf ((c + S) / s) - c / s * normalPdf (c / s))) s := by
+  have hinv : HasDerivAt (fun s' : ℝ => s'⁻¹) (-(s ^ 2)⁻¹) s := hasDerivAt_inv hs.ne'
+  have hA : HasDerivAt (fun s' : ℝ => (c + S) / s') ((c + S) * (-(s ^ 2)⁻¹)) s := by
+    simpa [div_eq_mul_inv] using hinv.const_mul (c + S)
+  have hB : HasDerivAt (fun s' : ℝ => c / s') (c * (-(s ^ 2)⁻¹)) s := by
+    simpa [div_eq_mul_inv] using hinv.const_mul c
+  have h := ((hΦ _).comp s hA).sub ((hΦ _).comp s hB)
+  convert h using 1
+  field_simp
+  ring
+
+theorem Phi_strictMono (Φ : ℝ → ℝ) (hΦ : ∀ x, HasDerivAt Φ (normalPdf x) x) : StrictMono Φ :=
+  strictMono_of_deriv_pos fun x => by rw [(hΦ x).deriv]; exact φ_pos x
+
+end Arriola26VotingHabit
